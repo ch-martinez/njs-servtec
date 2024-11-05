@@ -1,0 +1,23 @@
+.swal2-popup{
+    font-size: var(--sm) !important;
+}
+
+.swal__section{
+    text-align: start;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-16);
+    font-size: var(--md);
+}
+
+.swal__title{
+    font-size: var(--xl);
+    text-align: center;
+}
+
+.swal__ul{
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-12);
+}
