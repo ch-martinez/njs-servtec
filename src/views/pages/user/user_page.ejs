@@ -1,0 +1,185 @@
+<section class="main__body main--wrapper container__2-1">
+
+    <div class="container__main container__2-1">
+        <div class="container__1-1">
+
+
+            <section class="wrapper">
+                <section class="wrapper__header">
+                    <h3>Informacion general</h3>
+                    <% if (user.status==1) {%>
+                        <span class="badge badge--green">activo</span>
+                    <%}else{%>
+                        <span class="badge badge--red">inactivo</span>
+                    <%}%>
+                </section>
+
+                <section class="wrapper__body">
+                        <div class="item">
+                            <span class="item__key">ID</span>
+                            <span class="item__value">
+                                <%= user.id %>
+                            </span>
+                        </div>
+                    <div class="wrapper__row wrapper__row--2">
+                        <div class="item">
+                            <span class="item__key">Nombre</span>
+                            <span class="item__value">
+                                <%= user.name %>
+                            </span>
+                        </div>
+                        <div class="item">
+                            <span class="item__key">Apellido</span>
+                            <span class="item__value">
+                                <%= user.lastname %>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <span class="item__key">DNI</span>
+                        <span class="item__value">
+                            <%= user.dni %>
+                        </span>
+                    </div>
+                    <div class="item">
+                        <span class="item__key">Correo</span>
+                        <span class="item__value">
+                            <%= user.email %>
+                        </span>
+                    </div>
+
+                    <div class="item">
+                        <span class="item__key">ROL</span>
+                        <span class="item__value">
+                            <%= user.role.name %> (<%= user.role.code %>)
+                        </span>
+                    </div>
+                    <div class="item">
+                        <span class="item__key">Creado el</span>
+                        <span class="item__value">
+                            <%= user.created_at %>
+                        </span>
+                    </div>
+                </section>
+
+            </section>
+
+            <section class="wrapper">
+                <section class="wrapper__header">
+                    <h3>Historial de conexiones</h3>
+                </section>
+
+                <section class="wrapper__body">
+                    <table id="table-loggin" class="table">
+                        <thead class="table__head">
+                            <tr class="table__row-head">
+                                <th class="table__cell">Fecha</th>
+                                <th class="table__cell">Hora</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table__body">
+                            <%user.login.forEach((login) => { %>
+                                <tr class="table__row">
+                                    <td class="table__cell">
+                                        <%=login.date%>
+                                    </td>
+                                    <td class="table__cell">
+                                        <%=login.hour%> hs
+                                    </td>
+                                </tr>
+                        <%})%>
+                        </tbody>
+                    </table>
+                </section>
+            </section>
+
+        </div>
+
+        <section class="wrapper">
+            <section class="wrapper__header">
+                <div class="wrapper__header-title-container">
+                    <h3>Reparaciones realizadas</h3>
+                </div>
+            </section>
+            <section class="wrapper__body">
+                <table id="table-main" class="table">
+                    <thead class="table__head">
+                        <tr class="table__row-head">
+                            <th class="table__cell">Orden</th>
+                            <th class="table__cell">Estado</th>
+                            <th class="table__cell">Fecha</th>
+                            <th class="table__cell table__cell--fit"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="table__body">
+                        <tr class="table__row">
+                            <td class="table__cell">
+                                789456123
+                            </td>
+                            <td class="table__cell">
+                                REPARADO
+                            </td>
+                            <td class="table__cell">
+                                23/03/1992
+                            </td>
+                            <td class="table__cell">
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </section>
+        <section class="wrapper">
+            <section class="wrapper__header">
+                <h3>Metricas (KPI's)</h3>
+            </section>
+
+            <section class="wrapper__body">
+            </section>
+        </section>
+    </div>
+
+    <div class="container__r-panel">
+
+        <section class="wrapper wrapper--panel">
+            <div class="wrapper__header">
+                <h2 class="wrapper__subtitle">Acciones</h2>
+            </div>
+            <nav class="">
+                <ul class="menu__ul">
+                    <li class="menu__li">
+                        <a id="menu_rol" href="#" class="menu__link" data-id="<%= user.id %>" data-route="user">
+                            <iconify-icon icon="tabler:exchange"></iconify-icon>
+                            <span>Modificar ROL</span>
+                        </a>
+                    </li>
+                    <li class="menu__li">
+                        <a id="menu_user_data" href="#" class="menu__link" data-id="<%= user.id %>" data-route="user">
+                            <iconify-icon icon="tabler:pencil"></iconify-icon>
+                            <span>Modificar datos</span>
+                        </a>
+                    </li>
+                    <li class="menu__li">
+                        <a id="menu_password" href="#" class="menu__link" data-id="<%= user.id %>" data-route="user">
+                            <iconify-icon icon="tabler:password"></iconify-icon>
+                            <span>Cambiar contraseña</span>
+                        </a>
+                    </li>
+                    <li class="menu__li">
+                        <a id="menu_reset_pass" href="#" class="menu__link" data-id="<%= user.id %>" data-route="user">
+                            <iconify-icon icon="tabler:restore"></iconify-icon>
+                            <span>Restablecer contraseña</span>
+                        </a>
+                    </li>
+                    <li class="menu__li">
+                        <a id="menu_disable_user" href="#" class="menu__link" data-id="<%= user.id %>" data-route="user">
+                            <iconify-icon icon="tabler:xbox-x"></iconify-icon>
+                            <span>Deshabilitar usuario</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </section>
+    </div>
+</section>
