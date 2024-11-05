@@ -1,0 +1,23 @@
+.container__2-1{
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: var(--sp-16);
+}
+
+.container__1-1{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-16);
+}
+
+.container__main{
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-16);
+}
+
+.container__r-panel{
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-16);
+}
