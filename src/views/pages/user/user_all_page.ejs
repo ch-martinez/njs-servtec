@@ -1,0 +1,62 @@
+<section class="main__body main--wrapper">
+
+    <section class="wrapper">
+        <section class="wrapper__header">
+                <h2>Listado</h2>
+
+            <div class="wrapper__header-buttons-container">
+                <a href="/user/new" class="btn">
+                    <iconify-icon icon="tabler:circle-plus"></iconify-icon>
+                    <span>Nuevo usuario</span>
+                </a>
+            </div>
+        </section>
+
+        <section class="wrapper__body">
+            <table id="table-main" class="table">
+                <thead class="table__head">
+                    <tr class="table__row-head">
+                        <th class="table__cell">Nombre y apellido</th>
+                        <th class="table__cell">ROL</th>
+                        <th class="table__cell">Correo</th>
+                        <th class="table__cell">Ultima conexion</th>
+                        <th class="table__cell table__cell--fit">Estado</th>
+                        <th class="table__cell table__cell--fit"></th>
+                    </tr>
+                </thead>
+                <tbody class="table__body">
+                    <% data.users.forEach((user)=> { %>
+                        <tr class="table__row">
+                            <td class="table__cell">
+                                <a href="/user/<%= user.user_id %>" class="link link--table">
+                                    <%= user.user_name %>
+                                        <%= user.user_lastname %>
+                                </a>
+                            </td>
+                            <td class="table__cell">
+                                <%= user.role_name %>
+                            </td>
+                            <td class="table__cell">
+                                <%= user.user_email %>
+                            </td>
+                            <td class="table__cell">
+                                <%= user.user_email %>
+                            </td>
+                            <td class="table__cell table__cell--fit">
+                                <% if (user.user_status==1) { %>
+                                    <span class="badge badge--green">activo</span>
+                                    <% } else { %>
+                                        <span class="badge badge--red">inactivo</span>
+                                        <% } %>
+                            </td>
+                            <td class="table__cell table__cell--fit">
+                                <a href="/user/<%= user.user_id %>/edit" class="btn-table"><iconify-icon
+                                        icon="tabler:edit"></iconify-icon></a>
+                            </td>
+                        </tr>
+                        <% }) %>
+                </tbody>
+            </table>
+        </section>
+    </section>
+</section>
