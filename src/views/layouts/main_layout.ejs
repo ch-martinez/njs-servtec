@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="/styles/imports.css">
+    <title><%= data.title %></title>
+</head>
+
+<body>
+    <%- include('../commons/panel_aside.ejs') %>
+    <main class="main">
+        <%- include('../commons/panel_user.ejs') %>
+        <%- body %>
+    </main>
+
+    <!-- Iconify -->
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <!-- Simple datatables -->
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
+    <script src="/scripts/libs/simpledatatables.js"></script>
+    <!-- Sweetalert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/scripts/libs/swal/index.js"></script>
+
+
+
+    <script src="/scripts/dropdown.js"></script>
+    <script src="/scripts/scripts.js"></script>
+</body>
+
+</html>
