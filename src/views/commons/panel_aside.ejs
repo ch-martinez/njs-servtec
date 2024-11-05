@@ -1,0 +1,99 @@
+<aside class="panel-aside">
+    <div class="panel-aside__wrapper">
+        <section class="panel-aside__header">
+            <iconify-icon icon="tabler:broadcast"></iconify-icon>
+            <h1>ServTec</h1>
+        </section>
+        <section class="panel-aside__favs">
+            <a href="/" class="panel-aside__link">
+                <iconify-icon icon="tabler:star"></iconify-icon>
+                <span>Nueva venta</span>
+            </a>
+            <a href="/" class="panel-aside__link">
+                <iconify-icon icon="tabler:star"></iconify-icon>
+                <span>Consultar precio</span>
+            </a>
+        </section>
+        <nav class="panel-aside__nav">
+            <ul class="panel-aside__ul">
+                <li class="panel-aside__li">
+                    <a href="/" class="panel-aside__link <%= data.nav == null && '--link-selected' %>">
+                        <iconify-icon icon="tabler:layout-dashboard"></iconify-icon>
+                        <span>Inicio</span>
+                    </a>
+                </li>
+
+                <li class="panel-aside__li">
+                    <a href="/" class="panel-aside__link">
+                        <iconify-icon icon="tabler:users-group"></iconify-icon>
+                        <span>Clientes</span>
+                    </a>
+                </li>
+
+                <li class="panel-aside__li">
+                    <a href="/" class="panel-aside__link">
+                        <iconify-icon icon="tabler:tool"></iconify-icon>
+                        <span>Ordenes de servicio</span>
+                    </a>
+                </li>
+
+                <li class="panel-aside__li">
+                    <a href="/" class="panel-aside__link">
+                        <iconify-icon icon="tabler:building-store"></iconify-icon>
+                        <span>Inventario</span>
+                    </a>
+                    <!-- <ul class="panel-aside__ul">
+                        <li class="panel-aside__sub-li">
+                            <a href="/" class="panel-aside__link panel-aside__sub-link">
+                                <span>•</span>
+                                <span>Categorias</span>
+                            </a>
+                        </li>
+
+                        <li class="panel-aside__sub-li">
+                            <a href="/" class="panel-aside__link panel-aside__sub-link">
+                                <span>•</span>
+                                <span>Productos</span>
+                            </a>
+                        </li>
+
+                        <li class="panel-aside__sub-li">
+                            <a href="/" class="panel-aside__link panel-aside__sub-link">
+                                <span>•</span>
+                                <span>Promociones</span>
+                            </a>
+                        </li>
+                    </ul> -->
+                </li>
+
+                <li class="panel-aside__li">
+                    <a href="/user/all" class="panel-aside__link <%= data.nav == 'user' && '--link-selected' %>">
+                        <iconify-icon icon="tabler:users"></iconify-icon>
+                        <span>Usuarios</span>
+                    </a>
+                </li>
+
+                <li class="panel-aside__li">
+                    <a href="/" class="panel-aside__link">
+                        <iconify-icon icon="tabler:file-description"></iconify-icon>
+                        <span>Reportes</span>
+                    </a>
+                </li>
+
+                <li class="panel-aside__li">
+                    <a href="/" class="panel-aside__link">
+                        <iconify-icon icon="tabler:settings"></iconify-icon>
+                        <span>Configuracion</span>
+                    </a>
+                </li>
+
+                <li class="panel-aside__li">
+                    <a href="/" class="panel-aside__link">
+                        <iconify-icon icon="tabler:square-arrow-left"></iconify-icon>
+                        <span>Cerrar sesion</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</aside>
