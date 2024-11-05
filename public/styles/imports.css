@@ -1,0 +1,21 @@
+/* Globales */
+@import url('/styles/variables.css');
+@import url('/styles/normalize.css');
+@import url('/styles/inputs.css');
+@import url('/styles/global.css');
+
+
+@import url('/styles/commons/container.css');
+
+/* Componentes */
+@import url('/styles/commons/panel_aside.css');
+@import url('/styles/commons/panel_user.css');
+@import url('/styles/components/wrapper.css');
+@import url('/styles/components/badges.css');
+@import url('/styles/components/inputs.css');
+@import url('/styles/components/item.css');
+@import url('/styles/components/menu.css');
+
+
+
+@import url('/styles/libs/swal.css');
