@@ -31,10 +31,12 @@ app.use(expressEjsLayouts)
 // Imports de rutas
 import mainRoute from "./src/routes/main.route.mjs"
 import userRoute from "./src/routes/user.route.mjs"
+import customerRoute from "./src/routes/customer.route.mjs"
 
 // Rutas
 app.use('/', mainRoute)
 app.use('/user', userRoute)
+app.use('/customer', customerRoute)
 
 
 //app.use('', (req, res) => { res.render('pages/notfoundPage', { layout: 'layouts/mainLayout', data: { title: '404 - Pagina no encontrada' } }) })
