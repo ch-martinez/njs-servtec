@@ -1,0 +1,136 @@
+<section class="main__body main--wrapper container__2-1">
+
+    <div class="container__main">
+            <section class="wrapper">
+                <section class="wrapper__header">
+                    <h3>Informacion general del cliente <span> - #<%= cust.id %></span></h3>
+                    <% if (cust.disabled==0) {%>
+                        <span class="badge badge--green">activo</span>
+                        <%}else{%>
+                            <span class="badge badge--red">inactivo</span>
+                            <%}%>
+                </section>
+
+                <section class="wrapper__body">
+                    <div class="item">
+                        <span class="item__key">ID</span>
+                        <span class="item__value">
+                            <%= cust.id %>
+                        </span>
+                    </div>
+                    <div class="wrapper__row wrapper__row--2">
+                        <div class="item">
+                            <span class="item__key">Nombre</span>
+                            <span class="item__value">
+                                <%= cust.name %>
+                            </span>
+                        </div>
+                        <div class="item">
+                            <span class="item__key">Apellido</span>
+                            <span class="item__value">
+                                <%= cust.lastname %>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <span class="item__key">DNI</span>
+                        <span class="item__value">
+                            <%= cust.dni %>
+                        </span>
+                    </div>
+                    <div class="wrapper__row wrapper__row--2">
+                        <div class="item">
+                            <span class="item__key">Telefono</span>
+                            <span class="item__value">
+                                <%= cust.tel %>
+                            </span>
+                        </div>
+                        <div class="item">
+                            <span class="item__key">Telefono alternativo</span>
+                            <span class="item__value">
+                                <%= cust.tel_alt %>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <span class="item__key">Correo</span>
+                        <span class="item__value">
+                            <%= cust.email %>
+                        </span>
+                    </div>
+
+                    <div class="item">
+                        <span class="item__key">Creado el</span>
+                        <span class="item__value">
+                            <%= cust.created_at %>
+                        </span>
+                    </div>
+                </section>
+            </section>
+
+
+        <section class="wrapper">
+            <section class="wrapper__header">
+                <div class="wrapper__header-title-container">
+                    <h3>Ordenes de reparacion del cliente</h3>
+                </div>
+            </section>
+            <section class="wrapper__body">
+
+            </section>
+        </section>
+        <section class="wrapper">
+            <section class="wrapper__header">
+                <h3>Metricas (KPI's)</h3>
+            </section>
+
+            <section class="wrapper__body">
+            </section>
+        </section>
+    </div>
+
+    <div class="container__r-panel">
+
+        <section class="wrapper wrapper--panel">
+            <div class="wrapper__header">
+                <h2 class="wrapper__subtitle">Acciones</h2>
+            </div>
+            <nav class="">
+                <ul class="menu__ul">
+                    <li class="menu__li">
+                        <a id="menu_cust_data" href="#" class="menu__link" data-id="<%= cust.id %>" data-route="cust">
+                            <iconify-icon icon="tabler:new-section"></iconify-icon>
+                            <span>Nueva orden de reparación</span>
+                        </a>
+                    </li>
+                    <li class="menu__li">
+                        <a id="menu_cust_data" href="#" class="menu__link" data-id="<%= cust.id %>" data-route="cust">
+                            <iconify-icon icon="tabler:mail-share"></iconify-icon>
+                            <span>Enviar correo</span>
+                        </a>
+                    </li>
+                    <li class="menu__li">
+                        <a id="menu_cust_data" href="#" class="menu__link" data-id="<%= cust.id %>" data-route="cust">
+                            <iconify-icon icon="tabler:brand-whatsapp"></iconify-icon>
+                            <span>Enviar Whatsapp</span>
+                        </a>
+                    </li>
+                    <li class="menu__li">
+                        <a id="menu_cust_data" href="#" class="menu__link" data-id="<%= cust.id %>" data-route="cust">
+                            <iconify-icon icon="tabler:pencil"></iconify-icon>
+                            <span>Modificar datos</span>
+                        </a>
+                    </li>
+
+                    <li class="menu__li">
+                        <a id="menu_disable_cust" href="#" class="menu__link" data-id="<%= cust.id %>"
+                            data-route="cust">
+                            <iconify-icon icon="tabler:xbox-x"></iconify-icon>
+                            <span>Deshabilitar cliente</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </section>
+    </div>
+</section>
