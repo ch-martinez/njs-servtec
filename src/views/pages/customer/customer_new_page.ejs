@@ -1,0 +1,51 @@
+<section class="main__body main--wrapper main__body--fit-content">
+    <section class="wrapper">
+        <section class="wrapper__header">
+            <div>
+                <h2 class="wrapper__title">Nuevo cliente</h2>
+                <p class="wrapper__desc">Complete los datos requeridos</p>
+            </div>
+        </section>
+        <section class="wrapper__body">
+            <form class="wrapper__group" action="">
+                <section class="wrapper__row wrapper__row--2">
+
+                    <div class="item">
+                        <label for="customer_name" class="label">Nombre</label>
+                        <input type="text" name="customer_name" id="customer_name" class="input-text">
+                    </div>
+                    <div class="item">
+                        <label for="customer_lastname" class="label">Apellido</label>
+                        <input type="text" name="customer_lastname" id="customer_lastname" class="input-text">
+                    </div>
+                </section>
+                <div class="item">
+                    <label for="customer_dni" class="label">DNI</label>
+                    <input type="number" name="customer_dni" id="customer_dni" class="input-text">
+                </div>
+                <div class="item">
+                    <label for="customer_email" class="label">Correo</label>
+                    <input type="email" name="customer_email" id="customer_email" class="input-text">
+                </div>
+                <section class="wrapper__row wrapper__row--2">
+                    <div class="item">
+                        <label for="customer_tel" class="label">Telefono</label>
+                        <input type="tel" name="customer_tel" id="customer_tel" class="input-text">
+                    </div>
+                    <div class="item">
+                        <label for="customer_tel_alt" class="label">Telefono alternativo</label>
+                        <input type="tel" name="customer_tel_alt" id="customer_tel_alt" class="input-text">
+                    </div>
+                </section>
+                <div class="item">
+                    <label for="customer_obs" class="label">Observacion</label>
+                    <input type="text" name="customer_obs" id="customer_obs" class="input-text">
+                </div>
+                <div class="wrapper__item wrapper__item--inline">
+                    <a href="/customer/all" class="btn btn--gray">Cancelar</a>
+                    <button class="btn" type="submit">Aceptar</button>
+                </div>
+            </form>
+        </section>
+    </section>
+</section>
