@@ -63,10 +63,10 @@
         --3xl: 3rem;
         --2xl: 2.4rem;
         --xl: 2rem;
-        --lg: 1.8rem;
+        --lg: 1.9rem;
         --md: 1.6rem;
-        --sm: 1.4rem;
-        --xs: 1.2rem;
+        --sm: 1.3rem;
+        --xs: 1rem;
 
     /* Breakpoints */
 
@@ -95,9 +95,9 @@
     /* Border radius */
     --radius-full: 50px;
     --radius-xl: 20px;
-    --radius-lg: 16px;
-    --radius-md: 12px;
-    --radius-sm: 8px;
+    --radius-lg: 15px;
+    --radius-md: 10px;
+    --radius-sm: 6px;
     --radius-xs: 4px;
 
     /* Transitions */

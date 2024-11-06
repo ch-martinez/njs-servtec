@@ -24,20 +24,19 @@ export const userView = async (req, res) => {
     const uid = req.params.id
 
     const user_data = user_formarter.userFormarter(await user_model.getUserByIdFromDB(uid))
-    const user_login = date_formarter.dateString(await user_login_model.getUserLoginByIdFromDB(uid))
+    const user_login_history = date_formarter.dateString(await user_login_model.getUserLoginByIdFromDB(uid))
     const user_role = role_formarter.roleFormarter(await role_model.getRoleByUserIdFromDB(uid))
 
 
     let data = {
         title: 'Detalle de usuario',
-        desc: `Informacion completa del usuario ${user_data.name}`,
         nav: 'user',
     };
 
     const user = {
         ...user_data,
         role: user_role,
-        login: user_login
+        login_history: user_login_history
     }
     console.log(user)
     res.render('pages/user/user_page', { layout: 'layouts/main_layout', data, user });
@@ -49,7 +48,6 @@ export const userNewView = async (req, res) => {
 
     let data = {
         title: 'Nuevo usuario',
-        desc: `Complete los datos`,
         nav: 'user',
     };
 

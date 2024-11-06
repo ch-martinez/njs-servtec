@@ -2,6 +2,38 @@
     color: var(--zinc-500);
 }
 
+.panel{
+    display: flex;
+    width: 50%;
+}
+
+.panel-user__search{
+    width: 30%;
+    display: flex;
+    align-items: center;
+    gap: var(--sp-12);
+    padding: var(--sp-4) var(--sp-12);
+    transition: all var(--transition-02);
+    color: var(--zinc-800);
+}
+
+.panel-user__search input{
+    width: 100%;
+    border: none;
+    font-size: var(--md);
+}
+
+    .panel-user__search input:focus{
+        outline: none;
+        border:none
+    }
+
+.panel-user__search:has(input:focus){
+    border: 1px solid var(--primary-400);
+    color: var(--primary-700);
+
+}
+
 .panel-user{
     display: flex;
     align-items: center;

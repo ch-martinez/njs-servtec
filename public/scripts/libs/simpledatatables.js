@@ -21,7 +21,7 @@ const table_config = {
     },
     columns: [
         // Sort the second column in ascending order
-        { select: [0,7], sortable: false },
+        //{ select: [0,7], sortable: false },
 /*         {
             select: 6,
             filter: ["ACTIVO", "INACTIVO"],
@@ -29,7 +29,7 @@ const table_config = {
     ],
 }
 
-const table_login_config = {
+const table_login_history_config = {
     locale: 'es-ES',
     searchable: false,
 	fixedHeight: true,
@@ -51,4 +51,4 @@ const table_login_config = {
 
 
 const dataTable = new simpleDatatables.DataTable("#table-main", table_config)
-const dataTable2 = new simpleDatatables.DataTable("#table-loggin", table_login_config)
+const dataTable2 = new simpleDatatables.DataTable("#table-loggin", table_login_history_config)

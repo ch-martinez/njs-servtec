@@ -24,10 +24,15 @@
         align-items: center;
     }
 
-    .wrapper__subtitle {
+    .wrapper__title {
         font-weight: var(--bold);
-        font-size: var(--lg);
+        font-size: var(--xl);
     }
+
+    .wrapper__desc {
+        color: var(--zinc-600);
+    }
+
 
 .wrapper__body {
     padding: var(--sp-16);

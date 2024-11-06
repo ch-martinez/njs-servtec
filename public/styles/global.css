@@ -32,6 +32,10 @@
     gap: var(--sp-16);
 }
 
+.main__body--fit-content{
+    max-width: 900px;
+}
+
 /* Not found */
 .not-found{
     width: 100%;
