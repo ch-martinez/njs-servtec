@@ -1,6 +1,6 @@
 import { dateFull } from "./date.formarter.mjs"
 
-export const customerFormarter = (cust) => {
+export const customer = (cust) => {
     return {
         id: cust.customer_id,
         name: cust.customer_name,
@@ -20,7 +20,7 @@ export const customerFormarter = (cust) => {
     }
 }
 
-export const customerListFormarter = (custList) => {
+export const customersList = (custList) => {
     let temp = []
     custList.forEach(cust => {
         temp.push(customerFormarter(cust))

@@ -1,4 +1,4 @@
-export const roleFormarter = (role) => {
+export const role = (role) => {
     return {
         id: role.role_id,
         name: role.role_name,
@@ -6,7 +6,7 @@ export const roleFormarter = (role) => {
     }
 }
 
-export const roleListFormarter = (role_list) => {
+export const rolesList = (role_list) => {
     let temp = []
     role_list.forEach((role) => {
         temp.push(roleFormarter(role))

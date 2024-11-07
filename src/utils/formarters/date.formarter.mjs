@@ -22,7 +22,7 @@ export const dateFull = (isoDate) =>{
     return `${formatDate(isoDate)}, ${formatTime(isoDate)}hs`
 }
 
-export const dateString = (logHistory) => {
+export const loginHistory = (logHistory) => {
     let temp = []
     logHistory.forEach(isoDate => {
         temp.push(date(isoDate.ul_login))

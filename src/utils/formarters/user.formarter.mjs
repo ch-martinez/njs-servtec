@@ -1,6 +1,6 @@
 import { dateFull } from "./date.formarter.mjs"
 
-export const userFormarter = (user) => {
+export const user = (user) => {
     console.log(user)
     return {
         id: user.user_id,

@@ -16,16 +16,16 @@ export const userAllView = async (req, res) => {
         nav: 'user',
         users: userList
     };
-    res.render('pages/user/user_all_page', { layout: 'layouts/main_layout', data });
+    res.render('pages/user/users', { layout: 'layouts/main_layout', data });
 };
 
 export const userView = async (req, res) => {
 
     const uid = req.params.id
 
-    const user_data = user_formarter.userFormarter(await user_model.getUserByIdFromDB(uid))
-    const user_login_history = date_formarter.dateString(await user_login_model.getUserLoginByIdFromDB(uid))
-    const user_role = role_formarter.roleFormarter(await role_model.getRoleByUserIdFromDB(uid))
+    const user_data = user_formarter.user(await user_model.getUserByIdFromDB(uid))
+    const user_login_history = date_formarter.loginHistory(await user_login_model.getUserLoginByIdFromDB(uid))
+    const user_role = role_formarter.role(await role_model.getRoleByUserIdFromDB(uid))
 
 
     let data = {
@@ -39,12 +39,12 @@ export const userView = async (req, res) => {
         login_history: user_login_history
     }
     console.log(user)
-    res.render('pages/user/user_page', { layout: 'layouts/main_layout', data, user });
+    res.render('pages/user/user_detail', { layout: 'layouts/main_layout', data, user });
 };
 
 export const userNewView = async (req, res) => {
 
-    const roles = role_formarter.roleListFormarter(await role_model.getAllRolesFromDB())
+    const roles = role_formarter.rolesList(await role_model.getAllRolesFromDB())
 
     let data = {
         title: 'Nuevo usuario',
