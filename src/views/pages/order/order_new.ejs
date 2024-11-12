@@ -1,0 +1,85 @@
+<form class="wrapper__group" action="">
+    <section class="main__body main--wrapper ">
+        <section class="wrapper__header">
+
+            <div>
+                <h1 class="wrapper__title">Nueva orden</h1>
+                <p class="wrapper__desc">Complete los datos requeridos</p>
+            </div>
+            <div class="wrapper__btn-container">
+                <a href="/user/all" class="btn btn--gray">Cancelar</a>
+                <button class="btn" type="submit">Aceptar</button>
+            </div>
+        </section>
+        <section class="wrapper">
+            <section class="wrapper__header">
+                <div>
+                    <h2 class="wrapper__subtitle">Datos cliente</h2>
+
+                </div>
+            </section>
+            <section class="wrapper__body">
+
+                <div class="item">
+                    <label for="user_name" class="label">Nombre</label>
+                    <input type="text" name="user_name" id="user_name" class="input">
+                </div>
+                <div class="item">
+                    <label for="user_lastname" class="label">Apellido</label>
+                    <input type="text" name="user_lastname" id="user_lastname" class="input">
+                </div>
+            </section>
+        </section>
+        <section class="wrapper">
+            <section class="wrapper__header">
+                <div>
+                    <h2 class="wrapper__subtitle">Datos orden</h2>
+
+                </div>
+            </section>
+            <section class="wrapper__body">
+                <div class="wrapper__row wrapper__row--3">
+                    <div class="item">
+                        <label for="order_" class="label">Marca</label>
+                        <select class="input input--select" name="" id="">
+                            <% devices_brands.forEach(brand => { %>
+                                <option value="<%= brand.db_id%>"><%= brand.db_name %></option>
+                            <%}) %>
+                        </select>
+                    </div>
+                    <div class="item">
+                        <label for="order_" class="label">Modelo</label>
+                        <input type="text" name="order_" id="order_" class="input">
+                    </div>
+                    <div class="item">
+                        <label for="order_" class="label">Otro</label>
+                        <input type="text" name="order_" id="order_" class="input" disabled>
+                    </div>
+                </div>
+                <div class="item">
+                    <label for="order_" class="label">IMEI</label>
+                    <input type="text" name="order_" id="order_" class="input">
+                </div>
+                <div class="wrapper__row wrapper__row--2">
+                    <div class="item">
+                        <label for="order_" class="label">Contraseña / PIN</label>
+                        <input type="text" name="order_" id="order_" class="input">
+                    </div>
+                    <div class="item">
+                        <label for="order_" class="label">Patrón</label>
+                        <input type="text" name="order_" id="order_" class="input">
+                    </div>
+                </div>
+                <div class="item">
+                    <label for="order_" class="label">Falla indicada por el cliente</label>
+                    <textarea name="order_" id="order_" class="input input--textarea" rows="3"></textarea>
+                </div>
+                <div class="item">
+                    <label for="order_" class="label">Observación de recepción</label>
+                    <textarea name="order_" id="order_" class="input input--textarea" rows="3"></textarea>
+                </div>
+
+            </section>
+        </section>
+    </section>
+</form>
