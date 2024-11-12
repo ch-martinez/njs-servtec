@@ -1,13 +1,42 @@
-.input-text{
-    max-height: 36px;
+.input{
+    height: 38px;
     padding: var(--sp-8) var(--sp-12);
     border: 1px solid var(--zinc-200);
     transition: all var(--transition-02);
     border-radius: var(--radius-xs);
-    color: var(--zinc-700);
+    color: var(--zinc-600);
     font-family: var(--font-base);
-    font-size: var(--sm);
-    font-weight: var(--semibold);
+    font-size: var(--md);
+    font-weight: var(--regular);
+    letter-spacing: 0.5px;
+}
+
+    .input:focus{
+        outline: none;
+        border: 1px solid var(--primary-500);
+    }
+
+.input--select{
+    overflow: visible;
+}
+
+.input--textarea{
+    width: 100%;
+    height: initial;
+}
+
+/* ------------------------------------------------------------------- */
+
+.input-text{
+    
+    padding: var(--sp-8);
+    border: 1px solid var(--zinc-200);
+    transition: all var(--transition-02);
+    border-radius: var(--radius-xs);
+    color: var(--zinc-600);
+    font-family: var(--font-base);
+    font-size: var(--md);
+    font-weight: var(--regular);
     letter-spacing: 0.5px;
 }
 
@@ -46,14 +75,14 @@
 
 .input-select{
     max-height: 36px;
-    padding: var(--sp-8) var(--sp-8);
+    padding: var(--sp-8);
     border: 1px solid var(--zinc-200);
     transition: all var(--transition-02);
     border-radius: var(--radius-xs);
     color: var(--zinc-700);
     font-family: var(--font-base);
     font-size: var(--sm);
-    font-weight: var(--semibold);
+    font-weight: var(--medium);
     letter-spacing: 0.5px;
 
     /* background: inherit; */
