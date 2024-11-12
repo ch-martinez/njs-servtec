@@ -27,10 +27,18 @@
     .wrapper__title {
         font-weight: var(--bold);
         font-size: var(--xl);
+        letter-spacing: 0.3px;
+    }
+
+    .wrapper__subtitle {
+        font-weight: var(--bold);
+        font-size: var(--md);
+        letter-spacing: 0.3px;
     }
 
     .wrapper__desc {
         color: var(--zinc-600);
+        letter-spacing: 0.3px;
     }
 
 
