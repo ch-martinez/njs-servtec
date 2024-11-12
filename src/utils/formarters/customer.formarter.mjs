@@ -23,7 +23,7 @@ export const customer = (cust) => {
 export const customersList = (custList) => {
     let temp = []
     custList.forEach(cust => {
-        temp.push(customerFormarter(cust))
+        temp.push(customer(cust))
     })
     return temp
 }
