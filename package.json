@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "node --watch app.js",
+    "brand": "node ./src/config/scripts/sql.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Christian Martinez",

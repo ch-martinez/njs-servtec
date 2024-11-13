@@ -128,7 +128,7 @@
     border-radius: var(--radius-sm);
 }
 
-.wrapper--delete{
+.wrapper--warning{
     min-width: 300px;
     width: 100%;
     border: 2px solid rgb(255, 144, 144);

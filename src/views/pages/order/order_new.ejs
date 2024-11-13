@@ -1,85 +1,112 @@
-<form class="wrapper__group" action="">
-    <section class="main__body main--wrapper ">
-        <section class="wrapper__header">
+<section class="main__body main--wrapper">
+    <section class="">
 
-            <div>
-                <h1 class="wrapper__title">Nueva orden</h1>
-                <p class="wrapper__desc">Complete los datos requeridos</p>
-            </div>
-            <div class="wrapper__btn-container">
-                <a href="/user/all" class="btn btn--gray">Cancelar</a>
-                <button class="btn" type="submit">Aceptar</button>
-            </div>
-        </section>
-        <section class="wrapper">
-            <section class="wrapper__header">
-                <div>
-                    <h2 class="wrapper__subtitle">Datos cliente</h2>
-
-                </div>
-            </section>
-            <section class="wrapper__body">
-
-                <div class="item">
-                    <label for="user_name" class="label">Nombre</label>
-                    <input type="text" name="user_name" id="user_name" class="input">
-                </div>
-                <div class="item">
-                    <label for="user_lastname" class="label">Apellido</label>
-                    <input type="text" name="user_lastname" id="user_lastname" class="input">
-                </div>
-            </section>
-        </section>
-        <section class="wrapper">
-            <section class="wrapper__header">
-                <div>
+        <div>
+            <h1 class="wrapper__title">Nueva orden</h1>
+            <p class="wrapper__desc">Complete los datos requeridos</p>
+        </div>
+        <div class="wrapper__btn-container">
+            <a href="/user/all" class="btn btn--gray">Cancelar</a>
+            <button class="btn" type="submit">Aceptar</button>
+        </div>
+    </section>
+    <section class="container container-2-1">
+        <section class="subcontainer__main">
+            <section class="wrapper">
+                <section class="wrapper__header">
                     <h2 class="wrapper__subtitle">Datos orden</h2>
+                </section>
+                <section class="wrapper__main">
+                    <section class="wrapper__body">
+                        <div class="wrapper__row wrapper__row--3">
+                            <div class="item">
+                                <label for="devices_brands" class="label">Marca</label>
+                                <select class="input input--select" name="devices_brands" id="devices_brands">
+                                    <option value="none">Seleccionar</option>
+                                    <% devices_brands.forEach(brand=> { %>
+                                        <option value="<%= brand.db_id%>">
+                                            <%= brand.db_name %>
+                                        </option>
+                                        <%}) %>
+                                </select>
+                            </div>
+                            <div class="item">
+                                <label for="devices_models" class="label">Modelo</label>
+                                <select class="input input--select" name="devices_models" id="devices_models">
+                                    <option value="none">Seleccionar</option>
+                                    <option value="13646">Otro</option>
+                                </select>
+                            </div>
+                            <div class="item">
+                                <label for="devices_other" class="label">Otro</label>
+                                <input type="text" name="devices_other" id="devices_other" class="input" disabled>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <label for="order_imei" class="label">IMEI</label>
+                            <input type="text" name="order_imei" id="order_imei" class="input">
+                        </div>
+                        <div class="wrapper__row wrapper__row--2">
+                            <div class="item">
+                                <label for="order_pin" class="label">Contraseña / PIN</label>
+                                <input type="text" name="order_pin" id="order_pin" class="input">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <label for="order_" class="label">Especifique la falla de equipo</label>
+                            <textarea name="order_" id="order_" class="input input--textarea" rows="3"></textarea>
+                        </div>
+                        <div class="item">
+                            <label for="order_" class="label">Observación de recepción</label>
+                            <textarea name="order_" id="order_" class="input input--textarea" rows="3"></textarea>
+                        </div>
+                    </section>
 
-                </div>
+                </section>
             </section>
-            <section class="wrapper__body">
-                <div class="wrapper__row wrapper__row--3">
-                    <div class="item">
-                        <label for="order_" class="label">Marca</label>
-                        <select class="input input--select" name="" id="">
-                            <% devices_brands.forEach(brand => { %>
-                                <option value="<%= brand.db_id%>"><%= brand.db_name %></option>
-                            <%}) %>
-                        </select>
-                    </div>
-                    <div class="item">
-                        <label for="order_" class="label">Modelo</label>
-                        <input type="text" name="order_" id="order_" class="input">
-                    </div>
-                    <div class="item">
-                        <label for="order_" class="label">Otro</label>
-                        <input type="text" name="order_" id="order_" class="input" disabled>
-                    </div>
-                </div>
-                <div class="item">
-                    <label for="order_" class="label">IMEI</label>
-                    <input type="text" name="order_" id="order_" class="input">
-                </div>
-                <div class="wrapper__row wrapper__row--2">
-                    <div class="item">
-                        <label for="order_" class="label">Contraseña / PIN</label>
-                        <input type="text" name="order_" id="order_" class="input">
-                    </div>
-                    <div class="item">
-                        <label for="order_" class="label">Patrón</label>
-                        <input type="text" name="order_" id="order_" class="input">
-                    </div>
-                </div>
-                <div class="item">
-                    <label for="order_" class="label">Falla indicada por el cliente</label>
-                    <textarea name="order_" id="order_" class="input input--textarea" rows="3"></textarea>
-                </div>
-                <div class="item">
-                    <label for="order_" class="label">Observación de recepción</label>
-                    <textarea name="order_" id="order_" class="input input--textarea" rows="3"></textarea>
-                </div>
+        </section>
 
+        <!-- Panel derecha -->
+        <section class="subcontainer__right">
+            <section class="wrapper wrapper--warning">
+                <section class="wrapper__body">
+                    <h2 class="wrapper__subtitle">Garantia de reparación</h2>
+                    <p>N° orden: <a href="#" class="link">CFM-0000598</a></p>
+                </section>
             </section>
+
+            <section class="wrapper">
+                <section class="wrapper__header">
+                        <h2 class="wrapper__subtitle">Datos cliente</h2>
+                </section>
+                <section class="wrapper__body">
+                    <div class="item">
+                        <span class="item__key">Nombre y apellido</span>
+                        <span class="item__value">
+                            <a href="/customer/<%= cust.id %>" class="link"> <%= cust.name %> <%= cust.lastname %> </a>
+                        </span>
+                    </div>
+                    <div class="item">
+                        <span class="item__key">DNI</span>
+                        <span class="item__value">
+                            <%= cust.dni %>
+                        </span>
+                    </div>
+                    <div class="item">
+                        <span class="item__key">Telefono</span>
+                        <span class="item__value">
+                            <%= cust.tel %>
+                        </span>
+                    </div>
+                    <div class="item">
+                        <span class="item__key">Correo</span>
+                        <span class="item__value">
+                            <%= cust.email %>
+                        </span>
+                    </div>
+                </section>
+            </section>
+
         </section>
     </section>
-</form>
+</section>

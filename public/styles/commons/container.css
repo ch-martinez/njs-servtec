@@ -1,23 +1,37 @@
-.container__2-1{
+.container{
     display: grid;
+    gap: var(--sp-16);
+}
+
+.container-2-1{
     grid-template-columns: 3fr 1fr;
-    gap: var(--sp-16);
 }
 
-.container__1-1{
-    display: grid;
+.container-1-1{
     grid-template-columns: 1fr 1fr;
-    gap: var(--sp-16);
 }
 
-.container__main{
+.container-l{}
+
+.container-r{
     display: flex;
     flex-direction: column;
     gap: var(--sp-16);
 }
 
-.container__r-panel{
+/* 
+.subcontainer__main{
     display: flex;
     flex-direction: column;
     gap: var(--sp-16);
+}
+
+.subcontainer__right{
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-16);
+} */
+
+.--hide{
+    display: none !important;
 }

@@ -1,16 +1,12 @@
-.main{
+:root{
+    --max-w: 1480px;
+}
+
+.content-wrapper{
     width: 100%;
 }
 
-.main--wrapper{
-    width: 100%;
-    max-width: 1280px;
-    max-width: 1440px;
-    margin-inline: auto;
-    padding: var(--sp-16);
-}
-
-.main__header{
+.header{
     width: 100%;
     position: sticky;
     top: 0;
@@ -24,12 +20,21 @@
     display: flex;
     justify-content: space-between;
     gap: var(--sp-32);
+    width: 100%;
+    max-width: var(--max-w);
+
+    margin-inline: auto;
+    padding: var(--sp-16);
 }
 
-.main__body{
+.main{
     display: flex;
     flex-direction: column;
     gap: var(--sp-16);
+    width: 100%;
+    max-width: var(--max-w);
+    margin-inline: auto;
+    padding: var(--sp-16);
 }
 
 .main__body--fit-content{

@@ -28,7 +28,8 @@ export const getAllModelsByBrandIdFromDB = async (bid) => {
     FROM
         devices_models
     WHERE
-        db_id = ?`
+        db_id = ?
+    ORDER BY dm_model ASC`
 
     try {
         const [rows] = await connection.query(query, bid)
