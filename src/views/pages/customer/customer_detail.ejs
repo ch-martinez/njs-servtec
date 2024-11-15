@@ -1,6 +1,6 @@
-<section class="main__body main--wrapper container__2-1">
-
-    <div class="container__main">
+<main class="main">
+    <main class="container container-2-1">
+        <div class="container container-l">
             <section class="wrapper">
                 <section class="wrapper__header">
                     <h3>Informacion general del cliente <span> - #<%= cust.id %></span></h3>
@@ -76,68 +76,73 @@
             </section>
 
 
-        <section class="wrapper">
-            <section class="wrapper__header">
-                <div class="wrapper__header-title-container">
-                    <h3>Ordenes de reparacion del cliente</h3>
+            <section class="wrapper">
+                <section class="wrapper__header">
+                    <div class="wrapper__header-title-container">
+                        <h3>Ordenes de reparacion del cliente</h3>
+                    </div>
+                </section>
+                <section class="wrapper__body">
+
+                </section>
+            </section>
+            <section class="wrapper">
+                <section class="wrapper__header">
+                    <h3>Metricas (KPI's)</h3>
+                </section>
+
+                <section class="wrapper__body">
+                </section>
+            </section>
+        </div>
+        <div class="container container-r">
+
+            <section class="wrapper wrapper--panel">
+                <div class="wrapper__header">
+                    <h2 class="wrapper__subtitle">Acciones</h2>
                 </div>
+                <nav class="">
+                    <ul class="menu__ul">
+                        <li class="menu__li">
+                            <a id="menu_cust_data" href="#" class="menu__link" data-id="<%= cust.id %>"
+                                data-route="cust">
+                                <iconify-icon icon="tabler:new-section"></iconify-icon>
+                                <span>Nueva orden de reparación</span>
+                            </a>
+                        </li>
+                        <li class="menu__li">
+                            <a id="menu_cust_data" href="#" class="menu__link" data-id="<%= cust.id %>"
+                                data-route="cust">
+                                <iconify-icon icon="tabler:mail-share"></iconify-icon>
+                                <span>Enviar correo</span>
+                            </a>
+                        </li>
+                        <li class="menu__li">
+                            <a id="menu_cust_data" href="#" class="menu__link" data-id="<%= cust.id %>"
+                                data-route="cust">
+                                <iconify-icon icon="tabler:brand-whatsapp"></iconify-icon>
+                                <span>Enviar Whatsapp</span>
+                            </a>
+                        </li>
+                        <li class="menu__li">
+                            <a id="menu_cust_data" href="#" class="menu__link" data-id="<%= cust.id %>"
+                                data-route="cust">
+                                <iconify-icon icon="tabler:pencil"></iconify-icon>
+                                <span>Modificar datos</span>
+                            </a>
+                        </li>
+
+                        <li class="menu__li">
+                            <a id="menu_disable_cust" href="#" class="menu__link" data-id="<%= cust.id %>"
+                                data-route="cust">
+                                <iconify-icon icon="tabler:xbox-x"></iconify-icon>
+                                <span>Deshabilitar cliente</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </section>
-            <section class="wrapper__body">
 
-            </section>
-        </section>
-        <section class="wrapper">
-            <section class="wrapper__header">
-                <h3>Metricas (KPI's)</h3>
-            </section>
-
-            <section class="wrapper__body">
-            </section>
-        </section>
-    </div>
-
-    <div class="container__r-panel">
-
-        <section class="wrapper wrapper--panel">
-            <div class="wrapper__header">
-                <h2 class="wrapper__subtitle">Acciones</h2>
-            </div>
-            <nav class="">
-                <ul class="menu__ul">
-                    <li class="menu__li">
-                        <a id="menu_cust_data" href="#" class="menu__link" data-id="<%= cust.id %>" data-route="cust">
-                            <iconify-icon icon="tabler:new-section"></iconify-icon>
-                            <span>Nueva orden de reparación</span>
-                        </a>
-                    </li>
-                    <li class="menu__li">
-                        <a id="menu_cust_data" href="#" class="menu__link" data-id="<%= cust.id %>" data-route="cust">
-                            <iconify-icon icon="tabler:mail-share"></iconify-icon>
-                            <span>Enviar correo</span>
-                        </a>
-                    </li>
-                    <li class="menu__li">
-                        <a id="menu_cust_data" href="#" class="menu__link" data-id="<%= cust.id %>" data-route="cust">
-                            <iconify-icon icon="tabler:brand-whatsapp"></iconify-icon>
-                            <span>Enviar Whatsapp</span>
-                        </a>
-                    </li>
-                    <li class="menu__li">
-                        <a id="menu_cust_data" href="#" class="menu__link" data-id="<%= cust.id %>" data-route="cust">
-                            <iconify-icon icon="tabler:pencil"></iconify-icon>
-                            <span>Modificar datos</span>
-                        </a>
-                    </li>
-
-                    <li class="menu__li">
-                        <a id="menu_disable_cust" href="#" class="menu__link" data-id="<%= cust.id %>"
-                            data-route="cust">
-                            <iconify-icon icon="tabler:xbox-x"></iconify-icon>
-                            <span>Deshabilitar cliente</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </section>
-    </div>
-</section>
+        </div>
+    </main>
+</main>

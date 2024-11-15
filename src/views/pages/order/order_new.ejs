@@ -1,17 +1,48 @@
-<section class="main__body main--wrapper">
-    <section class="">
+<main class="main">
+    <section class="main__header">
 
-        <div>
+        <div class="header__text-container">
             <h1 class="wrapper__title">Nueva orden</h1>
             <p class="wrapper__desc">Complete los datos requeridos</p>
         </div>
-        <div class="wrapper__btn-container">
+        <div class="header__btn-container">
             <a href="/user/all" class="btn btn--gray">Cancelar</a>
             <button class="btn" type="submit">Aceptar</button>
         </div>
     </section>
     <section class="container container-2-1">
-        <section class="subcontainer__main">
+        <section class="container container-l">
+            <section class="wrapper">
+                <section class="wrapper__header">
+                        <h2 class="wrapper__subtitle">Datos cliente</h2>
+                </section>
+                <section class="wrapper__body">
+                    <div class="item">
+                        <span class="item__key">Nombre y apellido</span>
+                        <span class="item__value">
+                            <a href="/customer/<%= cust.id %>" class="link"> <%= cust.name %> <%= cust.lastname %> </a>
+                        </span>
+                    </div>
+                    <div class="item">
+                        <span class="item__key">DNI</span>
+                        <span class="item__value">
+                            <%= cust.dni %>
+                        </span>
+                    </div>
+                    <div class="item">
+                        <span class="item__key">Telefono</span>
+                        <span class="item__value">
+                            <%= cust.tel %>
+                        </span>
+                    </div>
+                    <div class="item">
+                        <span class="item__key">Correo</span>
+                        <span class="item__value">
+                            <%= cust.email %>
+                        </span>
+                    </div>
+                </section>
+            </section>
             <section class="wrapper">
                 <section class="wrapper__header">
                     <h2 class="wrapper__subtitle">Datos orden</h2>
@@ -67,7 +98,7 @@
         </section>
 
         <!-- Panel derecha -->
-        <section class="subcontainer__right">
+        <section class="container container-r">
             <section class="wrapper wrapper--warning">
                 <section class="wrapper__body">
                     <h2 class="wrapper__subtitle">Garantia de reparación</h2>
@@ -75,38 +106,8 @@
                 </section>
             </section>
 
-            <section class="wrapper">
-                <section class="wrapper__header">
-                        <h2 class="wrapper__subtitle">Datos cliente</h2>
-                </section>
-                <section class="wrapper__body">
-                    <div class="item">
-                        <span class="item__key">Nombre y apellido</span>
-                        <span class="item__value">
-                            <a href="/customer/<%= cust.id %>" class="link"> <%= cust.name %> <%= cust.lastname %> </a>
-                        </span>
-                    </div>
-                    <div class="item">
-                        <span class="item__key">DNI</span>
-                        <span class="item__value">
-                            <%= cust.dni %>
-                        </span>
-                    </div>
-                    <div class="item">
-                        <span class="item__key">Telefono</span>
-                        <span class="item__value">
-                            <%= cust.tel %>
-                        </span>
-                    </div>
-                    <div class="item">
-                        <span class="item__key">Correo</span>
-                        <span class="item__value">
-                            <%= cust.email %>
-                        </span>
-                    </div>
-                </section>
-            </section>
+            
 
         </section>
     </section>
-</section>
+</main>
