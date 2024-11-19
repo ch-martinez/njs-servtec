@@ -163,3 +163,20 @@
 .sh__li:hover .sh__img-line{
     background: var(--primary-600);
 }
+
+
+.wrapper__img-container{
+    display: flex;
+    gap: var(--sp-12);
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+.img-container{
+    --size: 180px;
+    max-width: var(--size);
+    max-height: var(--size);
+    border: 1px solid var(--zinc-200);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+}
