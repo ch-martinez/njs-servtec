@@ -163,9 +163,17 @@
 .btn--full{
     width: 100%;
     font-size: var(--lg);
-    text-transform: uppercase;
-    font-weight: var(--bold);
     letter-spacing: 1px;
+    justify-content: center;
+}
+
+.btn--status{
+    width: 100%;
+    max-height: none;
+    padding: var(--sp-12);
+    font-size: var(--lg);
+    letter-spacing: 1px;
+    justify-content: center;
 }
 
 .btn-table{
