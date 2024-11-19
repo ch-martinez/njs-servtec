@@ -1,13 +1,8 @@
 <main class="main">
     <section class="main__header">
-
         <div class="header__text-container">
             <h1 class="wrapper__title">Orden #CFM-0000598</h1>
             <p class="wrapper__desc">Detalles de la orden</p>
-        </div>
-        <div class="header__btn-container">
-            <a href="/user/all" class="btn btn--gray">Cancelar</a>
-            <button class="btn" type="submit">Aceptar</button>
         </div>
     </section>
     <section class="container container-2-1">
@@ -20,33 +15,66 @@
                         <h2 class="wrapper__subtitle">Datos cliente</h2>
                 </section>
                 <section class="wrapper__body">
-                    <div class="item">
-                        <span class="item__key">Nombre y apellido</span>
-                        <span class="item__value">
-                            <a href="/customer/<%= cust.id %>" class="link"> <%= cust.name %> <%= cust.lastname %> </a>
-                        </span>
+                    <div class="wrapper__row wrapper__row--3">
+
+                        <div class="item">
+                            <span class="item__key">Nombre y apellido</span>
+                            <span class="item__value">
+                                <a href="/customer/<%= cust.id %>" class="link"> <%= cust.name %> <%= cust.lastname %> </a>
+                            </span>
+                        </div>
+                        <div class="item">
+                            <span class="item__key">DNI</span>
+                            <span class="item__value">
+                                <%= cust.dni %>
+                            </span>
+                        </div>
                     </div>
-                    <div class="item">
-                        <span class="item__key">DNI</span>
-                        <span class="item__value">
-                            <%= cust.dni %>
-                        </span>
-                    </div>
-                    <div class="item">
-                        <span class="item__key">Telefono</span>
-                        <span class="item__value">
-                            <%= cust.tel %>
-                        </span>
-                    </div>
-                    <div class="item">
-                        <span class="item__key">Correo</span>
-                        <span class="item__value">
-                            <%= cust.email %>
-                        </span>
+                    <div class="wrapper__row wrapper__row--3">
+
+                        <div class="item">
+                            <span class="item__key">Teléfono</span>
+                            <span class="item__value">
+                                <%= cust.tel %>
+                            </span>
+                        </div>
+                        <div class="item">
+                            <span class="item__key">Teléfono alternativo</span>
+                            <span class="item__value">
+                                <%= cust.tel %>
+                            </span>
+                        </div>
+                        <div class="item">
+                            <span class="item__key">Correo</span>
+                            <span class="item__value">
+                                <%= cust.email %>
+                            </span>
+                        </div>
                     </div>
                 </section>
             </section>
+            <section class="wrapper">
+                <section class="wrapper__header">
+                    <h2 class="wrapper__subtitle">Autorizacion de retiro</h2>
+                </section>
+                <section class="wrapper__body">
+                    <div class="wrapper__row wrapper__row--auto">
 
+                        <div class="item">
+                            <p class="item__key">Persona autorizada</p>
+                            <p class="item__value">Juan Perez Sosa</p>
+                        </div>
+                        <div class="item">
+                            <p class="item__key">DNI</p>
+                            <p class="item__value">35.123.123</p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <p class="item__key">Fecha autorizacion</p>
+                        <p class="item__value">26/03/92, 10:22hs</p>
+                    </div>
+                </section>
+            </section>
             <section class="wrapper">
                 <section class="wrapper__header">
                     <h2 class="wrapper__subtitle">Datos orden</h2>
@@ -125,35 +153,25 @@
                 <section class="wrapper__header">
                     <h2 class="wrapper__subtitle">Fotos evidencia</h2>
                 </section>
-                <section class="wrapper__body"></section>
-            </section>
-
-            <section class="wrapper">
-                <section class="wrapper__header">
-                    <h2 class="wrapper__subtitle">Autorizacion de retiro</h2>
-                </section>
                 <section class="wrapper__body">
-                    <div class="wrapper__row wrapper__row--auto">
-
-                        <div class="item">
-                            <p class="item__key">Persona autorizada</p>
-                            <p class="item__value">Juan Perez Sosa</p>
-                        </div>
-                        <div class="item">
-                            <p class="item__key">DNI</p>
-                            <p class="item__value">35.123.123</p>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <p class="item__key">Fecha autorizacion</p>
-                        <p class="item__value">26/03/92, 10:22hs</p>
+                    <div class="wrapper__img-container">
+                        <article class="img-container"><img src="/img/no-image.jpg" alt="" srcset=""></article>
+                        <article class="img-container"><img src="/img/no-image.jpg" alt="" srcset=""></article>
+                        <article class="img-container"><img src="/img/no-image.jpg" alt="" srcset=""></article>
+                        <article class="img-container"><img src="/img/no-image.jpg" alt="" srcset=""></article>
                     </div>
                 </section>
             </section>
+
+            
         </section>
 
         <!-- Panel derecha -->
         <section class="container container-r">
+            <button class="btn btn--status" type="button">
+                <span>Avanzar estado</span>
+                <iconify-icon icon="tabler:arrow-big-right-lines"></iconify-icon>
+            </button>
             <section class="wrapper">
                 <div class="wrapper__header">
                     <h2 class="wrapper__subtitle">Acciones</h2>
@@ -162,41 +180,100 @@
                     <ul class="menu__ul">
                         <li class="menu__li">
                             <a id="menu_rol" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
-                                <iconify-icon icon="tabler:exchange"></iconify-icon>
-                                <span>Modificar ROL</span>
+                                <iconify-icon icon="tabler:printer"></iconify-icon>
+                                <span>Imprimir orden</span>
                             </a>
                         </li>
+                    </ul>
+                    <ul class="menu__ul">
                         <li class="menu__li">
-                            <a id="menu_user_data" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                            <a id="menu_rol" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                                <iconify-icon icon="tabler:printer"></iconify-icon>
+                                <span>Imprimir ticket</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="menu__ul">
+                        <li class="menu__li">
+                            <a id="menu_rol" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                                <iconify-icon icon="tabler:file-type-pdf"></iconify-icon>
+                                <span>Generar PDF</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="menu__line"></div>
+                    <ul class="menu__ul">
+                        <li class="menu__li">
+                            <a id="menu_rol" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                                <iconify-icon icon="tabler:brand-whatsapp"></iconify-icon>
+                                <span>Enviar por WhatsApp</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="menu__ul">
+                        <li class="menu__li">
+                            <a id="menu_rol" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                                <iconify-icon icon="tabler:mail-up"></iconify-icon>
+                                <span>Enviar por correo</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="menu__line"></div>
+
+                    <ul class="menu__ul">
+                        <li class="menu__li">
+                            <a id="menu_rol" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                                <iconify-icon icon="tabler:message-cog"></iconify-icon>
+                                <span>Observación taller</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="menu__ul">
+                        <li class="menu__li">
+                            <a id="menu_rol" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                                <iconify-icon icon="tabler:message-2-plus"></iconify-icon>
+                                <span>Observación adicional</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="menu__ul">
+                        <li class="menu__li">
+                            <a id="menu_rol" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                                <iconify-icon icon="tabler:user-check"></iconify-icon>
+                                <span>Autorizar retiro</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="menu__ul">
+                        <li class="menu__li">
+                            <a id="menu_rol" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
                                 <iconify-icon icon="tabler:pencil"></iconify-icon>
                                 <span>Modificar datos</span>
                             </a>
                         </li>
+                    </ul>
+                    <div class="menu__line"></div>
+                    <ul class="menu__ul">
                         <li class="menu__li">
-                            <a id="menu_password" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
-                                <iconify-icon icon="tabler:password"></iconify-icon>
-                                <span>Cambiar contraseña</span>
-                            </a>
-                        </li>
-                        <li class="menu__li">
-                            <a id="menu_reset_pass" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
-                                <iconify-icon icon="tabler:restore"></iconify-icon>
-                                <span>Restablecer contraseña</span>
-                            </a>
-                        </li>
-                        <li class="menu__li">
-                            <a id="menu_disable_user" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
-                                <iconify-icon icon="tabler:xbox-x"></iconify-icon>
-                                <span>Deshabilitar usuario</span>
+                            <a id="menu_rol" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                                <iconify-icon icon="tabler:award"></iconify-icon>
+                                <span>Garanta de reparacion</span>
                             </a>
                         </li>
                     </ul>
+                    <ul class="menu__ul">
+                        <li class="menu__li">
+                            <a id="menu_rol" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                                <iconify-icon icon="tabler:xbox-x"></iconify-icon>
+                                <span>Eliminar orden</span>
+                            </a>
+                        </li>
+                    </ul>
+
                 </nav>
             </section>
 
-            <section class="wrapper wrapper--alert">
-                <p>INFORMAR PRESUPUESTO</p>
-            </section>
+
 
             <section class="wrapper">
                 <div class="wrapper__header">
