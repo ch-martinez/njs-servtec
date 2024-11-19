@@ -13,46 +13,53 @@
     </section>
     <section class="container container-2-1">
         <section class="container container-l">
-            <section class="wrapper wrapper--warning">
-                <section class="wrapper__body">
-                    <div class="item item--inline">
-
-                        <h2 class="wrapper__subtitle">Garantia de reparación</h2>
-                        <p>N° orden: <a href="#" class="link">CFM-0000598</a></p>
-                    </div>
-                </section>
+            <section class="wrapper wrapper--alert">
+                <span>Garantia de reparación N° orden: <a href="#" class="link">CFM-0000598</a></span>
             </section>
             <section class="wrapper">
                 <section class="wrapper__header">
                         <h2 class="wrapper__subtitle">Datos cliente</h2>
                 </section>
                 <section class="wrapper__body">
-                    <div class="item">
-                        <span class="item__key">Nombre y apellido</span>
-                        <span class="item__value">
-                            <a href="/customer/<%= cust.id %>" class="link"> <%= cust.name %> <%= cust.lastname %> </a>
-                        </span>
+                    <div class="wrapper__row wrapper__row--3">
+
+                        <div class="item">
+                            <span class="item__key">Nombre y apellido</span>
+                            <span class="item__value">
+                                <a href="/customer/<%= cust.id %>" class="link"> <%= cust.name %> <%= cust.lastname %> </a>
+                            </span>
+                        </div>
+                        <div class="item">
+                            <span class="item__key">DNI</span>
+                            <span class="item__value">
+                                <%= cust.dni %>
+                            </span>
+                        </div>
                     </div>
-                    <div class="item">
-                        <span class="item__key">DNI</span>
-                        <span class="item__value">
-                            <%= cust.dni %>
-                        </span>
-                    </div>
-                    <div class="item">
-                        <span class="item__key">Telefono</span>
-                        <span class="item__value">
-                            <%= cust.tel %>
-                        </span>
-                    </div>
-                    <div class="item">
-                        <span class="item__key">Correo</span>
-                        <span class="item__value">
-                            <%= cust.email %>
-                        </span>
+                    <div class="wrapper__row wrapper__row--3">
+
+                        <div class="item">
+                            <span class="item__key">Teléfono</span>
+                            <span class="item__value">
+                                <%= cust.tel %>
+                            </span>
+                        </div>
+                        <div class="item">
+                            <span class="item__key">Teléfono alternativo</span>
+                            <span class="item__value">
+                                <%= cust.tel %>
+                            </span>
+                        </div>
+                        <div class="item">
+                            <span class="item__key">Correo</span>
+                            <span class="item__value">
+                                <%= cust.email %>
+                            </span>
+                        </div>
                     </div>
                 </section>
             </section>
+
             <section class="wrapper">
                 <section class="wrapper__header">
                     <h2 class="wrapper__subtitle">Datos orden</h2>
@@ -105,15 +112,67 @@
 
                 </section>
             </section>
+
+                        <section class="wrapper">
+                <section class="wrapper__header">
+                    <h2 class="wrapper__subtitle">Presupuesto</h2>
+                </section>
+                <section class="wrapper__body">
+                    <div class="wrapper__row wrapper__row--3">
+                        <div class="item">
+                            <label for="devices_other" class="label">Costo</label>
+                            <input type="number" name="devices_other" id="devices_other" class="input">
+                        </div>
+                        <div class="item">
+                            <p class="item__key">Metodo de pago</p>
+                            <select class="input input--select" name="devices_brands" id="devices_brands">
+                                <option value="none">Seleccionar</option>
+                                <option value="none">Efectivo</option>
+                                <option value="none">Transferencia</option>
+                                <option value="none">Credito/Debito</option>
+                                <option value="none">MercadoPago</option>
+                                <option value="none">MODO</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="item">
+                        <label for="order_" class="label">Detalle presupuesto</label>
+                        <textarea name="order_" id="order_" class="input input--textarea" rows="3"></textarea>
+                    </div>
+                </section>
+            </section>
+            <section class="wrapper">
+                <section class="wrapper__header">
+                    <h2 class="wrapper__subtitle">Fotos evidencia</h2>
+                </section>
+                <section class="wrapper__body">
+                    <div class="wrapper__img-container">
+                        <article class="img-container"><img src="/img/no-image.jpg" alt="" srcset=""></article>
+                        <article class="img-container"><img src="/img/no-image.jpg" alt="" srcset=""></article>
+                        <article class="img-container"><img src="/img/no-image.jpg" alt="" srcset=""></article>
+                        <article class="img-container"><img src="/img/no-image.jpg" alt="" srcset=""></article>
+                    </div>
+                </section>
+            </section>
         </section>
 
         <!-- Panel derecha -->
         <section class="container container-r">
-            <section class="wrapper wrapper--warning">
-                <section class="wrapper__body">
-                    <h2 class="wrapper__subtitle">Garantia de reparación</h2>
-                    <p>N° orden: <a href="#" class="link">CFM-0000598</a></p>
-                </section>
+            <section class="wrapper">
+                <div class="wrapper__header">
+                    <h2 class="wrapper__subtitle">Acciones</h2>
+                </div>
+                <nav class="">
+                    <ul class="menu__ul">
+                        <li class="menu__li">
+                            <a id="menu_rol" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                                <iconify-icon icon="tabler:printer"></iconify-icon>
+                                <span>Imprimir orden</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </section>
 
             
