@@ -134,9 +134,9 @@
 }
 
 .wrapper--alert{
-    padding: var(--sp-16);
+    padding: var(--sp-12);
     font-weight: var(--medium);
-    font-size: var(--xl);
+    font-size: var(--lg);
     text-align: center;
     letter-spacing: 0.8px;
     color: var(--zinc-700);
