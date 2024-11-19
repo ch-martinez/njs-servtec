@@ -60,8 +60,7 @@
     display: grid;
     align-items: center;
     grid-template-columns: 1fr;
-    justify-content: space-between;
-    gap: var(--sp-16);
+    gap: var(--sp-32);
 }
 
     .wrapper__row--2{
@@ -132,6 +131,16 @@
     min-width: 300px;
     width: 100%;
     border: 2px solid rgb(255, 144, 144);
+}
+
+.wrapper--alert{
+    padding: var(--sp-16);
+    font-weight: var(--medium);
+    font-size: var(--xl);
+    text-align: center;
+    letter-spacing: 0.8px;
+    color: var(--zinc-700);
+    background-color: #fecf6d;
 }
 
 /* Wrapper Article */

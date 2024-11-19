@@ -89,3 +89,77 @@
 .dd--hide{
     display: none;
 }
+
+
+
+/* Status historial */
+
+.sh__ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-16);
+}
+.sh__li {
+    display: flex;
+    gap: var(--sp-12);
+    padding: var(--sp-8);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-02);
+}
+
+
+
+.sh__content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    letter-spacing: 0.3px;
+}
+.sh__status {
+    margin-bottom: var(--sp-4);
+    text-wrap: nowrap;
+    transition: all var(--transition-02);
+}
+.sh__author {
+    font-size: var(--xs);
+    color: var(--zinc-600);
+    transition: all var(--transition-02);
+}
+.sh__date {
+    font-size: var(--sm);
+    color: var(--zinc-600);
+    transition: all var(--transition-02);
+}
+
+.sh__img{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+}
+.sh__img iconify-icon {
+    font-size: var(--4xl);
+    display: none;
+}
+
+.sh__img-line {
+    width: 5px;
+    background: var(--zinc-200);
+    height: 100%;
+    border-radius: var(--radius-full);
+    transition: all var(--transition-02);
+}
+
+.sh__img-line--last{
+    background: var(--primary-600);
+}
+
+
+.sh__li:hover {
+    background: var(--primary-100);
+}
+
+.sh__li:hover .sh__img-line{
+    background: var(--primary-600);
+}

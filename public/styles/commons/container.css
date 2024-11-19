@@ -11,9 +11,12 @@
     grid-template-columns: 1fr 1fr;
 }
 
-.container-l{}
+.container-l{
+    height: fit-content;
+}
 
 .container-r{
+    height: fit-content;
     display: flex;
     flex-direction: column;
     gap: var(--sp-16);

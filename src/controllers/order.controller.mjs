@@ -27,3 +27,16 @@ export const orderNewView = async (req, res) => {
 
     res.render('pages/order/order_new', { layout: 'layouts/main_layout', data, devices_brands, cust });
 }
+
+export const orderDetailView = async (req, res) => {
+
+    const devices_brands = await db_model.getAllDevicesBrandsFromDB()
+    const cust = cust_formarter.customer(await cust_model.getCustomerByIdFromDB(1))
+
+    const data = {
+        title: 'Orden #CFM-0000598',
+        nav: 'order'
+    }
+
+    res.render('pages/order/order_detail', { layout: 'layouts/main_layout', data, devices_brands, cust });
+}

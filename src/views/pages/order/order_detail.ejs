@@ -1,0 +1,356 @@
+<main class="main">
+    <section class="main__header">
+
+        <div class="header__text-container">
+            <h1 class="wrapper__title">Orden #CFM-0000598</h1>
+            <p class="wrapper__desc">Detalles de la orden</p>
+        </div>
+        <div class="header__btn-container">
+            <a href="/user/all" class="btn btn--gray">Cancelar</a>
+            <button class="btn" type="submit">Aceptar</button>
+        </div>
+    </section>
+    <section class="container container-2-1">
+        <section class="container container-l">
+            <section class="wrapper wrapper--alert">
+                <span>Garantia de reparación N° orden: <a href="#" class="link">CFM-0000598</a></span>
+            </section>
+            <section class="wrapper">
+                <section class="wrapper__header">
+                        <h2 class="wrapper__subtitle">Datos cliente</h2>
+                </section>
+                <section class="wrapper__body">
+                    <div class="item">
+                        <span class="item__key">Nombre y apellido</span>
+                        <span class="item__value">
+                            <a href="/customer/<%= cust.id %>" class="link"> <%= cust.name %> <%= cust.lastname %> </a>
+                        </span>
+                    </div>
+                    <div class="item">
+                        <span class="item__key">DNI</span>
+                        <span class="item__value">
+                            <%= cust.dni %>
+                        </span>
+                    </div>
+                    <div class="item">
+                        <span class="item__key">Telefono</span>
+                        <span class="item__value">
+                            <%= cust.tel %>
+                        </span>
+                    </div>
+                    <div class="item">
+                        <span class="item__key">Correo</span>
+                        <span class="item__value">
+                            <%= cust.email %>
+                        </span>
+                    </div>
+                </section>
+            </section>
+
+            <section class="wrapper">
+                <section class="wrapper__header">
+                    <h2 class="wrapper__subtitle">Datos orden</h2>
+                </section>
+                <section class="wrapper__main">
+                    <section class="wrapper__body">
+                        <div class="wrapper__row wrapper__row--3">
+                            <div class="item">
+                                <p class="item__key">Marca</p>
+                                <p class="item__value">Motorola</p>
+                            </div>
+                            <div class="item">
+                                <p class="item__key">Modelo</p>
+                                <p class="item__value">Otro</p>
+                            </div>
+                            <div class="item">
+                                <p class="item__key">Otro</p>
+                                <p class="item__value">G5 Plus XT1680</p>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <p class="item__key">IMEI</p>
+                            <p class="item__value">123456789087654</p>
+                        </div>
+                        <div class="wrapper__row wrapper__row--2">
+                            <div class="item">
+                                <p class="item__key">Contraseña / PIN</p>
+                                <p class="item__value">159357</p>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <p class="item__key">Falla del equipo</p>
+                            <p class="item__value">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Praesentium, rerum, id consequatur aspernatur earum et commodi, accusamus ex harum iure ab odio voluptate quis. Architecto veritatis nobis sunt distinctio nesciunt accusantium error nulla soluta excepturi voluptatum reprehenderit natus, unde doloribus.</p>
+                        </div>
+                        <div class="item">
+                            <p class="item__key">Observacion recepción</p>
+                            <p class="item__value">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Praesentium, rerum, id consequatur aspernatur earum et commodi, accusamus ex harum iure ab odio voluptate quis. Architecto veritatis nobis sunt distinctio nesciunt accusantium error nulla soluta excepturi voluptatum reprehenderit natus, unde doloribus.</p>
+                        </div>
+                        <div class="item">
+                            <p class="item__key">Observacion taller</p>
+                            <p class="item__value">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Praesentium, rerum, id consequatur aspernatur earum et commodi, accusamus ex harum iure ab odio voluptate quis. Architecto veritatis nobis sunt distinctio nesciunt accusantium error nulla soluta excepturi voluptatum reprehenderit natus, unde doloribus.</p>
+                        </div>
+                        <div class="item">
+                            <p class="item__key">Observacion adicional</p>
+                            <p class="item__value">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Praesentium, rerum, id consequatur aspernatur earum et commodi, accusamus ex harum iure ab odio voluptate quis. Architecto veritatis nobis sunt distinctio nesciunt accusantium error nulla soluta excepturi voluptatum reprehenderit natus, unde doloribus.</p>
+                        </div>
+
+                    </section>
+
+                </section>
+            </section>
+
+            <section class="wrapper">
+                <section class="wrapper__header">
+                    <h2 class="wrapper__subtitle">Presupuesto</h2>
+                </section>
+                <section class="wrapper__body">
+                    <div class="wrapper__row wrapper__row--auto">
+                        <div class="item">
+                            <p class="item__key">Costo</p>
+                            <p class="item__value">$350.000</p>
+                        </div>
+                        <div class="item">
+                            <p class="item__key">Metodo de pago</p>
+                            <p class="item__value">Efectivo</p>
+                        </div>
+                    </div>
+                        <div class="item">
+                        <p class="item__key">Detalle presupuesto</p>
+                        <p class="item__value">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Praesentium, rerum, id consequatur aspernatur earum et commodi, accusamus ex harum iure ab odio voluptate quis. Architecto veritatis nobis sunt distinctio nesciunt accusantium error nulla soluta excepturi voluptatum reprehenderit natus, unde doloribus.</p>
+                    </div>
+                </section>
+            </section>
+
+            <section class="wrapper">
+                <section class="wrapper__header">
+                    <h2 class="wrapper__subtitle">Fotos evidencia</h2>
+                </section>
+                <section class="wrapper__body"></section>
+            </section>
+
+            <section class="wrapper">
+                <section class="wrapper__header">
+                    <h2 class="wrapper__subtitle">Autorizacion de retiro</h2>
+                </section>
+                <section class="wrapper__body">
+                    <div class="wrapper__row wrapper__row--auto">
+
+                        <div class="item">
+                            <p class="item__key">Persona autorizada</p>
+                            <p class="item__value">Juan Perez Sosa</p>
+                        </div>
+                        <div class="item">
+                            <p class="item__key">DNI</p>
+                            <p class="item__value">35.123.123</p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <p class="item__key">Fecha autorizacion</p>
+                        <p class="item__value">26/03/92, 10:22hs</p>
+                    </div>
+                </section>
+            </section>
+        </section>
+
+        <!-- Panel derecha -->
+        <section class="container container-r">
+            <section class="wrapper">
+                <div class="wrapper__header">
+                    <h2 class="wrapper__subtitle">Acciones</h2>
+                </div>
+                <nav class="">
+                    <ul class="menu__ul">
+                        <li class="menu__li">
+                            <a id="menu_rol" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                                <iconify-icon icon="tabler:exchange"></iconify-icon>
+                                <span>Modificar ROL</span>
+                            </a>
+                        </li>
+                        <li class="menu__li">
+                            <a id="menu_user_data" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                                <iconify-icon icon="tabler:pencil"></iconify-icon>
+                                <span>Modificar datos</span>
+                            </a>
+                        </li>
+                        <li class="menu__li">
+                            <a id="menu_password" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                                <iconify-icon icon="tabler:password"></iconify-icon>
+                                <span>Cambiar contraseña</span>
+                            </a>
+                        </li>
+                        <li class="menu__li">
+                            <a id="menu_reset_pass" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                                <iconify-icon icon="tabler:restore"></iconify-icon>
+                                <span>Restablecer contraseña</span>
+                            </a>
+                        </li>
+                        <li class="menu__li">
+                            <a id="menu_disable_user" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                                <iconify-icon icon="tabler:xbox-x"></iconify-icon>
+                                <span>Deshabilitar usuario</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </section>
+
+            <section class="wrapper wrapper--alert">
+                <p>INFORMAR PRESUPUESTO</p>
+            </section>
+
+            <section class="wrapper">
+                <div class="wrapper__header">
+                    <h2 class="wrapper__subtitle">Historial de estados</h2>
+                </div>
+                <div class="wrapper__body">
+                    <ul class="sh__ul">
+                        <li class="sh__li">
+                            <div class="sh__img">
+                                <div class="sh__img-line sh__img-line--last"></div>
+                            </div>
+                            <div class="sh__content">
+                                <p class="sh__status">ORDEN FINALIZADA</p>
+                                <p class="sh__date">26-03-92, 10:22hs</p>
+                                <p class="sh__author">Christian Martinez</p>
+                            </div>
+                        </li>
+                        <li class="sh__li">
+                            <div class="sh__img">
+                                <div class="sh__img-line"></div>
+                            </div>
+                            <div class="sh__content">
+                                <p class="sh__status">Entrega: Entregado - Reparado</p>
+                                <p class="sh__date">26-03-92, 10:22hs</p>
+                                <p class="sh__author">Christian Martinez</p>
+                            </div>
+                        </li>
+                        <li class="sh__li">
+                            <div class="sh__img">
+                                <div class="sh__img-line"></div>
+                            </div>
+                            <div class="sh__content">
+                                <p class="sh__status">Entrega: Pendiente - 7 dias</p>
+                                <p class="sh__date">26-03-92, 10:22hs</p>
+                                <p class="sh__author">Christian Martinez</p>
+                            </div>
+                        </li>
+                        <li class="sh__li">
+                            <div class="sh__img">
+                                <div class="sh__img-line"></div>
+                            </div>
+                            <div class="sh__content">
+                                <p class="sh__status">Entrega: Pendiente</p>
+                                <p class="sh__date">26-03-92, 10:22hs</p>
+                                <p class="sh__author">Christian Martinez</p>
+                            </div>
+                        </li>
+                        <li class="sh__li">
+                            <div class="sh__img">
+                                <div class="sh__img-line"></div>
+                            </div>
+                            <div class="sh__content">
+                                <p class="sh__status">Reparacion: Reparado</p>
+                                <p class="sh__date">26-03-92, 10:22hs</p>
+                                <p class="sh__author">Christian Martinez</p>
+                            </div>
+                        </li>
+                        <li class="sh__li">
+                            <div class="sh__img">
+                                <div class="sh__img-line"></div>
+                            </div>
+                            <div class="sh__content">
+                                <p class="sh__status">Reparacion: En curso</p>
+                                <p class="sh__date">26-03-92, 10:22hs</p>
+                                <p class="sh__author">Christian Martinez</p>
+                            </div>
+                        </li>
+                        <li class="sh__li">
+                            <div class="sh__img">
+                                <div class="sh__img-line"></div>
+                            </div>
+                            <div class="sh__content">
+                                <p class="sh__status">Reparacion: Pendiente</p>
+                                <p class="sh__date">26-03-92, 10:22hs</p>
+                                <p class="sh__author">Christian Martinez</p>
+                            </div>
+                        </li>
+                        <li class="sh__li">
+                            <div class="sh__img">
+                                <div class="sh__img-line"></div>
+                            </div>
+                            <div class="sh__content">
+                                <p class="sh__status">Presupuesto: APROBADO</p>
+                                <p class="sh__date">26-03-92, 10:22hs</p>
+                                <p class="sh__author">Christian Martinez</p>
+                            </div>
+                        </li>
+                        <li class="sh__li">
+                            <div class="sh__img">
+                                <div class="sh__img-line"></div>
+                            </div>
+                            <div class="sh__content">
+                                <p class="sh__status">Presupuesto: Notificado</p>
+                                <p class="sh__date">26-03-92, 10:22hs</p>
+                                <p class="sh__author">Christian Martinez</p>
+                            </div>
+                        </li>
+                        <li class="sh__li">
+                            <div class="sh__img">
+                                <div class="sh__img-line"></div>
+                            </div>
+                            <div class="sh__content">
+                                <p class="sh__status">Presupuesto: Realizado</p>
+                                <p class="sh__date">26-03-92, 10:22hs</p>
+                                <p class="sh__author">Christian Martinez</p>
+                            </div>
+                        </li>
+                        <li class="sh__li">
+                            <div class="sh__img">
+                                <div class="sh__img-line"></div>
+                            </div>
+                            <div class="sh__content">
+                                <p class="sh__status">Taller: En revisión y evaluación</p>
+                                <p class="sh__date">26-03-92, 10:22hs</p>
+                                <p class="sh__author">Christian Martinez</p>
+                            </div>
+                        </li>
+                        <li class="sh__li">
+                            <div class="sh__img">
+                                <div class="sh__img-line"></div>
+                            </div>
+                            <div class="sh__content">
+                                <p class="sh__status">Taller: Recibe</p>
+                                <p class="sh__date">26-03-92, 10:22hs</p>
+                                <p class="sh__author">Christian Martinez</p>
+                            </div>
+                        </li>
+                        <li class="sh__li">
+                            <div class="sh__img">
+                                <div class="sh__img-line"></div>
+                            </div>
+                            <div class="sh__content">
+                                <p class="sh__status">Recepcion: Pendiente de envío a taller</p>
+                                <p class="sh__date">26-03-92, 10:22hs</p>
+                                <p class="sh__author">Christian Martinez</p>
+                            </div>
+                        </li>
+                        <li class="sh__li">
+                            <div class="sh__img">
+                                <div class="sh__img-line"></div>
+                            </div>
+                            <div class="sh__content">
+                                <p class="sh__status">Recepcion: Orden creada e ingreso registrado</p>
+                                <p class="sh__date">26-03-92, 10:22hs</p>
+                                <p class="sh__author">Christian Martinez</p>
+                            </div>
+                        </li>
+                    </ul>
+                    
+                </div>
+            </section>
+
+            
+
+        </section>
+    </section>
+</main>
