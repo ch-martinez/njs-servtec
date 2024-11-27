@@ -4,6 +4,10 @@ import path from 'path'
 const app = express()
 const PORT = 3033
 
+import methodOverride from 'method-override'
+
+app.use(methodOverride('_method'))
+
 //Configuracion de __dirname
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
