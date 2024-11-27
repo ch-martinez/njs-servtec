@@ -12,11 +12,24 @@ export const customer = (cust) => {
         obs: cust.customer_obs,
         created_at: dateFull(cust.created_at),
         updated_at: dateFull(cust.updated_at),
-        disabled: cust.disabled == 0 ? false : true,
-        disabled_at: cust.disabled_at,
+        status: cust.customer_status == 1,
+        status_at: cust.status_at,
         deleted: cust.deleted == 0 ? false : true,
         deleted_user_id: cust.deleted_user_id,
         deleted_at: cust.deleted_at
+    }
+}
+
+export const customerNewPost = (cust) => {
+    return {
+        customer_id: cust.customer_id,
+        customer_name: cust.customer_name,
+        customer_lastname: cust.customer_lastname,
+        customer_email: (cust.customer_email).toLowerCase(),
+        customer_dni: cust.customer_dni,
+        customer_tel: cust.customer_tel,
+        customer_tel_alt: cust.customer_tel_alt,
+        customer_obs: cust.customer_obs,
     }
 }
 
