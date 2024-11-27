@@ -6,16 +6,16 @@
             <p class="wrapper__desc">Complete los datos requeridos</p>
         </div>
         <div class="header__btn-container">
-            <a href="/user/all" class="btn btn--gray">Cancelar</a>
+            <a href="/customer/<%= cust.id %>" class="btn btn--gray">Cancelar</a>
             <a href="/order/detail" class="btn btn--gray">Detalle</a>
-            <button class="btn" type="submit">Aceptar</button>
+            <button class="btn" type="submit" form="form">Aceptar</button>
         </div>
     </section>
-    <section class="container container-2-1">
+    <form id="form" class="container container-2-1" action="/order/new/customer/<%= cust.id %>" method="post">
         <section class="container container-l">
-            <section class="wrapper wrapper--alert">
+<!--             <section class="wrapper wrapper--alert">
                 <span>Garantia de reparación N° orden: <a href="#" class="link">CFM-0000598</a></span>
-            </section>
+            </section> -->
             <section class="wrapper">
                 <section class="wrapper__header">
                         <h2 class="wrapper__subtitle">Datos cliente</h2>
@@ -69,20 +69,18 @@
                         <div class="wrapper__row wrapper__row--3">
                             <div class="item">
                                 <label for="devices_brands" class="label">Marca</label>
-                                <select class="input input--select" name="devices_brands" id="devices_brands">
+                                <select class="input input--select" name="devices_brands" id="devices_brands" required>
                                     <option value="none">Seleccionar</option>
                                     <% devices_brands.forEach(brand=> { %>
-                                        <option value="<%= brand.db_id%>">
-                                            <%= brand.db_name %>
-                                        </option>
-                                        <%}) %>
+                                        <option value="<%= brand.db_id %>"><%= brand.db_name %></option>
+                                    <%}) %>
                                 </select>
                             </div>
                             <div class="item">
                                 <label for="devices_models" class="label">Modelo</label>
-                                <select class="input input--select" name="devices_models" id="devices_models">
+                                <select class="input input--select" name="devices_models" id="devices_models" required>
                                     <option value="none">Seleccionar</option>
-                                    <option value="13646">Otro</option>
+                                    <option value="1">Otro</option>
                                 </select>
                             </div>
                             <div class="item">
@@ -101,12 +99,12 @@
                             </div>
                         </div>
                         <div class="item">
-                            <label for="order_" class="label">Especifique la falla de equipo</label>
-                            <textarea name="order_" id="order_" class="input input--textarea" rows="3"></textarea>
+                            <label for="order_failure" class="label">Especifique la falla de equipo</label>
+                            <textarea name="order_failure" id="order_failure" class="input input--textarea" rows="3" required></textarea>
                         </div>
                         <div class="item">
-                            <label for="order_" class="label">Observación de recepción</label>
-                            <textarea name="order_" id="order_" class="input input--textarea" rows="3"></textarea>
+                            <label for="order_comment_atc" class="label">Observación de recepción</label>
+                            <textarea name="order_comment_atc" id="order_comment_atc" class="input input--textarea" rows="3"></textarea>
                         </div>
                     </section>
 
@@ -120,25 +118,28 @@
                 <section class="wrapper__body">
                     <div class="wrapper__row wrapper__row--3">
                         <div class="item">
-                            <label for="devices_other" class="label">Costo</label>
-                            <input type="number" name="devices_other" id="devices_other" class="input">
+                            <label for="order_budget" class="label">Costo</label>
+                            <input type="number" name="order_budget" id="order_budget" class="input">
+                        </div>
+                        <div class="item item--inline">
+                            <input type="checkbox" name="order_prepaid" id="order_prepaid">
+                            <label for="order_prepaid" class="label label--checkbox">Pago adelantado</label>
                         </div>
                         <div class="item">
                             <p class="item__key">Metodo de pago</p>
-                            <select class="input input--select" name="devices_brands" id="devices_brands">
+                            <select class="input input--select" name="order_payment_method" id="order_payment_method" disabled>
                                 <option value="none">Seleccionar</option>
-                                <option value="none">Efectivo</option>
-                                <option value="none">Transferencia</option>
-                                <option value="none">Credito/Debito</option>
-                                <option value="none">MercadoPago</option>
-                                <option value="none">MODO</option>
+                                <option value="efc">Efectivo</option>
+                                <option value="trf">Transferencia</option>
+                                <option value="crd">Credito/Debito</option>
+                                <option value="mp">MercadoPago</option>
+                                <option value="md">MODO</option>
                             </select>
                         </div>
                     </div>
-                    
                     <div class="item">
-                        <label for="order_" class="label">Detalle presupuesto</label>
-                        <textarea name="order_" id="order_" class="input input--textarea" rows="3"></textarea>
+                        <label for="order_comment_budget" class="label">Detalle presupuesto</label>
+                        <textarea name="order_comment_budget" id="order_comment_budget" class="input input--textarea" rows="3"></textarea>
                     </div>
                 </section>
             </section>
@@ -178,5 +179,5 @@
             
 
         </section>
-    </section>
+    </form>
 </main>
