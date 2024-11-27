@@ -5,7 +5,7 @@
                 <section class="wrapper">
                     <section class="wrapper__header">
                         <h3>Informacion general</h3>
-                        <% if (user.status==1) {%>
+                        <% if (user.status) {%>
                             <span class="badge badge--green">activo</span>
                         <%}else{%>
                             <span class="badge badge--red">inactivo</span>
@@ -145,13 +145,7 @@
                 <nav class="">
                     <ul class="menu__ul">
                         <li class="menu__li">
-                            <a id="menu_rol" href="#" class="menu__link" data-id="<%= user.id %>" data-route="user">
-                                <iconify-icon icon="tabler:exchange"></iconify-icon>
-                                <span>Modificar ROL</span>
-                            </a>
-                        </li>
-                        <li class="menu__li">
-                            <a id="menu_user_data" href="#" class="menu__link" data-id="<%= user.id %>" data-route="user">
+                            <a href="/user/<%= user.id %>/edit" class="menu__link" data-id="<%= user.id %>" data-route="user">
                                 <iconify-icon icon="tabler:pencil"></iconify-icon>
                                 <span>Modificar datos</span>
                             </a>
@@ -169,9 +163,14 @@
                             </a>
                         </li>
                         <li class="menu__li">
-                            <a id="menu_disable_user" href="#" class="menu__link" data-id="<%= user.id %>" data-route="user">
-                                <iconify-icon icon="tabler:xbox-x"></iconify-icon>
-                                <span>Deshabilitar usuario</span>
+                            <a id="m_status" href="#" class="menu__link" data-id="<%= user.id %>" data-status="<%= user.status %>" data-type="user">
+                                <% if (user.status) {%>
+                                    <iconify-icon icon="tabler:xbox-x"></iconify-icon>
+                                    <span>Deshabilitar usuario</span>
+                                <%}else{%>
+                                    <iconify-icon icon="tabler:circle-check"></iconify-icon>
+                                    <span>Habilitar usuario</span>
+                                <%}%>
                             </a>
                         </li>
                     </ul>
