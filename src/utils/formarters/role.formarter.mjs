@@ -8,8 +8,8 @@ export const role = (role) => {
 
 export const rolesList = (role_list) => {
     let temp = []
-    role_list.forEach((role) => {
-        temp.push(roleFormarter(role))
+    role_list.forEach((roler) => {
+        temp.push(role(roler))
     })
     return temp
 }

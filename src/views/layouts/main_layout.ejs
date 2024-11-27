@@ -7,15 +7,16 @@
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link rel="stylesheet" href="/styles/imports.css">
+    <link rel="stylesheet" href="/styles/libs/patternlock.css">
     <title><%= data.title %></title>
 </head>
 
 <body>
     <%- include('../commons/panel_aside.ejs') %>
-    <main class="main">
+    <div class="content-wrapper">
         <%- include('../commons/panel_user.ejs') %>
         <%- body %>
-    </main>
+    </div>
 
     <!-- Iconify -->
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
@@ -25,11 +26,20 @@
     <!-- Sweetalert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/scripts/libs/swal/index.js"></script>
+    <!-- Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
+    <!-- Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
+    <script src="/scripts/libs/patternlock-gary258796.js"></script>
     <script src="/scripts/dropdown.js"></script>
     <script src="/scripts/scripts.js"></script>
+    <script src="/scripts/devices.js"></script>
+    <script src="/scripts/api.js"></script>
 </body>
 
 </html>

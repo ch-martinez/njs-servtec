@@ -2,46 +2,46 @@
     <section class="wrapper">
         <section class="wrapper__header">
             <div>
-                <h2 class="wrapper__title">Nuevo cliente</h2>
-                <p class="wrapper__desc">Complete los datos requeridos</p>
+                <h2 class="wrapper__title">Editar cliente</h2>
+                <p class="wrapper__desc">Modifique los datos necesarios</p>
             </div>
         </section>
         <section class="wrapper__body">
-            <form class="wrapper__group" action="/customer/new" method="post" id="form">
+            <form class="wrapper__group" action="/customer/<%= customer.id %>/edit?_method=PUT" method="post" id="form">
                 <section class="wrapper__row wrapper__row--2">
                     <div class="item">
                         <label for="customer_name" class="label">Nombre</label>
-                        <input type="text" name="customer_name" id="customer_name" class="input-text" required>
+                        <input type="text" name="customer_name" id="customer_name" class="input-text" required value="<%= customer.name %>">
                     </div>
                     <div class="item">
                         <label for="customer_lastname" class="label">Apellido</label>
-                        <input type="text" name="customer_lastname" id="customer_lastname" class="input-text" required>
+                        <input type="text" name="customer_lastname" id="customer_lastname" class="input-text" required value="<%= customer.lastname %>">
                     </div>
                 </section>
                 <div class="item">
                     <label for="customer_dni" class="label">DNI</label>
-                    <input type="number" name="customer_dni" id="customer_dni" class="input-text" required>
+                    <input type="number" name="customer_dni" id="customer_dni" class="input-text" required value="<%= customer.dni %>">
                 </div>
                 <div class="item">
                     <label for="customer_email" class="label">Correo</label>
-                    <input type="email" name="customer_email" id="customer_email" class="input-text" required>
+                    <input type="email" name="customer_email" id="customer_email" class="input-text" required value="<%= customer.email %>">
                 </div>
                 <section class="wrapper__row wrapper__row--2">
                     <div class="item">
                         <label for="customer_tel" class="label">Telefono</label>
-                        <input type="tel" name="customer_tel" id="customer_tel" class="input-text" required>
+                        <input type="tel" name="customer_tel" id="customer_tel" class="input-text" required value="<%= customer.tel %>">
                     </div>
                     <div class="item">
                         <label for="customer_tel_alt" class="label">Telefono alternativo</label>
-                        <input type="tel" name="customer_tel_alt" id="customer_tel_alt" class="input-text">
+                        <input type="tel" name="customer_tel_alt" id="customer_tel_alt" class="input-text" value="<%= customer.tel_alt %>">
                     </div>
                 </section>
                 <div class="item">
                     <label for="customer_obs" class="label">Observacion</label>
-                    <input type="text" name="customer_obs" id="customer_obs" class="input-text">
+                    <input type="text" name="customer_obs" id="customer_obs" class="input-text" value="<%= customer.obs %>">
                 </div>
                 <div class="wrapper__item wrapper__item--inline">
-                    <a href="/customer/all" class="btn btn--gray">Cancelar</a>
+                    <a href="/customer/<%= customer.id %>" class="btn btn--gray">Cancelar</a>
                     <button class="btn" type="submit">Aceptar</button>
                 </div>
             </form>

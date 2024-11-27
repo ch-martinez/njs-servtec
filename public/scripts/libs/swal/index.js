@@ -28,61 +28,6 @@ const swal_config = {
       },
 }
 
-const alert_rol = async () => {
-    Swal.fire({
-        ...swal_config,
-        html: `<section class="swal__section">
-    <h3 class="swal__title">Seleccione el nuevo rol</h3>
-    <ul class="swal__ul">
-        <li class="swal__li">
-            <label class="label--checkbox" for="rol_adm">
-                <input class="input--radio" type="radio" name="rol" id="rol_adm">
-                Administrador
-            </label>
-        </li>
-        <li class="swal__li">
-            <label class="label--checkbox" for="rol_atc">
-                <input class="input--radio" type="radio" name="rol" id="rol_atc">
-                Atencion al cliente
-            </label>
-        </li>
-        <li class="swal__li">
-            <label class="label--checkbox" for="rol_tec">
-                <input class="input--radio" type="radio" name="rol" id="rol_tec">
-                Tecnico
-            </label>
-        </li>
-    </ul>
-</section>`,
-
-    })
-}
-
-const alert_user_data = async () => {
-    Swal.fire({
-        ...swal_config,
-        html: `<section class="swal__section">
-    <h3 class="swal__title">Modificar datos</h3>
-    <div class="item">
-        <label class="label" for="user_name">Nombre</label>
-        <input class="input-text" type="text" name="user_name" id="user_name">
-    </div>
-    <div class="item">
-        <label class="label" for="user_lastname">Apellido</label>
-        <input class="input-text" type="text" name="user_lastname" id="user_lastname">
-    </div>
-    <div class="item">
-        <label class="label" for="user_dni">DNI</label>
-        <input class="input-text" type="text" name="user_dni" id="user_dni">
-    </div>
-    <div class="item">
-        <label class="label" for="user_email">Correo</label>
-        <input class="input-text" type="text" name="user_email" id="user_email">
-    </div>
-</section>`,
-
-    })
-}
 const alert_pass = async () => {
     Swal.fire({
         ...swal_config,
@@ -111,13 +56,44 @@ const alert_reset_pass = async () => {
 
     })
 }
-const alert_disable_user = async () => {
+const swalChangeStatus = async (data) => {
     Swal.fire({
         ...swal_config,
         reverseButtons: false,
-        html: `<section class="swal__section">
-    <h3 class="swal__title">¿Está seguro que desea deshabilitar el usuario?</h3>
-</section>`,
+        html: `
+        <section class="swal__section">
+        <h3 class="swal__title">${data.msg}</h3>
+        </section>`,
 
-    })
+    }).then((result) => {
+        if (result.isConfirmed) {
+            axios.post(data.url, {id: data.id, status: data.status})
+            .then(res => {res.data.status ? swal_succes(res.data) : swal_error(res.data)})
+        }
+      })
+}
+
+
+const swal_succes = async (data) => {
+    Swal.fire({
+        ...swal_config,
+        icon: "success",
+        title: `${data.msg}`,
+        timer: 3000,
+        showCancelButton: false,
+        showConfirmButton: false,
+    }).then(() => {
+        window.location.href = `${data.url}`;
+      });
+}
+
+const swal_error = async (data) => {
+    Swal.fire({
+        ...swal_config,
+        icon: "error",
+        title: `${data.msg}`,
+        timer: 3000,
+        showCancelButton: false,
+        showConfirmButton: false,
+    });
 }

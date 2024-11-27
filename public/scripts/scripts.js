@@ -1,21 +1,7 @@
-const m_rol = document.querySelector('#menu_rol')
-const m_user_data = document.querySelector('#menu_user_data')
 const m_password = document.querySelector('#menu_password')
 const m_reset_pass = document.querySelector('#menu_reset_pass')
-const m_disable_user = document.querySelector('#menu_disable_user')
+const m_status = document.querySelector('#m_status')
 
-
-if (m_rol) {
-    m_rol.addEventListener('click', () => {
-        alert_rol()
-    })
-}
-
-if (m_user_data) {
-    m_user_data.addEventListener('click', () => {
-        alert_user_data()
-    })
-}
 
 if (m_password) {
     m_password.addEventListener('click', () => {
@@ -29,8 +15,15 @@ if (m_reset_pass) {
     })
 }
 
-if (m_disable_user) {
-    m_disable_user.addEventListener('click', () => {
-        alert_disable_user()
+if (m_status) {
+    const data = {
+        id: m_status.dataset.id,
+        status: m_status.dataset.status,
+        msg: m_status.dataset.status == "true" ? "¿Está seguro que desea deshabilitarlo?" : "¿Está seguro que desea habilitarlo?",
+        url: `/${m_status.dataset.type}/${m_status.dataset.id}/status`
+    }
+
+    m_status.addEventListener('click', async () => {
+        swalChangeStatus(data)
     })
 }

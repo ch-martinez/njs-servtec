@@ -8,7 +8,7 @@ const staus_code = {
 
     30: "Presupuesto: Realizado",
     31: "Presupuesto: Notificado",
-    32: "Presupuesto: Pendiente de aprobación",
+
     33: "Presupuesto: Revision a pedido del cliente",
     34: "Presupuesto: APROBADO",
     35: "Presupuesto: RECHAZADO",

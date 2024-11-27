@@ -22,3 +22,9 @@
         background-color: var(--primary-200);
         color: var(--primary-600);
     }
+
+.menu__line{
+    width: 100%;
+    height: 1px;
+    background-color: var(--zinc-200);
+}

@@ -4,7 +4,10 @@
     gap: var(--sp-2);
 }
 
-.item--inline{}
+.item--inline{
+    flex-direction: row;
+    gap: var(--sp-16);
+}
 
 .item__key{
     font-weight: 600;
