@@ -7,11 +7,10 @@ export const getAllDevicesBrandsFromDB = async () => {
         *
     FROM
         devices_brands
-    `
+    ORDER BY db_name ASC`
 
     try {
         const [rows] = await connection.query(query)
-        console.log(rows)
         return rows
     } catch (error) {
         console.log('---[ERROR] model/getAllDevicesBrandsFromDB: ',error)
@@ -33,10 +32,9 @@ export const getAllModelsByBrandIdFromDB = async (bid) => {
 
     try {
         const [rows] = await connection.query(query, bid)
-        console.log(rows)
         return rows
     } catch (error) {
-        console.log('---[ERROR] model/getAllModelsByBrandIdFromDB: ',error)
+        console.error('---[ERROR] model/getAllModelsByBrandIdFromDB: ',error.msg)
     } finally {
         if (connection) connection.release()
     }
