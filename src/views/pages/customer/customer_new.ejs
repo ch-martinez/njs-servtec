@@ -7,30 +7,29 @@
             </div>
         </section>
         <section class="wrapper__body">
-            <form class="wrapper__group" action="">
+            <form class="wrapper__group" action="/customer/new" method="post" id="form">
                 <section class="wrapper__row wrapper__row--2">
-
                     <div class="item">
                         <label for="customer_name" class="label">Nombre</label>
-                        <input type="text" name="customer_name" id="customer_name" class="input-text">
+                        <input type="text" name="customer_name" id="customer_name" class="input-text" required>
                     </div>
                     <div class="item">
                         <label for="customer_lastname" class="label">Apellido</label>
-                        <input type="text" name="customer_lastname" id="customer_lastname" class="input-text">
+                        <input type="text" name="customer_lastname" id="customer_lastname" class="input-text" required>
                     </div>
                 </section>
                 <div class="item">
                     <label for="customer_dni" class="label">DNI</label>
-                    <input type="number" name="customer_dni" id="customer_dni" class="input-text">
+                    <input type="number" name="customer_dni" id="customer_dni" class="input-text" required>
                 </div>
                 <div class="item">
                     <label for="customer_email" class="label">Correo</label>
-                    <input type="email" name="customer_email" id="customer_email" class="input-text">
+                    <input type="email" name="customer_email" id="customer_email" class="input-text" required>
                 </div>
                 <section class="wrapper__row wrapper__row--2">
                     <div class="item">
                         <label for="customer_tel" class="label">Telefono</label>
-                        <input type="tel" name="customer_tel" id="customer_tel" class="input-text">
+                        <input type="tel" name="customer_tel" id="customer_tel" class="input-text" required>
                     </div>
                     <div class="item">
                         <label for="customer_tel_alt" class="label">Telefono alternativo</label>
