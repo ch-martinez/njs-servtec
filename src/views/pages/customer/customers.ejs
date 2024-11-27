@@ -45,7 +45,7 @@
                                 <%= customer.tel %>
                             </td>
                             <td class="table__cell table__cell--fit">
-                                <% if (customer.disabled==0) { %>
+                                <% if (customer.status) { %>
                                     <span class="badge badge--green">activo</span>
                                 <% } else { %>
                                     <span class="badge badge--red">inactivo</span>
