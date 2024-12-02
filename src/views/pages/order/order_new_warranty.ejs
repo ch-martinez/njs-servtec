@@ -1,0 +1,146 @@
+<main class="main">
+    <section class="main__header">
+
+        <div class="header__text-container">
+            <h1 class="wrapper__title">Nueva orden de garantia</h1>
+            <p class="wrapper__desc">Complete los datos requeridos</p>
+        </div>
+        <div class="header__btn-container">
+            <a href="/customer/<%= customer.id %>" class="btn btn--gray">Cancelar</a>
+            <a href="/order/detail" class="btn btn--gray">Detalle</a>
+            <button class="btn" type="submit" form="form">Aceptar</button>
+        </div>
+    </section>
+    <form id="form" class="container container-2-1" action="/order/new/warranty/<%= order.id %>" method="post">
+        <section class="container container-l">
+            <% if (warranty.status) { %>
+                <section class="wrapper wrapper--alert">
+                    <span>Garantia de reparación N° orden: <a href="/order/<%= warranty.id %>" class="link"><%= warranty.ticket %></a></span>
+                    <input type="hidden" name="order_warranty_id" value="<%= warranty.id %>">
+                </section>
+            <%}%>
+            <section class="wrapper">
+                <section class="wrapper__header">
+                        <h2 class="wrapper__subtitle">Datos cliente</h2>
+                </section>
+                <section class="wrapper__body">
+                    <div class="wrapper__row wrapper__row--3">
+
+                        <div class="item">
+                            <span class="item__key">Nombre y apellido</span>
+                            <span class="item__value">
+                                <a href="/customer/<%= customer.id %>" class="link"> <%= customer.name %> <%= customer.lastname %> </a>
+                            </span>
+                        </div>
+                        <div class="item">
+                            <span class="item__key">DNI</span>
+                            <span class="item__value">
+                                <%= customer.dni %>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="wrapper__row wrapper__row--3">
+
+                        <div class="item">
+                            <span class="item__key">Teléfono</span>
+                            <span class="item__value">
+                                <%= customer.tel %>
+                            </span>
+                        </div>
+                        <div class="item">
+                            <span class="item__key">Teléfono alternativo</span>
+                            <span class="item__value">
+                                <%= customer.tel %>
+                            </span>
+                        </div>
+                        <div class="item">
+                            <span class="item__key">Correo</span>
+                            <span class="item__value">
+                                <%= customer.email %>
+                            </span>
+                        </div>
+                    </div>
+                </section>
+            </section>
+
+            <section class="wrapper">
+                <section class="wrapper__header">
+                    <h2 class="wrapper__subtitle">Datos orden</h2>
+                </section>
+                <section class="wrapper__main">
+                    <section class="wrapper__body">
+                        <div class="wrapper__row wrapper__row--3">
+                            <div class="item">
+                                <p class="item__key">Marca</p>
+                                <p class="item__value"><%= order.device.brand %></p>
+                            </div>
+                            <div class="item">
+                                <p class="item__key">Modelo</p>
+                                <p class="item__value"><%= order.device.model %></p>
+                            </div>
+                            <div class="item">
+                                <p class="item__key">Otro</p>
+                                <p class="item__value"><%= order.device.other %></p>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <p class="item__key">IMEI</p>
+                            <p class="item__value"><%= order.imei %></p>
+                        </div>
+                        <div class="wrapper__row wrapper__row--2">
+                            <div class="item">
+                                <label for="order_pin" class="label">Contraseña / PIN</label>
+                                <input type="text" name="order_pin" id="order_pin" class="input" value="<%= order.pin %>">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <label for="order_failure" class="label">Especifique la falla de equipo</label>
+                            <textarea name="order_failure" id="order_failure" class="input input--textarea" rows="3" required></textarea>
+                        </div>
+                        <div class="item">
+                            <label for="order_comment_atc" class="label">Observación de recepción</label>
+                            <textarea name="order_comment_atc" id="order_comment_atc" class="input input--textarea" rows="3"></textarea>
+                        </div>
+                    </section>
+
+                </section>
+            </section>
+
+            <section class="wrapper">
+                <section class="wrapper__header">
+                    <h2 class="wrapper__subtitle">Fotos evidencia</h2>
+                </section>
+                <section class="wrapper__body">
+                    <div class="wrapper__img-container">
+                        <article class="img-container"><img src="/img/no-image.jpg" alt="" srcset=""></article>
+                        <article class="img-container"><img src="/img/no-image.jpg" alt="" srcset=""></article>
+                        <article class="img-container"><img src="/img/no-image.jpg" alt="" srcset=""></article>
+                        <article class="img-container"><img src="/img/no-image.jpg" alt="" srcset=""></article>
+                    </div>
+                </section>
+            </section>
+        </section>
+
+        <!-- Panel derecha -->
+        <section class="container container-r">
+            <section class="wrapper">
+                <div class="wrapper__header">
+                    <h2 class="wrapper__subtitle">Acciones</h2>
+                </div>
+                <nav class="">
+                    <ul class="menu__ul">
+                        <li class="menu__li">
+                            <a id="menu_rol" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                                <iconify-icon icon="tabler:printer"></iconify-icon>
+                                <span>Imprimir orden</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </section>
+
+            
+
+        </section>
+    </form>
+</main>
