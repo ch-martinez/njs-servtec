@@ -33,8 +33,8 @@ dm_select.addEventListener('change', (e) => {
 const prepaid = document.querySelector('#order_prepaid')
 
 if (prepaid) {
-    const pm = document.querySelector('#order_payment_method')
-    prepaid.addEventListener('click', (e) => {
+    const pm = document.querySelector('#payment_method')
+    prepaid.addEventListener('change', (e) => {
         e.target.checked ? pm.removeAttribute("disabled") : pm.setAttribute("disabled", "")
         pm.value = "none"
     })
