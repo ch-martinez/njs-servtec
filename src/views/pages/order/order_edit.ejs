@@ -1,0 +1,178 @@
+<main class="main">
+    <section class="main__header">
+
+        <div class="header__text-container">
+            <h1 class="wrapper__title">Editar orden</h1>
+            <p class="wrapper__desc">Modifique los datos necesarios</p>
+        </div>
+        <div class="header__btn-container">
+            <a href="/customer/<%= customer.id %>" class="btn btn--gray">Cancelar</a>
+            <a href="/order/detail" class="btn btn--gray">Detalle</a>
+            <button class="btn" type="submit" form="form">Aceptar</button>
+        </div>
+    </section>
+    <form id="form" class="container container-2-1" action="/order/<%= order.id %>/edit" method="post">
+        <section class="container container-l">
+            <section class="wrapper">
+                <section class="wrapper__header">
+                        <h2 class="wrapper__subtitle">Datos cliente</h2>
+                </section>
+                <section class="wrapper__body">
+                    <div class="wrapper__row wrapper__row--3">
+
+                        <div class="item">
+                            <span class="item__key">Nombre y apellido</span>
+                            <span class="item__value">
+                                <a href="/customer/<%= customer.id %>" class="link"> <%= customer.name %> <%= customer.lastname %> </a>
+                            </span>
+                        </div>
+                        <div class="item">
+                            <span class="item__key">DNI</span>
+                            <span class="item__value">
+                                <%= customer.dni %>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="wrapper__row wrapper__row--3">
+
+                        <div class="item">
+                            <span class="item__key">Teléfono</span>
+                            <span class="item__value">
+                                <%= customer.tel %>
+                            </span>
+                        </div>
+                        <div class="item">
+                            <span class="item__key">Teléfono alternativo</span>
+                            <span class="item__value">
+                                <%= customer.tel %>
+                            </span>
+                        </div>
+                        <div class="item">
+                            <span class="item__key">Correo</span>
+                            <span class="item__value">
+                                <%= customer.email %>
+                            </span>
+                        </div>
+                    </div>
+                </section>
+            </section>
+
+            <section class="wrapper">
+                <section class="wrapper__header">
+                    <h2 class="wrapper__subtitle">Datos orden</h2>
+                </section>
+                <section class="wrapper__main">
+                    <section class="wrapper__body">
+                        <div class="wrapper__row wrapper__row--3">
+                            <div class="item">
+                                <label for="devices_brands" class="label">Marca</label>
+                                <select class="input input--select" name="devices_brands" id="devices_brands" required>
+                                    <option value="none">Seleccionar</option>
+                                    <% devices_brands.forEach(brand=> { %>
+                                        <option value="<%= brand.db_id %>" <%= order.device.brand_id == brand.db_id ? 'selected' : '' %>><%= brand.db_name %></option>
+                                    <%}) %>
+                                </select>
+                            </div>
+                            <div class="item">
+                                <label for="devices_models" class="label">Modelo</label>
+                                <select class="input input--select" name="devices_models" id="devices_models" required>
+                                    <option value="<%= order.device.model_id %>"><%= order.device.model %></option>
+                                    <option value="1">Otro</option>
+                                </select>
+                            </div>
+                            <div class="item">
+                                <label for="devices_other" class="label">Otro</label>
+                                <input type="text" name="devices_other" id="devices_other" class="input" disabled value="<%= order.imei %>">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <label for="order_imei" class="label">IMEI</label>
+                            <input type="text" name="order_imei" id="order_imei" class="input"  value="<%= order.imei %>">
+                        </div>
+                        <div class="wrapper__row wrapper__row--2">
+                            <div class="item">
+                                <label for="order_pin" class="label">Contraseña / PIN</label>
+                                <input type="text" name="order_pin" id="order_pin" class="input"  value="<%= order.pin %>">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <label for="order_failure" class="label">Especifique la falla de equipo</label>
+                            <textarea name="order_failure" id="order_failure" class="input input--textarea" rows="3" required><%= order.failure %></textarea>
+                        </div>
+                        <div class="item">
+                            <label for="order_comment_atc" class="label">Observación de recepción</label>
+                            <textarea name="order_comment_atc" id="order_comment_atc" class="input input--textarea" rows="3"><%= order.comment.atc %></textarea>
+                        </div>
+                    </section>
+
+                </section>
+            </section>
+
+                        <section class="wrapper">
+                <section class="wrapper__header">
+                    <h2 class="wrapper__subtitle">Presupuesto</h2>
+                </section>
+                <section class="wrapper__body">
+                    <div class="wrapper__row wrapper__row--3">
+                        <div class="item">
+                            <label for="order_budget" class="label">Costo</label>
+                            <input type="number" name="order_budget" id="order_budget" class="input"  value="<%= order.budget.budget %>">
+                        </div>
+                        <div class="item item--inline">
+                            <input type="checkbox" name="order_prepaid" id="order_prepaid" <%= order.budget.prepaid ? 'checked' : '' %> >
+                            <label for="order_prepaid" class="label label--checkbox">Pago adelantado</label>
+                        </div>
+                        <div class="item">
+                            <p class="item__key">Metodo de pago</p>
+                            <select class="input input--select" name="payment_method" id="payment_method" <%= order.budget.prepaid ? '' : 'disabled' %>>
+                                <option value="none">Seleccionar</option>
+                                <% pm.forEach( pm => {%>
+                                    <option value="<%= pm.id%>" <%= order.budget.payment_method_id == pm.id ? 'selected' : '' %>><%= pm.name%></option>
+                                    <%}) %>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <label for="order_comment_budget" class="label">Detalle presupuesto</label>
+                        <textarea name="order_comment_budget" id="order_comment_budget" class="input input--textarea" rows="3"><%= order.budget.comment %></textarea>
+                    </div>
+                </section>
+            </section>
+            <section class="wrapper">
+                <section class="wrapper__header">
+                    <h2 class="wrapper__subtitle">Fotos evidencia</h2>
+                </section>
+                <section class="wrapper__body">
+                    <div class="wrapper__img-container">
+                        <article class="img-container"><img src="/img/no-image.jpg" alt="" srcset=""></article>
+                        <article class="img-container"><img src="/img/no-image.jpg" alt="" srcset=""></article>
+                        <article class="img-container"><img src="/img/no-image.jpg" alt="" srcset=""></article>
+                        <article class="img-container"><img src="/img/no-image.jpg" alt="" srcset=""></article>
+                    </div>
+                </section>
+            </section>
+        </section>
+
+        <!-- Panel derecha -->
+        <section class="container container-r">
+            <section class="wrapper">
+                <div class="wrapper__header">
+                    <h2 class="wrapper__subtitle">Acciones</h2>
+                </div>
+                <nav class="">
+                    <ul class="menu__ul">
+                        <li class="menu__li">
+                            <a id="menu_rol" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                                <iconify-icon icon="tabler:printer"></iconify-icon>
+                                <span>Imprimir orden</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </section>
+
+            
+
+        </section>
+    </form>
+</main>
