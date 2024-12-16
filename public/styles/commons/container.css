@@ -2,6 +2,14 @@
     display: grid;
     gap: var(--sp-16);
 }
+    .container--box{
+        max-width: 680px;
+        width: 100%;
+        display: grid;
+        gap: var(--sp-16);
+        align-self: center;
+        margin-top: 10%;
+    }
 
 .container-2-1{
     grid-template-columns: 3fr 1fr;
