@@ -26,3 +26,10 @@ export const userNewPost = (user) => {
         role_id: user.role_id
     }
 }
+
+export const updateUserPassword = (uid, p) => {
+    return {
+        id: uid,
+        password: p.pwd
+    }
+}
