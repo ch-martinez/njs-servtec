@@ -1,17 +1,10 @@
-const m_password = document.querySelector('#menu_password')
-const m_reset_pass = document.querySelector('#menu_reset_pass')
+const m_reset_pwd = document.querySelector('#m_reset_pwd')
 const m_status = document.querySelector('#m_status')
 
-
-if (m_password) {
-    m_password.addEventListener('click', () => {
-        alert_pass()
-    })
-}
-
-if (m_reset_pass) {
-    m_reset_pass.addEventListener('click', () => {
-        alert_reset_pass()
+if (m_reset_pwd) {
+    const data = {url: `/user/${m_reset_pwd.dataset.id}/pwd/reset`}
+    m_reset_pwd.addEventListener('click', () => {
+        alert_reset_pass(data)
     })
 }
 
