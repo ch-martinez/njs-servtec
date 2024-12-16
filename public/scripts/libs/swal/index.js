@@ -28,10 +28,10 @@ const swal_config = {
       },
 }
 
-const alert_pass = async () => {
+const alert_pwd_update = async () => {
     Swal.fire({
         ...swal_config,
-        html: `<section class="swal__section">
+        html: `<form class="swal__section">
     <h3 class="swal__title">Cambiar contraseña</h3>
     <div class="item">
         <label for="user_pass" class="label">Nueva contraseña</label>
@@ -41,11 +41,16 @@ const alert_pass = async () => {
         <label for="user_pass_repeat" class="label">Repetir contraseña</label>
         <input class="input-text" type="text" name="user_pass_repeat" id="user_pass_repeat">
     </div>
-</section>`,
+</form>`,
 
-    })
+    }).then((result) => {
+        if (result.isConfirmed) {
+            axios.post(data.url, {id: data.id, status: data.status})
+            .then(res => {res.data.status ? swal_succes(res.data) : swal_error(res.data)})
+        }
+      })
 }
-const alert_reset_pass = async () => {
+const alert_reset_pass = async (data) => {
     Swal.fire({
         ...swal_config,
         confirmButtonText: 'Enviar',
@@ -54,7 +59,12 @@ const alert_reset_pass = async () => {
     <p class="swal__desc">Se enviara un mensaje al correo del usuario con los pasos a seguir para cambiar contraseña.</p>
 </section>`,
 
-    })
+    }).then((result) => {
+        if (result.isConfirmed) {
+            axios.post(data.url)
+            .then(res => {res.data.status ? swal_succes(res.data) : swal_error(res.data)})
+        }
+      })
 }
 const swalChangeStatus = async (data) => {
     Swal.fire({
@@ -73,6 +83,7 @@ const swalChangeStatus = async (data) => {
       })
 }
 
+/* ********************************************************************************** */
 
 const swal_succes = async (data) => {
     Swal.fire({

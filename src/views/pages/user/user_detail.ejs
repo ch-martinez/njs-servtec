@@ -95,7 +95,7 @@
             <section class="wrapper">
                 <section class="wrapper__header">
                     <div class="wrapper__header-title-container">
-                        <h3>Reparaciones realizadas</h3>
+                        <h3>Ordenes relacionadas</h3>
                     </div>
                 </section>
                 <section class="wrapper__body">
@@ -103,26 +103,34 @@
                         <thead class="table__head">
                             <tr class="table__row-head">
                                 <th class="table__cell">Orden</th>
+                                <th class="table__cell">Falla</th>
                                 <th class="table__cell">Estado</th>
                                 <th class="table__cell">Fecha</th>
                                 <th class="table__cell table__cell--fit"></th>
                             </tr>
                         </thead>
                         <tbody class="table__body">
-                            <tr class="table__row">
-                                <td class="table__cell">
-                                    789456123
-                                </td>
-                                <td class="table__cell">
-                                    REPARADO
-                                </td>
-                                <td class="table__cell">
-                                    23/03/1992
-                                </td>
-                                <td class="table__cell">
-    
-                                </td>
-                            </tr>
+                            <% user.orders.forEach((order)=> {%>
+                                <tr class="table__row">
+                                    <td class="table__cell">
+                                        <a class="link" href="/order/<%= order.id %>/">
+                                            <%= order.ticket %>
+                                        </a>
+                                    </td>
+                                    <td class="table__cell">
+                                        <%= order.failure %>
+                                    </td>
+                                    <td class="table__cell">
+                                        <%= order.status %>
+                                    </td>
+                                    <td class="table__cell">
+                                        <%= order.created_at %>
+                                    </td>
+                                    <td class="table__cell">
+
+                                    </td>
+                                </tr>
+                                <%})%>
                         </tbody>
                     </table>
                 </section>
@@ -151,13 +159,19 @@
                             </a>
                         </li>
                         <li class="menu__li">
-                            <a id="menu_password" href="#" class="menu__link" data-id="<%= user.id %>" data-route="user">
+                            <a id="menu_password" href="/user/<%= user.id %>/pwd/update" class="menu__link">
                                 <iconify-icon icon="tabler:password"></iconify-icon>
                                 <span>Cambiar contraseña</span>
                             </a>
                         </li>
+<!--                         <li class="menu__li">
+                            <a id="menu_password" href="#" class="menu__link" data-id="<%= user.id %>" data-route="user">
+                                <iconify-icon icon="tabler:password"></iconify-icon>
+                                <span>Cambiar contraseña</span>
+                            </a>
+                        </li> -->
                         <li class="menu__li">
-                            <a id="menu_reset_pass" href="#" class="menu__link" data-id="<%= user.id %>" data-route="user">
+                            <a id="m_reset_pwd" href="#" class="menu__link" data-id="<%= user.id %>">
                                 <iconify-icon icon="tabler:restore"></iconify-icon>
                                 <span>Restablecer contraseña</span>
                             </a>

@@ -6,16 +6,13 @@
             <p class="wrapper__desc">Complete los datos requeridos</p>
         </div>
         <div class="header__btn-container">
-            <a href="/customer/<%= cust.id %>" class="btn btn--gray">Cancelar</a>
+            <a href="/customer/<%= customer.id %>" class="btn btn--gray">Cancelar</a>
             <a href="/order/detail" class="btn btn--gray">Detalle</a>
             <button class="btn" type="submit" form="form">Aceptar</button>
         </div>
     </section>
-    <form id="form" class="container container-2-1" action="/order/new/customer/<%= cust.id %>" method="post">
+    <form id="form" class="container container-2-1" action="/order/new/customer/<%= customer.id %>" method="post">
         <section class="container container-l">
-<!--             <section class="wrapper wrapper--alert">
-                <span>Garantia de reparación N° orden: <a href="#" class="link">CFM-0000598</a></span>
-            </section> -->
             <section class="wrapper">
                 <section class="wrapper__header">
                         <h2 class="wrapper__subtitle">Datos cliente</h2>
@@ -26,13 +23,13 @@
                         <div class="item">
                             <span class="item__key">Nombre y apellido</span>
                             <span class="item__value">
-                                <a href="/customer/<%= cust.id %>" class="link"> <%= cust.name %> <%= cust.lastname %> </a>
+                                <a href="/customer/<%= customer.id %>" class="link"> <%= customer.name %> <%= customer.lastname %> </a>
                             </span>
                         </div>
                         <div class="item">
                             <span class="item__key">DNI</span>
                             <span class="item__value">
-                                <%= cust.dni %>
+                                <%= customer.dni %>
                             </span>
                         </div>
                     </div>
@@ -41,19 +38,19 @@
                         <div class="item">
                             <span class="item__key">Teléfono</span>
                             <span class="item__value">
-                                <%= cust.tel %>
+                                <%= customer.tel %>
                             </span>
                         </div>
                         <div class="item">
                             <span class="item__key">Teléfono alternativo</span>
                             <span class="item__value">
-                                <%= cust.tel %>
+                                <%= customer.tel %>
                             </span>
                         </div>
                         <div class="item">
                             <span class="item__key">Correo</span>
                             <span class="item__value">
-                                <%= cust.email %>
+                                <%= customer.email %>
                             </span>
                         </div>
                     </div>
@@ -127,13 +124,11 @@
                         </div>
                         <div class="item">
                             <p class="item__key">Metodo de pago</p>
-                            <select class="input input--select" name="order_payment_method" id="order_payment_method" disabled>
+                            <select class="input input--select" name="payment_method" id="payment_method" disabled>
                                 <option value="none">Seleccionar</option>
-                                <option value="efc">Efectivo</option>
-                                <option value="trf">Transferencia</option>
-                                <option value="crd">Credito/Debito</option>
-                                <option value="mp">MercadoPago</option>
-                                <option value="md">MODO</option>
+                                <% pm.forEach( pm => {%>
+                                    <option value="<%= pm.id%>"><%= pm.name%></option>
+                                    <%}) %>
                             </select>
                         </div>
                     </div>

@@ -75,7 +75,6 @@
                 </section>
             </section>
 
-
             <section class="wrapper">
                 <section class="wrapper__header">
                     <div class="wrapper__header-title-container">
@@ -83,9 +82,45 @@
                     </div>
                 </section>
                 <section class="wrapper__body">
+                    <table id="table-main" class="table">
+                        <thead class="table__head">
+                            <tr class="table__row-head">
+                                <th class="table__cell">Orden</th>
+                                <th class="table__cell">Falla</th>
+                                <th class="table__cell">Estado</th>
+                                <th class="table__cell">Fecha</th>
+                                <th class="table__cell table__cell--fit"></th>
+                            </tr>
+                        </thead>
+                        <tbody class="table__body">
+                            <% orders.forEach((order)=> {%>
+                                <tr class="table__row">
+                                    <td class="table__cell">
+                                        <a class="link" href="/order/<%= order.id %>/">
+                                            <%= order.ticket %>
+                                        </a>
+                                    </td>
+                                    <td class="table__cell">
+                                        <%= order.failure %>
+                                    </td>
+                                    <td class="table__cell">
+                                        <%= order.status %>
+                                    </td>
+                                    <td class="table__cell">
+                                        <%= order.created_at %>
+                                    </td>
+                                    <td class="table__cell">
 
+                                    </td>
+                                </tr>
+                                <%})%>
+                        </tbody>
+                    </table>
                 </section>
             </section>
+
+
+
             <section class="wrapper">
                 <section class="wrapper__header">
                     <h3>Metricas (KPI's)</h3>
@@ -104,8 +139,8 @@
                 <nav class="">
                     <ul class="menu__ul">
                         <li class="menu__li">
-                            <a id="menu_cust_data" href="/order/new/customer/<%= cust.id %>" class="menu__link" data-id="<%= cust.id %>"
-                                data-route="cust">
+                            <a id="menu_cust_data" href="/order/new/customer/<%= cust.id %>" class="menu__link"
+                                data-id="<%= cust.id %>" data-route="cust">
                                 <iconify-icon icon="tabler:file-plus"></iconify-icon>
                                 <span>Nueva orden de reparación</span>
                             </a>
@@ -133,14 +168,15 @@
                         </li>
 
                         <li class="menu__li">
-                            <a id="m_status" href="#" class="menu__link" data-id="<%= cust.id %>" data-status="<%= cust.status %>" data-type="customer">
+                            <a id="m_status" href="#" class="menu__link" data-id="<%= cust.id %>"
+                                data-status="<%= cust.status %>" data-type="customer">
                                 <% if (cust.status) {%>
                                     <iconify-icon icon="tabler:xbox-x"></iconify-icon>
                                     <span>Deshabilitar cliente</span>
-                                <%}else{%>
-                                    <iconify-icon icon="tabler:circle-check"></iconify-icon>
-                                    <span>Habilitar cliente</span>
-                                <%}%>
+                                    <%}else{%>
+                                        <iconify-icon icon="tabler:circle-check"></iconify-icon>
+                                        <span>Habilitar cliente</span>
+                                        <%}%>
                             </a>
                         </li>
                     </ul>

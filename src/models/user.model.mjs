@@ -185,3 +185,21 @@ export const statusUserInDB = async (user) => {
         if (connection) { connection.release() }
     }
 }
+
+export const updateUserPasswordDB = async (user) => {
+    const connection = await pool.getConnection()
+
+    const query = `UPDATE users SET user_password = ? WHERE user_id = ?`
+
+    const params = [user.password, user.id]
+
+    try {
+        await connection.query(query, params)
+        return({status: true})
+    } catch (error) {
+        console.error('---[ERROR] model/updateUserPasswordDB: ', error.message);
+        return ({ status: false })
+    } finally {
+        if (connection) { connection.release() }
+    }
+}

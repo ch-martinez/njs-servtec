@@ -1,4 +1,5 @@
 import { dateFull } from "./date.formarter.mjs"
+import { sd } from "./general.formarter.mjs"
 
 export const customer = (cust) => {
     return {
@@ -39,4 +40,17 @@ export const customersList = (custList) => {
         temp.push(customer(cust))
     })
     return temp
+}
+
+export const update = (cid, c) => {
+    return {
+        id: Number(cid),
+        name: sd(c.customer_name),
+        lastname: sd(c.customer_lastname),
+        dni: Number(c.customer_dni),
+        tel: Number(c.customer_tel),
+        tel_alt: Number(c.customer_tel_alt),
+        email: sd(c.customer_email),
+        obs: sd(c.customer_obs)
+    }
 }

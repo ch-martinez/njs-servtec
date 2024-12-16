@@ -16,4 +16,10 @@ router.put("/:id/edit", controller.userEditPut)
 
 router.post("/:id/status", controller.statusUser)
 
+router.get("/:id/pwd/update", controller.updateUserPasswordView)
+
+router.put("/:id/pwd/update", controller.updateUserPassword)
+
+router.post("/:id/pwd/reset", controller.resetUserPassword)
+
 export default router
