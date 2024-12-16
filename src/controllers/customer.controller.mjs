@@ -1,5 +1,7 @@
 import * as customer_model from "../models/customer.model.mjs";
+import * as order_model from "../models/order.model.mjs";
 import * as customer_formarter from "../utils/formarters/customer.formarter.mjs";
+import * as order_formarter from "../utils/formarters/order.formarter.mjs";
 
 export const customersView = async (req, res) => {
 
@@ -49,7 +51,10 @@ export const customerDetailView = async (req, res) => {
     const cid = req.params.id
 
     const customer_data = customer_formarter.customer(await customer_model.getCustomerByIdFromDB(cid))
-
+    //const customer_orders = order_formarter.list(await order_model.allCustomerOrdersDB(cid))
+    const orders = order_formarter.list(await order_model.allCustomerOrdersDB(cid))
+    console.log(orders);
+    
     let data = {
         title: 'Detalle de cliente',
         nav: 'customer'
@@ -58,7 +63,7 @@ export const customerDetailView = async (req, res) => {
     const cust = {
         ...customer_data
     }
-    res.render('pages/customer/customer_detail', { layout: 'layouts/main_layout', data, cust });
+    res.render('pages/customer/customer_detail', { layout: 'layouts/main_layout', data, cust, orders });
 };
 
 export const customerEditView = async (req, res) => {
@@ -76,16 +81,15 @@ export const customerEditView = async (req, res) => {
 };
 
 export const customerEditPut = async (req, res) => {
-    const cid = req.params.id
-    const customer = req.body
-
-    const updateRes = await customer_model.updateCustomerInDB(cid, customer)
+    const customer = customer_formarter.update(req.params.id, req.body)
+console.log(customer)
+    const updateRes = await customer_model.updateCustomerInDB(customer)
 
     if (updateRes.status){
         res.send({
             status: true,
             msg: "Actualizado con exito!",
-            url: `/customer/${cid}`
+            url: `/customer/${customer.id}`
         })
     }else{
         res.send({
