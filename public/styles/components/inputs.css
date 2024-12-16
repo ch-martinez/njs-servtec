@@ -147,6 +147,10 @@
         font-size: var(--2xl);
     }
 
+.btn--full{
+    width: 100%;
+}
+
 /* BTN Colors */
 .btn--red{
     background-color: var(--badge-red);
