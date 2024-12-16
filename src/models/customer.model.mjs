@@ -76,7 +76,7 @@ export const insertCustomerInDB = async (data) => {
     }
 }
 
-export const updateCustomerInDB = async (cid, customer) => {
+export const updateCustomerInDB = async (customer) => {
     const connection = await pool.getConnection()
 
     const query = `
@@ -93,14 +93,14 @@ export const updateCustomerInDB = async (cid, customer) => {
             customer_id = ?`
 
     const params = [
-        customer.customer_name,
-        customer.customer_lastname,
-        customer.customer_dni,
-        customer.customer_email,
-        customer.customer_tel,
-        customer.customer_tel_alt,
-        customer.customer_obs,
-        cid
+        customer.name,
+        customer.lastname,
+        customer.dni,
+        customer.email,
+        customer.tel,
+        customer.tel_alt,
+        customer.obs,
+        customer.id
     ]
 
     try {
