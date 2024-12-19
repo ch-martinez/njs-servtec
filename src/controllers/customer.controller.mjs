@@ -1,11 +1,11 @@
-import * as customer_model from "../models/customer.model.mjs";
-import * as order_model from "../models/order.model.mjs";
-import * as customer_formarter from "../utils/formarters/customer.formarter.mjs";
-import * as order_formarter from "../utils/formarters/order.formarter.mjs";
+import * as m_customer from "../models/customer.model.mjs";
+import * as m_order from "../models/order.model.mjs";
+import * as f_customer from "../utils/formarters/customer.formarter.mjs";
+import * as f_order from "../utils/formarters/order.formarter.mjs";
 
-export const customersView = async (req, res) => {
+export const getAllCustomers = async (req, res) => {
 
-    const customers = customer_formarter.customersList(await customer_model.getAllCustomersFromDB())
+    const customers = f_customer.customers(await m_customer.getAllCustomersDB())
 
     let data = {
         title: 'Clientes',
@@ -15,7 +15,7 @@ export const customersView = async (req, res) => {
     res.render('pages/customer/customers', { layout: 'layouts/main_layout', data, customers });
 };
 
-export const customerNewView = async (req, res) => {
+export const getNewCustomer = async (req, res) => {
 
     let data = {
         title: 'Nuevo Cliente',
@@ -24,10 +24,8 @@ export const customerNewView = async (req, res) => {
     res.render('pages/customer/customer_new', { layout: 'layouts/main_layout', data });
 };
 
-export const customerNew = async (req, res) => {
-
-    const cust = customer_formarter.customerNewPost(req.body)
-    const insertRes = await customer_model.insertCustomerInDB(cust)
+export const postNewCustomer = async (req, res) => {
+    const insertRes = await m_customer.insertCustomerDB(f_customer.postNewCustomer(req.body))
 
     if (insertRes.status) {
         const responseData = {
@@ -46,15 +44,12 @@ export const customerNew = async (req, res) => {
 
 };
 
-export const customerDetailView = async (req, res) => {
-
+export const getCustomer = async (req, res) => {
     const cid = req.params.id
 
-    const customer_data = customer_formarter.customer(await customer_model.getCustomerByIdFromDB(cid))
-    //const customer_orders = order_formarter.list(await order_model.allCustomerOrdersDB(cid))
-    const orders = order_formarter.list(await order_model.allCustomerOrdersDB(cid))
-    console.log(orders);
-    
+    const customer_data = f_customer.customer(await m_customer.getCustomerDB(cid))
+    const customer_orders = f_order.orders(await m_order.allCustomerOrdersDB(cid))
+
     let data = {
         title: 'Detalle de cliente',
         nav: 'customer'
@@ -63,14 +58,14 @@ export const customerDetailView = async (req, res) => {
     const cust = {
         ...customer_data
     }
-    res.render('pages/customer/customer_detail', { layout: 'layouts/main_layout', data, cust, orders });
+    res.render('pages/customer/customer_detail', { layout: 'layouts/main_layout', data, cust, customer_orders });
 };
 
-export const customerEditView = async (req, res) => {
+export const getEditCustomer = async (req, res) => {
 
     const cid = req.params.id
 
-    const customer = customer_formarter.customer(await customer_model.getCustomerByIdFromDB(cid))
+    const customer = f_customer.customer(await m_customer.getCustomerDB(cid))
 
     let data = {
         title: 'Editar datos de cliente',
@@ -80,10 +75,9 @@ export const customerEditView = async (req, res) => {
     res.render('pages/customer/customer_edit', { layout: 'layouts/main_layout', data, customer });
 };
 
-export const customerEditPut = async (req, res) => {
-    const customer = customer_formarter.update(req.params.id, req.body)
-console.log(customer)
-    const updateRes = await customer_model.updateCustomerInDB(customer)
+export const putEditCustomer = async (req, res) => {
+    const customer = f_customer.putEditCustomer(req.params.id, req.body)
+    const updateRes = await m_customer.updateCustomerDB(customer)
 
     if (updateRes.status){
         res.send({
@@ -101,13 +95,13 @@ console.log(customer)
 }
 
 
-export const statusCustomer = async (req, res) => {
+export const postCustomerStatus = async (req, res) => {
     const customer = {
         id: req.params.id,
         status: !(req.body.status == "true")
     }
 
-    const statusRes = await customer_model.statusCustomerInDB(customer)
+    const statusRes = await m_customer.updateCustomerStatusDB(customer)
 
     if (statusRes.status) {
         res.send({

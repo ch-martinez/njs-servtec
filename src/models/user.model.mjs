@@ -34,7 +34,7 @@ export const getUserAllFromDB = async () => {
     }
 }
 
-export const getUserByIdFromDB = async (uid) => {
+export const getUserDB = async (uid) => {
     const connection = await pool.getConnection()
     const query = `
     SELECT
@@ -63,7 +63,7 @@ export const getUserByIdFromDB = async (uid) => {
     }
 }
 
-export const insertUserInDB = async (data) => {
+export const insertUserDB = async (data) => {
 
     const connection = await pool.getConnection()
 
@@ -119,7 +119,7 @@ export const insertUserInDB = async (data) => {
 }
 
 
-export const updateUserInDB = async (uid,user) => {
+export const updateUserDB = async (uid,user) => {
     const connection = await pool.getConnection()
 
     try {
@@ -161,14 +161,14 @@ export const updateUserInDB = async (uid,user) => {
         return ({ status: true })
     } catch (error) {
         await connection.rollback()
-        console.error('---[ERROR] model/updateUserInDB: ', error.message);
+        console.error('---[ERROR] model/updateUserDB: ', error.message);
         return ({ status: false })
     } finally {
         if (connection) { connection.release() }
     }
 }
 
-export const statusUserInDB = async (user) => {
+export const updateUserStatusDB = async (user) => {
     const connection = await pool.getConnection()
 
     const query = `UPDATE users SET user_status = ?, status_at = current_timestamp WHERE user_id = ?`
@@ -186,7 +186,7 @@ export const statusUserInDB = async (user) => {
     }
 }
 
-export const updateUserPasswordDB = async (user) => {
+export const updatePasswordDB = async (user) => {
     const connection = await pool.getConnection()
 
     const query = `UPDATE users SET user_password = ? WHERE user_id = ?`

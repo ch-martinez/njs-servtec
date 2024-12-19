@@ -1,4 +1,4 @@
-import { dateFull } from "./date.formarter.mjs"
+import { fullDateStr } from "./date.formarter.mjs"
 
 export const user = (user) => {
     return {
@@ -7,15 +7,15 @@ export const user = (user) => {
         lastname: user.user_lastname,
         dni: user.user_dni,
         email: user.user_email,
-        created_at: dateFull(user.created_at),
-        updated_at: dateFull(user.updated_at),
+        created_at: fullDateStr(user.created_at),
+        updated_at: fullDateStr(user.updated_at),
 
         status: (user.user_status == 1),
-        status_at: dateFull(user.user_status_at),
+        status_at: fullDateStr(user.user_status_at),
     }
 }
 
-export const userNewPost = (user) => {
+export const postNewUser = (user) => {
     return {
         user_id: user.user_id,
         user_name: user.user_name,
@@ -27,7 +27,7 @@ export const userNewPost = (user) => {
     }
 }
 
-export const updateUserPassword = (uid, p) => {
+export const updatePwd = (uid, p) => {
     return {
         id: uid,
         password: p.pwd

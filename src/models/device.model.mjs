@@ -1,6 +1,6 @@
 import { pool } from "../config/connectionDB.mjs";
 
-export const getAllDevicesBrandsFromDB = async () => {
+export const getAllBrandsDB = async () => {
     const connection = await pool.getConnection()
     const query = `
     SELECT
@@ -19,7 +19,7 @@ export const getAllDevicesBrandsFromDB = async () => {
     }
 }
 
-export const getAllModelsByBrandIdFromDB = async (bid) => {
+export const getAllModelsByBrandDB = async (bid) => {
     const connection = await pool.getConnection()
     const query = `
     SELECT

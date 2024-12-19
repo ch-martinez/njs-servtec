@@ -1,4 +1,4 @@
-import { dateFull } from "./date.formarter.mjs";
+import { fullDateStr } from "./date.formarter.mjs";
 
 const staus_code = {
     10: "Recepcion: Orden creada e ingreso registrado",
@@ -37,19 +37,20 @@ const staus_code = {
     90: "ORDEN FINALIZADA"
 }
 
-export const statusLog = (status_log) => {
+export const statusHistory = (statusHistory) => {
     let arr = []
 
-    status_log.forEach(status => {
+    statusHistory.forEach(s => {
         arr.push({
-            id: status.os_id,
-            status_code: status.os_status_code,
-            description: status.osc_description,
-            created: dateFull(status.created_at),
+            id: s.os_id,
+            status_code: s.os_status_code,
+            description: s.osc_description,
+            created: fullDateStr(s.created_at),
+            current: s.osh_current == 0 ? false : true,
             user: {
-                id: status.created_by,
-                name: status.user_name,
-                lastname: status.user_lastname
+                id: s.created_by,
+                name: s.user_name,
+                lastname: s.user_lastname
             }
         })
     })
@@ -60,7 +61,7 @@ export const statusLog = (status_log) => {
 export const lastStatus = (data) => {
     let arr = []
 
-    data.next.forEach(s => {
+    data.next_status.forEach(s => {
         arr.push({
             id: s.osc_id,
             description: s.osc_description
@@ -69,17 +70,17 @@ export const lastStatus = (data) => {
 
     return {
         actual:{
-            id: data.actual.os_status_code,
-            description: data.actual.osc_description
+            id: data.actual_status.osc_id,
+            description: data.actual_status.osc_description
         },
         next: arr
     }
 }
 
-export const nextStatus = (oid, uid, ns) => {
+export const postNextStatus = (oid, uid, ns) => {
     return {
-        order_id: oid,
-        user_id: uid,
-        next_status: ns
+        order_id: Number(oid),
+        user_id: Number(uid),
+        next_status: Number(ns)
     }
 }

@@ -1,6 +1,6 @@
 import { pool } from "../config/connectionDB.mjs";
 
-export const getRoleByUserIdFromDB = async (uid) => {
+export const getUserRoleDB = async (uid) => {
     const connection = await pool.getConnection()
     const query = `
     SELECT
@@ -24,7 +24,7 @@ export const getRoleByUserIdFromDB = async (uid) => {
     }
 }
 
-export const getAllRolesFromDB = async () => {
+export const getAllRolesDB = async () => {
     const connection = await pool.getConnection()
     const query = `
     SELECT

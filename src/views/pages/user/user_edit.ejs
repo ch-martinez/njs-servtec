@@ -33,9 +33,9 @@
                         <label for="role" class="label">Seleccione un rol</label>
                         <div class="item">
                             <% roles.forEach((role)=> {%>
-                                <label class="label--checkbox" for="<%= role.id%>">
-                                    <input type="radio" name="role_id" id="<%= role.id%>" value="<%= role.id%>" <% if (role.id == user.role.id) {%> checked <%}%> >
-                                    <%= role.code%> - <%= role.name %>
+                                <label class="label--checkbox" for="<%= role.role_id%>">
+                                    <input type="radio" name="role_id" id="<%= role.role_id%>" value="<%= role.role_id%>" <% if (role.role_id == user.role.role_id) {%> checked <%}%> >
+                                    <%= role.role_code%> - <%= role.role_name %>
                                 </label>
                             <%})%>
                         </div>

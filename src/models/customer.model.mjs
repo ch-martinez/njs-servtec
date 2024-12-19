@@ -1,6 +1,6 @@
 import { pool } from "../config/connectionDB.mjs";
 
-export const getAllCustomersFromDB = async () => {
+export const getAllCustomersDB = async () => {
     const connection = await pool.getConnection()
     const query = `
     SELECT
@@ -19,7 +19,7 @@ export const getAllCustomersFromDB = async () => {
     }
 }
 
-export const getCustomerByIdFromDB = async (cid) => {
+export const getCustomerDB = async (cid) => {
     const connection = await pool.getConnection()
     const query = `
     SELECT
@@ -39,7 +39,7 @@ export const getCustomerByIdFromDB = async (cid) => {
 }
 
 
-export const insertCustomerInDB = async (data) => {
+export const insertCustomerDB = async (data) => {
     const connection = await pool.getConnection()
     const query = `
         INSERT INTO customers
@@ -76,7 +76,7 @@ export const insertCustomerInDB = async (data) => {
     }
 }
 
-export const updateCustomerInDB = async (customer) => {
+export const updateCustomerDB = async (customer) => {
     const connection = await pool.getConnection()
 
     const query = `
@@ -115,7 +115,7 @@ export const updateCustomerInDB = async (customer) => {
 }
 
 
-export const statusCustomerInDB = async (customer) => {
+export const updateCustomerStatusDB = async (customer) => {
     const connection = await pool.getConnection()
 
     const query = `UPDATE customers SET customer_status = ?, status_at = current_timestamp WHERE customer_id = ?`

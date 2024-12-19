@@ -1,4 +1,4 @@
-export const pm = (pm) => {
+export const paymentMethod = (pm) => {
     return {
         id: pm.pm_id,
         code: pm.pm_code,
@@ -6,12 +6,12 @@ export const pm = (pm) => {
     }
 }
 
-export const pmList = (pml) => {
-    let aux = []
+export const paymentMethods = (pms) => {
+    let arr = []
 
-    pml.forEach((pme) => {
-        aux.push(pm(pme))
+    pms.forEach((pm) => {
+        arr.push(paymentMethod(pm))
     });
 
-    return aux
+    return arr
 }
