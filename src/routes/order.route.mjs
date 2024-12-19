@@ -1,32 +1,30 @@
 import { Router } from "express";
-import {
-    orderNewView,
-    ordersView,
-    orderDetailView,
-    orderNew,
-    orderWarrantyNewView,
-    orderWarrantyNew,
-    orderEditView,
-    orderEdit,
-    nextStatus
-} from "../controllers/order.controller.mjs";
+import * as controller from "../controllers/order.controller.mjs";
 
 const router = Router()
 
-router.get('/all', ordersView)
+/* Todas las ordenes */
+router.get('/all', controller.getAllOrders)
 
-router.get('/new/customer/:cid', orderNewView)
-router.post('/new/customer/:cid', orderNew)
+/* Nueva orden */
+router.get('/new/customer/:cid', controller.getNewOrder)
+router.post('/new/customer/:cid', controller.postNewOrder)
 
-router.get('/new/warranty/:oid', orderWarrantyNewView)
-router.post('/new/warranty/:oid', orderWarrantyNew)
+/* Nueva orden de garantia */
+router.get('/new/warranty/:oid', controller.getNewWarranty)
+router.post('/new/warranty/:oid', controller.postNewWarranty)
 
+/* Ver orden */
+router.get('/:id', controller.getOrder)
 
-router.get('/:id', orderDetailView)
+/* Editar Orden */
+router.get('/:oid/edit', controller.getEditOrder)
+router.post('/:oid/edit', controller.putEditOrder)
 
-router.get('/:oid/edit', orderEditView)
-router.post('/:oid/edit', orderEdit)
+/* Siguiente estado de la orden */
+router.post('/:oid/status', controller.postNextStatus)
 
-router.post('/:id/status', nextStatus)
+/* Eliminar orden */
+router.get('/:oid/delete', controller.deletOrder)
 
 export default router
