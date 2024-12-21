@@ -1,4 +1,5 @@
 import { fullDateStr } from "./date.formarter.mjs";
+import { noData } from "./general.formarter.mjs";
 
 const staus_code = {
     10: "Recepcion: Orden creada e ingreso registrado",
@@ -82,5 +83,18 @@ export const postNextStatus = (oid, uid, ns) => {
         order_id: Number(oid),
         user_id: Number(uid),
         next_status: Number(ns)
+    }
+}
+
+export const postAuthOrder = (uid, oid, auth) => {
+    return {
+        order_id: Number(oid),
+        user_id: Number(uid),
+        auth: {
+            auth_auth: true,
+            auth_name: noData(auth.auth_name),
+            auth_lastname: noData(auth.auth_lastname),
+            auth_dni: Number(auth.auth_dni)
+        }
     }
 }
