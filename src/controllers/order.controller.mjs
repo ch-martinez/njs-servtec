@@ -182,6 +182,54 @@ export const postNextStatus = async (req, res) => {
     }
 }
 
-export const deletOrder = async (req, res) => {
-    console.log(req.params.oid)
+export const getAuthOrder = async (req, res) => {
+    const oid = req.params.oid
+
+    const data = {
+        title: `Autorizar retiro`,
+        nav: 'order'
+    }
+
+    res.render('pages/order/order_auth', { layout: 'layouts/main_layout', data, oid});
+}
+
+export const postAuthOrder = async (req, res) => {
+    const oid = req.params.oid
+    const uid = 2
+    const auth = f_status.postAuthOrder(uid, oid, req.body)
+    console.log(auth)
+
+/*     const order = f_order.putEditOrder(req.params.oid, req.body)
+    const updateRes = await m_order.updateOrderInDB(order)
+
+    if (updateRes.status) {
+        res.send({
+            status: true,
+            msg: "Actualizado con exito!",
+            url: `/order/${order.order_id}`
+        })
+    } else {
+        res.send({
+            status: false,
+            msg: "Error al actualizar los datos!"
+        })
+    } */
+}
+
+export const deleteOrder = async (req, res) => {
+    const deletResp = await m_order.deleteOrderDB(req.params.oid)
+    console.log(deletResp)
+    if (deletResp.status) {
+        res.send({
+            status: true,
+            msg: "Orden eliminada con exito!",
+            url: `/order/all`
+        })
+    } else {
+        const msg = deletResp.errno == 1451 ? "No se puede eliminar una orden con garantias asociadas!" : "Error al eliminar la orden!"
+        res.send({
+            status: false,
+            msg: msg
+        })
+    }
 }
