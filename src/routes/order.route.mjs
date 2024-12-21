@@ -24,7 +24,11 @@ router.post('/:oid/edit', controller.putEditOrder)
 /* Siguiente estado de la orden */
 router.post('/:oid/status', controller.postNextStatus)
 
+/* Autorizacion de retiro */
+router.get('/:oid/auth', controller.getAuthOrder)
+router.post('/:oid/auth', controller.postAuthOrder)
+
 /* Eliminar orden */
-router.get('/:oid/delete', controller.deletOrder)
+router.delete('/:oid', controller.deleteOrder)
 
 export default router
