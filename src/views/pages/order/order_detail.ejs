@@ -198,7 +198,7 @@
                 <nav class="">
                     <ul class="menu__ul">
                         <li class="menu__li">
-                            <a id="menu_rol" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                            <a id="menu_rol" href="#" class="menu__link">
                                 <iconify-icon icon="tabler:printer"></iconify-icon>
                                 <span>Imprimir orden</span>
                             </a>
@@ -206,7 +206,7 @@
                     </ul>
                     <ul class="menu__ul">
                         <li class="menu__li">
-                            <a id="menu_rol" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                            <a id="menu_rol" href="#" class="menu__link">
                                 <iconify-icon icon="tabler:printer"></iconify-icon>
                                 <span>Imprimir ticket</span>
                             </a>
@@ -214,7 +214,7 @@
                     </ul>
                     <ul class="menu__ul">
                         <li class="menu__li">
-                            <a id="menu_rol" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                            <a id="menu_rol" href="#" class="menu__link">
                                 <iconify-icon icon="tabler:file-type-pdf"></iconify-icon>
                                 <span>Generar PDF</span>
                             </a>
@@ -223,7 +223,7 @@
                     <div class="menu__line"></div>
                     <ul class="menu__ul">
                         <li class="menu__li">
-                            <a id="menu_rol" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                            <a id="menu_rol" href="#" class="menu__link">
                                 <iconify-icon icon="tabler:brand-whatsapp"></iconify-icon>
                                 <span>Enviar por WhatsApp</span>
                             </a>
@@ -231,7 +231,7 @@
                     </ul>
                     <ul class="menu__ul">
                         <li class="menu__li">
-                            <a id="menu_rol" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                            <a id="menu_rol" href="#" class="menu__link">
                                 <iconify-icon icon="tabler:mail-up"></iconify-icon>
                                 <span>Enviar por correo</span>
                             </a>
@@ -241,7 +241,7 @@
 
                     <ul class="menu__ul">
                         <li class="menu__li">
-                            <a id="menu_rol" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                            <a id="menu_rol" href="#" class="menu__link">
                                 <iconify-icon icon="tabler:message-cog"></iconify-icon>
                                 <span>Observación taller</span>
                             </a>
@@ -249,7 +249,7 @@
                     </ul>
                     <ul class="menu__ul">
                         <li class="menu__li">
-                            <a id="menu_rol" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                            <a id="menu_rol" href="#" class="menu__link">
                                 <iconify-icon icon="tabler:message-2-plus"></iconify-icon>
                                 <span>Observación adicional</span>
                             </a>
@@ -257,7 +257,7 @@
                     </ul>
                     <ul class="menu__ul">
                         <li class="menu__li">
-                            <a id="menu_rol" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                            <a id="menu_rol" href="/order/<%= order.id %>/auth" class="menu__link">
                                 <iconify-icon icon="tabler:user-check"></iconify-icon>
                                 <span>Autorizar retiro</span>
                             </a>
@@ -265,7 +265,7 @@
                     </ul>
                     <ul class="menu__ul">
                         <li class="menu__li">
-                            <a id="menu_rol" href="/order/<%= order.id %>/edit" class="menu__link" data-id="<%=  %>" data-route="user">
+                            <a id="menu_rol" href="/order/<%= order.id %>/edit" class="menu__link">
                                 <iconify-icon icon="tabler:pencil"></iconify-icon>
                                 <span>Modificar datos</span>
                             </a>
@@ -274,7 +274,7 @@
                     <div class="menu__line"></div>
                     <ul class="menu__ul">
                         <li class="menu__li">
-                            <a id="menu_rol" href="/order/new/warranty/<%= order.id %>" class="menu__link" data-id="<%=  %>" data-route="user">
+                            <a id="menu_rol" href="/order/new/warranty/<%= order.id %>" class="menu__link">
                                 <iconify-icon icon="tabler:award"></iconify-icon>
                                 <span>Garanta de reparacion</span>
                             </a>
@@ -282,7 +282,7 @@
                     </ul>
                     <ul class="menu__ul">
                         <li class="menu__li">
-                            <a id="menu_rol" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                            <a id="m_delete" href="#" class="menu__link" data-id="<%= order.id %>">
                                 <iconify-icon icon="tabler:xbox-x"></iconify-icon>
                                 <span>Eliminar orden</span>
                             </a>
