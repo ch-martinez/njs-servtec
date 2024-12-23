@@ -28,28 +28,6 @@ const swal_config = {
       },
 }
 
-const alert_pwd_update = async () => {
-    Swal.fire({
-        ...swal_config,
-        html: `<form class="swal__section">
-    <h3 class="swal__title">Cambiar contraseña</h3>
-    <div class="item">
-        <label for="user_pass" class="label">Nueva contraseña</label>
-        <input class="input-text" type="text" name="user_pass" id="user_pass">
-    </div>
-    <div class="item">
-        <label for="user_pass_repeat" class="label">Repetir contraseña</label>
-        <input class="input-text" type="text" name="user_pass_repeat" id="user_pass_repeat">
-    </div>
-</form>`,
-
-    }).then((result) => {
-        if (result.isConfirmed) {
-            axios.post(data.url, {id: data.id, status: data.status})
-            .then(res => {res.data.status ? swal_succes(res.data) : swal_error(res.data)})
-        }
-      })
-}
 const alert_reset_pass = async (data) => {
     Swal.fire({
         ...swal_config,
@@ -78,6 +56,23 @@ const swalChangeStatus = async (data) => {
     }).then((result) => {
         if (result.isConfirmed) {
             axios.post(data.url, {id: data.id, status: data.status})
+            .then(res => {res.data.status ? swal_succes(res.data) : swal_error(res.data)})
+        }
+      })
+}
+
+const alert_delet_order = async (id) => {
+    Swal.fire({
+        ...swal_config,
+        reverseButtons: false,
+        html: `
+        <section class="swal__section">
+        <h3 class="swal__title">¿Está seguro que desea eliminar la orden?</h3>
+        </section>`,
+
+    }).then((result) => {
+        if (result.isConfirmed) {
+            axios.delete(`/order/${id}`)
             .then(res => {res.data.status ? swal_succes(res.data) : swal_error(res.data)})
         }
       })
