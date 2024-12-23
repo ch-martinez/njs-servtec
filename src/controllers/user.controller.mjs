@@ -61,9 +61,7 @@ export const getUser = async (req, res) => {
     const user_data = f_user.user(await m_user.getUserDB(uid))
     const user_login = f_date.loginHistory(await m_user_login.getUserLoginDB(uid))
     const user_role = f_role.role(await m_role.getUserRoleDB(uid))
-    // ************************************************** TERMINAR OREDENES DE USUARIO
-    //const user_orders = f_order.list(await m_order.allUserOrdersDB(uid))
-    const user_orders = []
+    const user_orders = f_order.orders(await m_order.getAllUserOrdersDB(uid))
 
     let data = {
         title: 'Detalle de usuario',
@@ -102,7 +100,7 @@ export const getEditUser = async (req, res) => {
 export const putEditUser = async (req, res) => {
     const uid = req.params.id
     const user = req.body
-    const updateRes = await m_user.updateUserDB(uid,user)
+    const updateRes = await m_user.updateUserDB(uid, user)
 
     if (updateRes.status) {
         res.send({
@@ -110,7 +108,7 @@ export const putEditUser = async (req, res) => {
             msg: "Actualizado con exito!",
             url: `/user/${uid}`
         })
-    }else{
+    } else {
         res.send({
             status: false,
             msg: "Error al actualizar los datos!"
@@ -150,7 +148,7 @@ export const getUpdatePassword = async (req, res) => {
         nav: 'user',
     };
 
-    res.render('pages/user/user_password_update', { layout: 'layouts/main_layout', data, uid});
+    res.render('pages/user/user_password_update', { layout: 'layouts/main_layout', data, uid });
 };
 
 export const putUpdatePassword = async (req, res) => {
@@ -165,7 +163,7 @@ export const putUpdatePassword = async (req, res) => {
             msg: "Actualizado con exito!",
             url: `/user/${user.id}`
         })
-    }else{
+    } else {
         res.send({
             status: false,
             msg: "Error al actualizar los datos!"
@@ -175,7 +173,7 @@ export const putUpdatePassword = async (req, res) => {
 
 export const postResetPassword = async (req, res) => {
 
-    const pwd = {pwd: generate.randomPwd()}
+    const pwd = { pwd: generate.randomPwd() }
 
     const user = f_user.updatePwd(req.params.id, pwd)
 
@@ -187,7 +185,7 @@ export const postResetPassword = async (req, res) => {
             msg: "Contraseña restablecida con exito!",
             url: `/user/${user.id}`
         })
-    }else{
+    } else {
         res.send({
             status: false,
             msg: "Error al restablecer contraseña!"
