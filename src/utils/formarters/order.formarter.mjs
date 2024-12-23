@@ -111,19 +111,24 @@ export const putEditOrder = (oid, order) => {
     })
 }
 
-export const list = (orders) => {
+export const authOrder = (auth) => {
+    return {
+        auth: auth.order_auth == 0 ? false : true,
+        name: auth.order_auth_name,
+        lastname: auth.order_auth_lastname,
+        dni: auth.order_auth_dni
+    }
+}
 
-    let arr = []
-
-    orders.forEach((order) => {
-        arr.push({
-            id: order.order_id,
-            ticket: order.order_ticket,
-            failure: order.order_failure,
-            status: 'FORMARTER: order.order_status',
-            created_at: fullDateStr(order.created_at)
-        })
-    })
-
-    return (arr)
+export const postAuthOrder = (uid, oid, auth) => {
+    return {
+        order_id: Number(oid),
+        user_id: Number(uid),
+        auth: {
+            auth: auth.auth == 'on' ? true : false,
+            auth_name: noData(auth.auth_name),
+            auth_lastname: noData(auth.auth_lastname),
+            auth_dni: Number(auth.auth_dni)
+        }
+    }
 }

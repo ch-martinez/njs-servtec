@@ -85,16 +85,3 @@ export const postNextStatus = (oid, uid, ns) => {
         next_status: Number(ns)
     }
 }
-
-export const postAuthOrder = (uid, oid, auth) => {
-    return {
-        order_id: Number(oid),
-        user_id: Number(uid),
-        auth: {
-            auth_auth: true,
-            auth_name: noData(auth.auth_name),
-            auth_lastname: noData(auth.auth_lastname),
-            auth_dni: Number(auth.auth_dni)
-        }
-    }
-}
