@@ -69,8 +69,8 @@ export const insertCustomerDB = async (data) => {
         const [insertRes] = await connection.query(query, params)
         return ({ status: true, customer_id: insertRes.insertId })
     } catch (error) {
-        console.error('---[ERROR] model/getCustomerByIdFromDB: ', error.msg)
-        return ({ status: false })
+        console.error('---[ERROR] model/insertCustomerDB: ', error.message)
+        return ({ status: false , error: error.errno})
     } finally {
         if (connection) connection.release()
     }
