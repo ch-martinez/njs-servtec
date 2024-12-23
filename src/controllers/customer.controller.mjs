@@ -35,9 +35,10 @@ export const postNewCustomer = async (req, res) => {
         }
         res.send(responseData)
     } else {
+        let msg = insertRes.error == 1062 ? "Ya existe un cliente con este DNI" : "Error al crear el cliente!"
         const responseData = {
             status: false,
-            msg: "Error al crear el cliente!"
+            msg: msg
         }
         res.send(responseData)
     }
@@ -48,7 +49,7 @@ export const getCustomer = async (req, res) => {
     const cid = req.params.id
 
     const customer_data = f_customer.customer(await m_customer.getCustomerDB(cid))
-    const customer_orders = f_order.orders(await m_order.allCustomerOrdersDB(cid))
+    const customer_orders = f_order.orders(await m_order.getAllCustomerOrdersDB(cid))
 
     let data = {
         title: 'Detalle de cliente',
