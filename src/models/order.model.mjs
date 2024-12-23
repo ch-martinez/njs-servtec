@@ -1,8 +1,8 @@
 import { pool } from "../config/connectionDB.mjs";
 
-export const getAllOrdersDB = async () => {
+export const getAllOrdersDB = async (filters) => {
     const connection = await pool.getConnection()
-    const query = `
+    let query = `
     SELECT
         o.order_id,
         o.order_ticket,
@@ -20,11 +20,19 @@ export const getAllOrdersDB = async () => {
         order_status_history osh ON osh.order_id = o.order_id
     INNER JOIN
         order_status_code osc ON osh.osc_id = osc.osc_id
-    WHERE osh.osh_current = 1
-    `
+    WHERE osh.osh_current = 1`
+    let filterParams = []
+
+    if (filters.status) {
+        query += ` AND osh.osc_id = ?;`
+        filterParams.push(filters.status)
+    }
 
     try {
-        const [rows] = await connection.query(query)
+/*         console.log('---[INFO] model/getAllOrdersDB: ', query)
+        console.log('---[INFO] model/getAllOrdersDB: ', filterParams)
+        console.log('---[INFO] model/getAllOrdersDB: ', filters) */
+        const [rows] = await connection.query(query, filterParams)
         return rows
     } catch (error) {
         console.log('---[ERROR] model/getAllOrdersDB: ', error)
@@ -33,7 +41,7 @@ export const getAllOrdersDB = async () => {
     }
 }
 
-export const allCustomerOrdersDB = async (cid) => {
+export const getAllCustomerOrdersDB = async (cid) => {
     const connection = await pool.getConnection()
     const query = `
     SELECT
@@ -60,33 +68,51 @@ export const allCustomerOrdersDB = async (cid) => {
         const [rows] = await connection.query(query, cid)
         return rows
     } catch (error) {
-        console.log('---[ERROR] model/allCustomerOrdersDB: ', error)
+        console.log('---[ERROR] model/getAllCustomerOrdersDB: ', error)
     } finally {
         if (connection) connection.release()
     }
 }
 
-export const allUserOrdersDB = async (uid) => {
+export const getAllUserOrdersDB = async (uid) => {
     const connection = await pool.getConnection()
     const query = `
+        WITH rel_order AS (
+            SELECT
+                osh.order_id
+            FROM
+                order_status_history osh
+            WHERE
+                osh.created_by = ?
+            GROUP BY osh.order_id
+        )
+
         SELECT
             o.order_id,
             o.order_ticket,
             o.order_failure,
-            o.created_at
-        FROM
-            orders o
-        JOIN
-            order_status AS OS ON os.order_id = o.order_id
-        WHERE
-            os.created_by = ?
-        GROUP BY o.order_id`
+            c.customer_id,
+            c.customer_name,
+            c.customer_lastname,
+            osc.osc_description,
+            osh.created_at
+        FROM rel_order AS r
+        INNER JOIN
+        orders o ON o.order_id = r.order_id
+        INNER JOIN
+            customers c ON c.customer_id = o.customer_id
+        INNER JOIN
+            order_status_history osh ON osh.order_id = o.order_id
+        INNER JOIN
+            order_status_code osc ON osh.osc_id = osc.osc_id
+        WHERE osh.osh_current = 1
+        ORDER BY osh.created_at DESC`
 
     try {
         const [rows] = await connection.query(query, uid)
         return rows
     } catch (error) {
-        console.log('---[ERROR] model/allUserOrdersDB: ', error.message)
+        console.log('---[ERROR] model/getAllUserOrdersDB: ', error.message)
     } finally {
         if (connection) connection.release()
     }
@@ -128,8 +154,8 @@ export const insertOrderDB = async (data) => {
         data.pm_id
     ]
 
-    const queryStatus = "INSERT INTO order_status_history (order_id, created_by, osc_id, osh_current) VALUES (?, ?, 100, 0)"
-    const queryStatus2 = "INSERT INTO order_status_history (order_id, created_by, osc_id) VALUES (?, ?, 110)"
+    const queryStatus = "INSERT INTO order_status_history (order_id, created_by, osc_id) VALUES (?, ?, 100)"
+    //    const queryStatus2 = "INSERT INTO order_status_history (order_id, created_by, osc_id) VALUES (?, ?, 110)"
 
     try {
         //Iniciar transacción
@@ -139,9 +165,10 @@ export const insertOrderDB = async (data) => {
         const oid = insertRes.insertId
 
         await connection.query(queryStatus, [oid, data.uid])
-        setTimeout(async () => {
-            await connection.query(queryStatus2, [oid, data.uid])
-        }, 1000);
+        /*         setTimeout(async () => {
+                    await connection.query(queryStatus2, [oid, data.uid])
+                    console.log("ingreso")
+                }, 1000); */
 
         //Finaliza transaccion
         await connection.commit()
@@ -199,13 +226,9 @@ export const insertWarrantyDB = async (data) => {
         const [insertRes] = await connection.query(queryOrder, paramsOrder)
         const oid = insertRes.insertId
 
-        const queryStatus = "INSERT INTO order_status_history (order_id, created_by, osc_id, osh_current) VALUES (?, ?, 100, 0)"
-        const queryStatus2 = "INSERT INTO order_status_history (order_id, created_by, osc_id) VALUES (?, ?, 110)"
-       
+        const queryStatus = "INSERT INTO order_status_history (order_id, created_by, osc_id) VALUES (?, ?, 100)"
+
         await connection.query(queryStatus, [oid, data.uid])
-        setTimeout(async () => {
-            await connection.query(queryStatus2, [oid, data.uid])
-        }, 1000);
 
         const queryWarranty = "INSERT INTO order_warranty (ow_main_id, ow_warranty_id) VALUES (?, ?)"
         await connection.query(queryWarranty, [data.main_id, oid])
@@ -403,6 +426,96 @@ export const updateOrderInDB = async (order) => {
         await connection.rollback()
         console.error('---[ERROR] model/updateOrderInDB: ', error.message);
         return ({ status: false })
+    } finally {
+        if (connection) { connection.release() }
+    }
+}
+
+export const getAuthOrderDB = async (oid) => {
+    const connection = await pool.getConnection()
+    const query = `
+    SELECT
+        order_auth,
+        order_auth_name,
+        order_auth_lastname,
+        order_auth_dni
+    FROM
+        orders
+    WHERE
+        order_id = ?`
+
+    try {
+        const [[resp]] = await connection.query(query, oid)
+        return resp
+    } catch (error) {
+        console.error('---[ERROR] model/getAuthOrderDB: ', error.message)
+    } finally {
+        if (connection) connection.release()
+    }
+}
+
+export const updateAuthOrderDB = async (order) => {
+    const connection = await pool.getConnection()
+
+    const queryOrder = `
+                UPDATE orders
+                SET
+                    order_auth = ?,
+                    order_auth_name = ?,
+                    order_auth_lastname = ?,
+                    order_auth_dni = ?
+                WHERE
+                    order_id = ?`
+
+    const paramsOrder = [
+        order.auth.auth,
+        order.auth.auth_name,
+        order.auth.auth_lastname,
+        order.auth.auth_dni,
+        order.order_id,
+    ]
+
+    const queryStatus = "INSERT INTO order_status_history (order_id, created_by, osc_id) VALUES (?, ?, 810)"
+    const paramsStatus = [order.order_id, order.user_id]
+
+    try {
+        //Iniciar transacción
+        await connection.beginTransaction();
+
+        await connection.query(queryOrder, paramsOrder)
+        await connection.query(queryStatus, paramsStatus)
+
+        //Finaliza transaccion
+        await connection.commit()
+
+        return ({ status: true })
+    } catch (error) {
+        await connection.rollback()
+        console.error('---[ERROR] model/updateAuthOrderDB: ', error.message);
+        return ({ status: false })
+    } finally {
+        if (connection) { connection.release() }
+    }
+}
+
+export const deleteOrderDB = async (oid) => {
+    const connection = await pool.getConnection()
+
+    try {
+        //Iniciar transacción
+        await connection.beginTransaction();
+
+        await connection.query("DELETE FROM orders WHERE order_id = ?", oid)
+
+        //Finaliza transaccion
+        await connection.commit()
+
+        return ({ status: true })
+    } catch (error) {
+        await connection.rollback()
+        console.error('---[ERROR] model/deleteOrderDB: ', error.message);
+        //errno: 1451 = Error de integridad referencial
+        return ({ status: false, error: error.errno })
     } finally {
         if (connection) { connection.release() }
     }
