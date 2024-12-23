@@ -1,5 +1,6 @@
 const m_reset_pwd = document.querySelector('#m_reset_pwd')
 const m_status = document.querySelector('#m_status')
+const m_delete = document.querySelector('#m_delete')
 
 if (m_reset_pwd) {
     const data = {url: `/user/${m_reset_pwd.dataset.id}/pwd/reset`}
@@ -18,5 +19,11 @@ if (m_status) {
 
     m_status.addEventListener('click', async () => {
         swalChangeStatus(data)
+    })
+}
+
+if (m_delete) {
+    m_delete.addEventListener('click', async () => {
+        alert_delet_order(m_delete.dataset.id,)
     })
 }
