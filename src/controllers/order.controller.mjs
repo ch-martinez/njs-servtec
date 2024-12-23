@@ -10,7 +10,7 @@ import * as f_status from "../utils/formarters/status.formarter.mjs"
 import * as generate from "../utils/generate.mjs"
 
 export const getAllOrders = async (req, res) => {
-    const orders = f_order.orders(await m_order.getAllOrdersDB())
+    const orders = f_order.orders(await m_order.getAllOrdersDB({status: 900}))
 
     const data = {
         title: 'Ordenes',
@@ -184,41 +184,40 @@ export const postNextStatus = async (req, res) => {
 
 export const getAuthOrder = async (req, res) => {
     const oid = req.params.oid
-
+    const auth = f_order.authOrder(await m_order.getAuthOrderDB(oid))
+    
+    console.log(auth)
     const data = {
         title: `Autorizar retiro`,
         nav: 'order'
     }
 
-    res.render('pages/order/order_auth', { layout: 'layouts/main_layout', data, oid});
+    res.render('pages/order/order_auth', { layout: 'layouts/main_layout', data, oid, auth});
 }
 
 export const postAuthOrder = async (req, res) => {
     const oid = req.params.oid
     const uid = 2
-    const auth = f_status.postAuthOrder(uid, oid, req.body)
-    console.log(auth)
-
-/*     const order = f_order.putEditOrder(req.params.oid, req.body)
-    const updateRes = await m_order.updateOrderInDB(order)
+console.log(f_order.postAuthOrder(uid, oid, req.body))
+    const updateRes = await m_order.updateAuthOrderDB(f_order.postAuthOrder(uid, oid, req.body))
 
     if (updateRes.status) {
         res.send({
             status: true,
-            msg: "Actualizado con exito!",
-            url: `/order/${order.order_id}`
+            msg: "Se cargó autorización!",
+            url: `/order/${oid}`
         })
     } else {
         res.send({
             status: false,
-            msg: "Error al actualizar los datos!"
+            msg: "Error al cargar la autorización!"
         })
-    } */
+    }
 }
 
 export const deleteOrder = async (req, res) => {
     const deletResp = await m_order.deleteOrderDB(req.params.oid)
-    console.log(deletResp)
+
     if (deletResp.status) {
         res.send({
             status: true,
