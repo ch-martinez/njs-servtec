@@ -4,11 +4,11 @@ export const getAllOrdersDB = async (filters) => {
     const connection = await pool.getConnection()
     let query = `
     SELECT
-        o.order_id,
+        BIN_TO_UUID(o.order_id) AS order_id,
         o.order_ticket,
         o.order_failure,
         o.created_at,
-        c.customer_id,
+        BIN_TO_UUID(c.customer_id) AS customer_id,
         c.customer_name,
         c.customer_lastname,
         osc.osc_description
@@ -23,13 +23,13 @@ export const getAllOrdersDB = async (filters) => {
     WHERE osh.osh_current = 1`
     let filterParams = []
 
-    if (filters.status) {
+    if (filters?.status) {
         query += ` AND osh.osc_id = ?;`
         filterParams.push(filters.status)
     }
 
     try {
-/*         console.log('---[INFO] model/getAllOrdersDB: ', query)
+/*      console.log('---[INFO] model/getAllOrdersDB: ', query)
         console.log('---[INFO] model/getAllOrdersDB: ', filterParams)
         console.log('---[INFO] model/getAllOrdersDB: ', filters) */
         const [rows] = await connection.query(query, filterParams)
@@ -45,10 +45,10 @@ export const getAllCustomerOrdersDB = async (cid) => {
     const connection = await pool.getConnection()
     const query = `
     SELECT
-        o.order_id,
+        BIN_TO_UUID(o.order_id) AS order_id,
         o.order_ticket,
         o.order_failure,
-        c.customer_id,
+        BIN_TO_UUID(c.customer_id) AS customer_id,
         c.customer_name,
         c.customer_lastname,
         osc.osc_description,
@@ -61,7 +61,7 @@ export const getAllCustomerOrdersDB = async (cid) => {
         order_status_history osh ON osh.order_id = o.order_id
     INNER JOIN
         order_status_code osc ON osh.osc_id = osc.osc_id
-    WHERE osh.osh_current = 1 AND c.customer_id = ?
+    WHERE osh.osh_current = 1 AND c.customer_id = UUID_TO_BIN(?)
     ORDER BY osh.created_at DESC`
 
     try {
@@ -83,15 +83,15 @@ export const getAllUserOrdersDB = async (uid) => {
             FROM
                 order_status_history osh
             WHERE
-                osh.created_by = ?
+                osh.created_by = UUID_TO_BIN(?)
             GROUP BY osh.order_id
         )
 
         SELECT
-            o.order_id,
+            BIN_TO_UUID(o.order_id) AS order_id,
             o.order_ticket,
             o.order_failure,
-            c.customer_id,
+            BIN_TO_UUID(c.customer_id) AS customer_id,
             c.customer_name,
             c.customer_lastname,
             osc.osc_description,
@@ -122,6 +122,7 @@ export const insertOrderDB = async (data) => {
     const connection = await pool.getConnection()
     const queryOrder = `
         INSERT INTO orders (
+            order_id,
             customer_id,
             order_ticket,
             db_id,
@@ -136,9 +137,10 @@ export const insertOrderDB = async (data) => {
             order_prepaid,
             pm_id)
         VALUES
-            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            (UUID_TO_BIN(?), UUID_TO_BIN(?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `
     const paramsOrder = [
+        data.order_id,
         data.customer_id,
         data.order_ticket,
         data.db_id,
@@ -154,17 +156,17 @@ export const insertOrderDB = async (data) => {
         data.pm_id
     ]
 
-    const queryStatus = "INSERT INTO order_status_history (order_id, created_by, osc_id) VALUES (?, ?, 100)"
+    const queryStatus = "INSERT INTO order_status_history (order_id, created_by, osc_id) VALUES (UUID_TO_BIN(?), UUID_TO_BIN(?), 100)"
     //    const queryStatus2 = "INSERT INTO order_status_history (order_id, created_by, osc_id) VALUES (?, ?, 110)"
 
     try {
         //Iniciar transacción
         await connection.beginTransaction();
 
-        const [insertRes] = await connection.query(queryOrder, paramsOrder)
-        const oid = insertRes.insertId
+        await connection.query(queryOrder, paramsOrder)
 
-        await connection.query(queryStatus, [oid, data.uid])
+        await connection.query(queryStatus, [data.order_id, data.uid])
+        // TODO CONTINUAR ACA
         /*         setTimeout(async () => {
                     await connection.query(queryStatus2, [oid, data.uid])
                     console.log("ingreso")
@@ -173,7 +175,7 @@ export const insertOrderDB = async (data) => {
         //Finaliza transaccion
         await connection.commit()
 
-        return ({ status: true, order_id: insertRes.insertId })
+        return ({ status: true })
     } catch (error) {
         await connection.rollback()
         console.error('---[ERROR] model/insertOrderDB: ', error.message);
@@ -195,7 +197,8 @@ export const insertWarrantyDB = async (data) => {
             order_ticket,
             order_pin,
             order_failure,
-            order_comment_atc
+            order_comment_atc,
+            order_id
             )
         SELECT
             o2.customer_id,
@@ -206,37 +209,38 @@ export const insertWarrantyDB = async (data) => {
             ?,
             ?,
             ?,
-            ?
+            ?,
+            UUID_TO_BIN(?)
         FROM
             orders o2
         WHERE
-            o2.order_id = ?`
+            BIN_TO_UUID(o2.order_id) = ?`
 
     const paramsOrder = [
         data.order_ticket,
         data.order_pin,
         data.order_failure,
         data.order_comment_atc,
+        data.warranty_id,
         data.main_id
     ]
     try {
         //Iniciar transacción
         await connection.beginTransaction();
 
-        const [insertRes] = await connection.query(queryOrder, paramsOrder)
-        const oid = insertRes.insertId
+        await connection.query(queryOrder, paramsOrder)
 
-        const queryStatus = "INSERT INTO order_status_history (order_id, created_by, osc_id) VALUES (?, ?, 100)"
+        const queryStatus = "INSERT INTO order_status_history (order_id, created_by, osc_id) VALUES (UUID_TO_BIN(?), UUID_TO_BIN(?), 100)"
 
-        await connection.query(queryStatus, [oid, data.uid])
+        await connection.query(queryStatus, [data.warranty_id, data.uid])
 
-        const queryWarranty = "INSERT INTO order_warranty (ow_main_id, ow_warranty_id) VALUES (?, ?)"
-        await connection.query(queryWarranty, [data.main_id, oid])
+        const queryWarranty = "INSERT INTO order_warranty (ow_main_id, ow_warranty_id) VALUES (UUID_TO_BIN(?), UUID_TO_BIN(?))"
+        await connection.query(queryWarranty, [data.main_id, data.warranty_id])
 
         //Finaliza transaccion
         await connection.commit()
 
-        return ({ status: true, order_id: insertRes.insertId })
+        return ({ status: true })
     } catch (error) {
         await connection.rollback()
         console.error('---[ERROR] model/insertWarrantyDB: ', error.message);
@@ -250,8 +254,8 @@ export const getOrderDB = async (oid) => {
     const connection = await pool.getConnection()
     const query = `
     SELECT
-        o.customer_id,
-        o.order_id,
+        BIN_TO_UUID(o.customer_id) as customer_id,
+        BIN_TO_UUID(o.order_id) as order_id,
         o.order_ticket,
         o.order_imei,
         o.order_pin,
@@ -278,7 +282,7 @@ export const getOrderDB = async (oid) => {
     INNER JOIN devices_brands db ON db.db_id = o.db_id
     LEFT JOIN payments_methods pm ON pm.pm_id = o.pm_id
     WHERE
-        o.order_id = ?`
+        BIN_TO_UUID(o.order_id) = ?`
 
     try {
         const [[resp]] = await connection.query(query, oid)
@@ -308,11 +312,13 @@ export const getTicketByIdFromDB = async (oid) => {
 export const hasWarrantyDB = async (oid) => {
     const connection = await pool.getConnection()
     const query = `
-        SELECT *
+        SELECT
+            BIN_TO_UUID(ow.ow_warranty_id) AS warranty_id,
+            BIN_TO_UUID(ow.ow_main_id) AS main_id
         FROM
             order_warranty ow
         WHERE
-            ow.ow_main_id = ?`
+            BIN_TO_UUID(ow.ow_main_id) = ?`
 
     try {
         const [[resp]] = await connection.query(query, oid)
@@ -324,7 +330,7 @@ export const hasWarrantyDB = async (oid) => {
         } else {
             return {
                 status: true,
-                warranty_id: resp.ow_warranty_id
+                warranty_id: resp.warranty_id
             }
         }
         return {}
@@ -397,7 +403,7 @@ export const updateOrderInDB = async (order) => {
                 order_prepaid = ?,
                 pm_id = ?
             WHERE
-                order_id = ?`
+                BIN_TO_UUID(order_id) = ?`
 
         const paramsOrder = [
             order.db_id,
@@ -425,6 +431,7 @@ export const updateOrderInDB = async (order) => {
     } catch (error) {
         await connection.rollback()
         console.error('---[ERROR] model/updateOrderInDB: ', error.message);
+        console.error(error.sql);
         return ({ status: false })
     } finally {
         if (connection) { connection.release() }
@@ -442,7 +449,7 @@ export const getAuthOrderDB = async (oid) => {
     FROM
         orders
     WHERE
-        order_id = ?`
+        BIN_TO_UUID(order_id) = ?`
 
     try {
         const [[resp]] = await connection.query(query, oid)
@@ -465,7 +472,7 @@ export const updateAuthOrderDB = async (order) => {
                     order_auth_lastname = ?,
                     order_auth_dni = ?
                 WHERE
-                    order_id = ?`
+                    BIN_TO_UUID(order_id) = ?`
 
     const paramsOrder = [
         order.auth.auth,
@@ -475,7 +482,7 @@ export const updateAuthOrderDB = async (order) => {
         order.order_id,
     ]
 
-    const queryStatus = "INSERT INTO order_status_history (order_id, created_by, osc_id) VALUES (?, ?, 810)"
+    const queryStatus = "INSERT INTO order_status_history (order_id, created_by, osc_id) VALUES (UUID_TO_BIN(?), UUID_TO_BIN(?), 810)"
     const paramsStatus = [order.order_id, order.user_id]
 
     try {
@@ -505,7 +512,7 @@ export const deleteOrderDB = async (oid) => {
         //Iniciar transacción
         await connection.beginTransaction();
 
-        await connection.query("DELETE FROM orders WHERE order_id = ?", oid)
+        await connection.query("DELETE FROM orders WHERE BIN_TO_UUID(order_id) = ?", oid)
 
         //Finaliza transaccion
         await connection.commit()
