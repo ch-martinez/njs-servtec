@@ -4,7 +4,13 @@ export const getAllCustomersDB = async () => {
     const connection = await pool.getConnection()
     const query = `
     SELECT
-        c.*
+        BIN_TO_UUID(c.customer_id) as customer_id,
+        c.customer_name,
+        c.customer_lastname,
+        c.customer_dni,
+        c.customer_email,
+        c.customer_tel,
+        c.customer_status
     FROM
         customers c
     WHERE c.deleted = 0`
@@ -23,10 +29,24 @@ export const getCustomerDB = async (cid) => {
     const connection = await pool.getConnection()
     const query = `
     SELECT
-        c.*
+        BIN_TO_UUID(c.customer_id) as customer_id,
+        c.customer_name,
+        c.customer_lastname,
+        c.customer_dni,
+        c.customer_email,
+        c.customer_tel,
+        c.customer_tel_alt,
+        c.customer_obs,
+        c.customer_status,
+        c.created_at,
+        c.updated_at,
+        c.status_at,
+        c.deleted,
+        c.deleted_by,
+        c.deleted_at
     FROM
         customers c
-    WHERE c.customer_id = ?`
+    WHERE BIN_TO_UUID(c.customer_id) = ?`
 
     try {
         const [[rows]] = await connection.query(query, cid)
@@ -44,6 +64,7 @@ export const insertCustomerDB = async (data) => {
     const query = `
         INSERT INTO customers
         (
+            customer_id ,
             customer_name ,
             customer_lastname ,
             customer_dni ,
@@ -53,9 +74,10 @@ export const insertCustomerDB = async (data) => {
             customer_obs
         )
 
-        VALUES (?, ?, ?, ?, ?, ?, ?)`
+        VALUES (UUID_TO_BIN(?), ?, ?, ?, ?, ?, ?, ?)`
 
     const params = [
+        data.customer_id,
         data.customer_name,
         data.customer_lastname,
         data.customer_dni,
@@ -90,7 +112,7 @@ export const updateCustomerDB = async (customer) => {
             customer_tel_alt = ?,
             customer_obs = ?
         WHERE
-            customer_id = ?`
+            BIN_TO_UUID(customer_id) = ?`
 
     const params = [
         customer.name,
@@ -107,7 +129,7 @@ export const updateCustomerDB = async (customer) => {
         await connection.query(query, params)
         return ({ status: true })
     } catch (error) {
-        console.error('---[ERROR] model/updateCustomerInDB: ', error.msg)
+        console.error('---[ERROR] model/updateCustomerDB: ', error.message)
         return ({ status: false })
     } finally {
         if (connection) { connection.release() }
@@ -118,14 +140,14 @@ export const updateCustomerDB = async (customer) => {
 export const updateCustomerStatusDB = async (customer) => {
     const connection = await pool.getConnection()
 
-    const query = `UPDATE customers SET customer_status = ?, status_at = current_timestamp WHERE customer_id = ?`
+    const query = `UPDATE customers SET customer_status = ?, status_at = current_timestamp WHERE BIN_TO_UUID(customer_id) = ?`
     const params = [customer.status, customer.id]
 
     try {
         await connection.query(query, params)
         return({status: true})
     } catch (error) {
-        console.error('---[ERROR] model/statusCustomerInDB: ', error.message);
+        console.error('---[ERROR] model/updateCustomerStatusDB: ', error.message);
         return ({ status: false })
     } finally {
         if (connection) { connection.release() }

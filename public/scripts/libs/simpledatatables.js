@@ -1,7 +1,7 @@
 const table_config = {
-	locale: 'es-ES',
+    locale: 'es-ES',
     searchable: true,
-	fixedHeight: true,
+    fixedHeight: true,
     perPage: 10,
 
     labels: {
@@ -22,17 +22,17 @@ const table_config = {
     columns: [
         // Sort the second column in ascending order
         //{ select: [0,7], sortable: false },
-/*         {
-            select: 6,
-            filter: ["ACTIVO", "INACTIVO"],
-        }, */
+        /*         {
+                    select: 6,
+                    filter: ["ACTIVO", "INACTIVO"],
+                }, */
     ],
 }
 
 const table_login_history_config = {
     locale: 'es-ES',
     searchable: false,
-	fixedHeight: true,
+    fixedHeight: true,
     perPage: 5,
 
     labels: {
@@ -49,6 +49,19 @@ const table_login_history_config = {
     }
 }
 
+//const dataTable2 = new simpleDatatables.DataTable("#table-loggin", table_login_history_config)
 
-const dataTable = new simpleDatatables.DataTable("#table-main", table_config)
-const dataTable2 = new simpleDatatables.DataTable("#table-loggin", table_login_history_config)
+const tables = document.querySelectorAll('.table--simple')
+const tablesOrder = document.querySelectorAll('.table--order')
+
+if (tables) {
+    tables.forEach(table => {
+        new simpleDatatables.DataTable(table, table_config)
+    })
+}
+
+if (tablesOrder) {
+    tablesOrder.forEach(table => {
+        new simpleDatatables.DataTable(table, table_config)
+    })
+}

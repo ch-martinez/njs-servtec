@@ -21,9 +21,9 @@ export const customer = (cust) => {
     }
 }
 
-export const postNewCustomer = (cust) => {
+export const postNewCustomer = (cid, cust) => {
     return {
-        //customer_id: cust.customer_id,
+        customer_id: cid,
         customer_name: noData(cust.customer_name),
         customer_lastname: noData(cust.customer_lastname),
         customer_email: noData((cust.customer_email).toLowerCase()),
@@ -44,7 +44,7 @@ export const customers = (customers) => {
 
 export const putEditCustomer = (cid, c) => {
     return {
-        id: Number(cid),
+        id: cid,
         name: noData(c.customer_name),
         lastname: noData(c.customer_lastname),
         dni: Number(c.customer_dni),

@@ -24,11 +24,12 @@ export const orders = (orders) => {
     return arr
 }
 
-export const postNewOrder = (customer_id, order) => {
+export const postNewOrder = (customer_id, order_id, order) => {
 
     const prepaid = order.order_prepaid == 'on'
 
     return ({
+        order_id: order_id,
         customer_id: customer_id,
         db_id: order.devices_brands,
         dm_id: order.devices_models,
@@ -44,12 +45,14 @@ export const postNewOrder = (customer_id, order) => {
     })
 }
 
-export const postNewWarranty = (main_id, order) => {
+export const postNewWarranty = (main_id, warranty_id, user_id, order) => {
     return ({
         main_id: main_id,
+        warranty_id: warranty_id,
         order_pin: order.order_pin,
         order_failure: noData(order.order_failure),
         order_comment_atc: noData(order.order_comment_atc),
+        uid: user_id,
     })
 }
 
@@ -76,13 +79,14 @@ export const order = (order) => {
         budget: {
             budget: order.order_budget,
             detail: order.order_budget_detail,
-            prepaid: order.order_prepaid == 0 ? "NO" : "SI",
+            prepaid: order.order_prepaid == 0 ? false : true,
             payment_method: noData(order.pm_name),
             payment_method_id: order.pm_id
         },
         auth:{
-            auth: order.order_auth,
+            auth: order.order_auth == 0 ? false : true,
             auth_name: order.order_auth_name,
+            auth_lastname: order.order_auth_lastname,
             auth_dni: order.order_auth_dni
         },
         created_at: fullDateStr(order.created_at),
@@ -91,10 +95,10 @@ export const order = (order) => {
 
 export const putEditOrder = (oid, order) => {
 
-    const prepaid = order.order_prepaid == 'on'
+    const prepaid = order.order_prepaid == 'on' && order.payment_method != 'none'
 
     return ({
-        order_id: Number(oid),
+        order_id: oid,
         db_id: Number(order.devices_brands),
         dm_id: Number(order.devices_models),
         dm_other: noData(order.devices_other),
@@ -122,8 +126,8 @@ export const authOrder = (auth) => {
 
 export const postAuthOrder = (uid, oid, auth) => {
     return {
-        order_id: Number(oid),
-        user_id: Number(uid),
+        order_id: oid,
+        user_id: uid,
         auth: {
             auth: auth.auth == 'on' ? true : false,
             auth_name: noData(auth.auth_name),

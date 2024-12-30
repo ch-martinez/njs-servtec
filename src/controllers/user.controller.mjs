@@ -36,14 +36,15 @@ export const getNewUser = async (req, res) => {
 
 export const postNewUser = async (req, res) => {
 
-    const user = f_user.postNewUser(req.body)
+    const uuid = generate.uuid()
+    const user = f_user.postNewUser(uuid, req.body)
     const insertRes = await m_user.insertUserDB(user)
 
     if (insertRes.status) {
         res.send({
             status: true,
             msg: "Usuario creado con exito!",
-            url: `/user/${insertRes.user_id}`
+            url: `/user/${uuid}`
         })
 
     } else {

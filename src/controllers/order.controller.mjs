@@ -9,8 +9,10 @@ import * as f_pm from "../utils/formarters/payment_method.formarter.mjs"
 import * as f_status from "../utils/formarters/status.formarter.mjs"
 import * as generate from "../utils/generate.mjs"
 
+const test_uid = "f0ca9be0-c62e-11ef-b516-a351be642676"
+
 export const getAllOrders = async (req, res) => {
-    const orders = f_order.orders(await m_order.getAllOrdersDB({status: 900}))
+    const orders = f_order.orders(await m_order.getAllOrdersDB())
 
     const data = {
         title: 'Ordenes',
@@ -38,14 +40,15 @@ export const getNewOrder = async (req, res) => {
 
 export const postNewOrder = async (req, res) => {
 
-    let order_data = f_order.postNewOrder(req.params.cid, req.body)
+    const oid = await generate.uuid()
+    let order_data = f_order.postNewOrder(req.params.cid, oid, req.body)
     const ticket = await generate.ticket("ORD")
 
     order_data = {
         ...order_data,
         order_ticket: ticket,
         /* *************************** USUARIO PRUEBA ********************************** */
-        uid: 1
+        uid: test_uid
     }
 
     const insertRes = await m_order.insertOrderDB(order_data)
@@ -54,7 +57,7 @@ export const postNewOrder = async (req, res) => {
         res.send({
             status: true,
             msg: "Orden creada con exito!",
-            url: `/order/${insertRes.order_id}`
+            url: `/order/${oid}`
         })
 
     } else {
@@ -88,8 +91,10 @@ export const getNewWarranty = async (req, res) => {
 }
 
 export const postNewWarranty = async (req, res) => {
+    const warranty_id = await generate.uuid()
     const main_id = req.params.oid
-    let order_data = f_order.postNewWarranty(main_id, req.body)
+    const uid = test_uid
+    let order_data = f_order.postNewWarranty(main_id, warranty_id, uid, req.body)
     const ticket = await generate.ticket("GTA")
 
     order_data = {
@@ -103,7 +108,7 @@ export const postNewWarranty = async (req, res) => {
         res.send({
             status: true,
             msg: "Orden creada con exito!",
-            url: `/order/${insertRes.order_id}`
+            url: `/order/${warranty_id}`
         })
 
     } else {
@@ -165,7 +170,8 @@ export const putEditOrder = async (req, res) => {
 }
 
 export const postNextStatus = async (req, res) => {
-    const next_status = f_status.postNextStatus(req.params.oid, 3, req.body.next_status)
+    const uid = test_uid // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    const next_status = f_status.postNextStatus(req.params.oid, uid, req.body.next_status)
     const insertResp = await m_status.insertNextStatusDB(next_status)
 
     if (insertResp.status) {
@@ -185,8 +191,7 @@ export const postNextStatus = async (req, res) => {
 export const getAuthOrder = async (req, res) => {
     const oid = req.params.oid
     const auth = f_order.authOrder(await m_order.getAuthOrderDB(oid))
-    
-    console.log(auth)
+
     const data = {
         title: `Autorizar retiro`,
         nav: 'order'
@@ -197,8 +202,8 @@ export const getAuthOrder = async (req, res) => {
 
 export const postAuthOrder = async (req, res) => {
     const oid = req.params.oid
-    const uid = 2
-console.log(f_order.postAuthOrder(uid, oid, req.body))
+    const uid = test_uid // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
     const updateRes = await m_order.updateAuthOrderDB(f_order.postAuthOrder(uid, oid, req.body))
 
     if (updateRes.status) {

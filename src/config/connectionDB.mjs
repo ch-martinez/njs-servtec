@@ -9,7 +9,8 @@ export const pool = createPool({
     database: 'servtec',
     waitForConnections: true,
     connectionLimit: 5,
-    queueLimit: 0
+    queueLimit: 0,
+    charset: 'utf8mb4'  // Establecer el collation global
 })
 
 // Prueba que la conexion a la DB sea correcta

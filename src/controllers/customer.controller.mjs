@@ -2,6 +2,7 @@ import * as m_customer from "../models/customer.model.mjs";
 import * as m_order from "../models/order.model.mjs";
 import * as f_customer from "../utils/formarters/customer.formarter.mjs";
 import * as f_order from "../utils/formarters/order.formarter.mjs";
+import * as generate from "../utils/generate.mjs"
 
 export const getAllCustomers = async (req, res) => {
 
@@ -25,7 +26,8 @@ export const getNewCustomer = async (req, res) => {
 };
 
 export const postNewCustomer = async (req, res) => {
-    const insertRes = await m_customer.insertCustomerDB(f_customer.postNewCustomer(req.body))
+    const cid = await generate.uuid()
+    const insertRes = await m_customer.insertCustomerDB(f_customer.postNewCustomer(cid, req.body))
 
     if (insertRes.status) {
         const responseData = {
