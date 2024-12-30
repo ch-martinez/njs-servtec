@@ -7,9 +7,9 @@
     </section>
     <section class="container container-2-1">
         <section class="container container-l">
-            <% if (order.warranty) { %>
+            <% if (warranty.is_warranty) { %>
                 <section class="wrapper wrapper--alert">
-                    <span>Garantia de reparación N° orden: <a href="<%= order.warranty_id %>" class="link"><%= order.warranty_ticket %></a></span>
+                    <span>Garantia de reparación N° orden: <a href="<%= warranty.main_id %>" class="link"><%= warranty.main_ticket %></a></span>
                 </section>
             <%}%>
             <section class="wrapper">
@@ -55,28 +55,30 @@
                     </div>
                 </section>
             </section>
-            <section class="wrapper">
-                <section class="wrapper__header">
-                    <h2 class="wrapper__subtitle">Autorizacion de retiro</h2>
-                </section>
-                <section class="wrapper__body">
-                    <div class="wrapper__row wrapper__row--3">
+            <% if(order.auth.auth){%>
+                <section class="wrapper">
+                    <section class="wrapper__header">
+                        <h2 class="wrapper__subtitle">Autorizacion de retiro</h2>
+                    </section>
+                    <section class="wrapper__body">
+                        <div class="wrapper__row wrapper__row--3">
 
-                        <div class="item">
-                            <p class="item__key">Persona autorizada</p>
-                            <p class="item__value">Juan Perez Sosa</p>
+                            <div class="item">
+                                <p class="item__key">Persona autorizada</p>
+                                <p class="item__value"><%= order.auth.auth_name %> <%= order.auth.auth_lastname %></p>
+                            </div>
+                            <div class="item">
+                                <p class="item__key">DNI</p>
+                                <p class="item__value"><%= order.auth.auth_dni %></p>
+                            </div>
+                            <div class="item">
+                                <p class="item__key">Fecha autorizacion</p>
+                                <p class="item__value">26/03/92, 10:22hs</p>
+                            </div>
                         </div>
-                        <div class="item">
-                            <p class="item__key">DNI</p>
-                            <p class="item__value">35.123.123</p>
-                        </div>
-                        <div class="item">
-                            <p class="item__key">Fecha autorizacion</p>
-                            <p class="item__value">26/03/92, 10:22hs</p>
-                        </div>
-                    </div>
+                    </section>
                 </section>
-            </section>
+            <%}%>
             <section class="wrapper">
                 <section class="wrapper__header">
                     <h2 class="wrapper__subtitle">Datos orden</h2>
@@ -141,7 +143,7 @@
                         </div>
                         <div class="item">
                             <p class="item__key">Pago adelantado</p>
-                            <p class="item__value"><%= order.budget.prepaid %></p>
+                            <p class="item__value"><%= order.budget.prepaid ? "Si" : "No" %></p>
                         </div>
                         <div class="item">
                             <p class="item__key">Metodo de pago</p>
@@ -179,9 +181,9 @@
                     <h2 class="wrapper__subtitle">Estados</h2>
                 </section>
                 <form id="form" class="wrapper__body" action="/order/<%= order.id %>/status" method="post">
-                    <% status_next.next.forEach(s => {%>
+                    <% lastStatus.next.forEach(s => {%>
                         <label class="label--checkbox" for="<%= s.id %>">
-                            <input type="radio" name="status_next" id="<%= s.id %>" value="<%= s.id %>">
+                            <input type="radio" name="next_status" id="<%= s.id %>" value="<%= s.id %>">
                             <%= s.description %>
                         </label>
                     <%})%>
@@ -198,7 +200,7 @@
                 <nav class="">
                     <ul class="menu__ul">
                         <li class="menu__li">
-                            <a id="menu_rol" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                            <a id="menu_rol" href="#" class="menu__link">
                                 <iconify-icon icon="tabler:printer"></iconify-icon>
                                 <span>Imprimir orden</span>
                             </a>
@@ -206,7 +208,7 @@
                     </ul>
                     <ul class="menu__ul">
                         <li class="menu__li">
-                            <a id="menu_rol" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                            <a id="menu_rol" href="#" class="menu__link">
                                 <iconify-icon icon="tabler:printer"></iconify-icon>
                                 <span>Imprimir ticket</span>
                             </a>
@@ -214,7 +216,7 @@
                     </ul>
                     <ul class="menu__ul">
                         <li class="menu__li">
-                            <a id="menu_rol" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                            <a id="menu_rol" href="#" class="menu__link">
                                 <iconify-icon icon="tabler:file-type-pdf"></iconify-icon>
                                 <span>Generar PDF</span>
                             </a>
@@ -223,7 +225,7 @@
                     <div class="menu__line"></div>
                     <ul class="menu__ul">
                         <li class="menu__li">
-                            <a id="menu_rol" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                            <a id="menu_rol" href="#" class="menu__link">
                                 <iconify-icon icon="tabler:brand-whatsapp"></iconify-icon>
                                 <span>Enviar por WhatsApp</span>
                             </a>
@@ -231,7 +233,7 @@
                     </ul>
                     <ul class="menu__ul">
                         <li class="menu__li">
-                            <a id="menu_rol" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                            <a id="menu_rol" href="#" class="menu__link">
                                 <iconify-icon icon="tabler:mail-up"></iconify-icon>
                                 <span>Enviar por correo</span>
                             </a>
@@ -241,7 +243,7 @@
 
                     <ul class="menu__ul">
                         <li class="menu__li">
-                            <a id="menu_rol" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                            <a id="menu_rol" href="#" class="menu__link">
                                 <iconify-icon icon="tabler:message-cog"></iconify-icon>
                                 <span>Observación taller</span>
                             </a>
@@ -249,7 +251,7 @@
                     </ul>
                     <ul class="menu__ul">
                         <li class="menu__li">
-                            <a id="menu_rol" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                            <a id="menu_rol" href="#" class="menu__link">
                                 <iconify-icon icon="tabler:message-2-plus"></iconify-icon>
                                 <span>Observación adicional</span>
                             </a>
@@ -257,7 +259,7 @@
                     </ul>
                     <ul class="menu__ul">
                         <li class="menu__li">
-                            <a id="menu_rol" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                            <a id="menu_rol" href="/order/<%= order.id %>/auth" class="menu__link">
                                 <iconify-icon icon="tabler:user-check"></iconify-icon>
                                 <span>Autorizar retiro</span>
                             </a>
@@ -265,7 +267,7 @@
                     </ul>
                     <ul class="menu__ul">
                         <li class="menu__li">
-                            <a id="menu_rol" href="/order/<%= order.id %>/edit" class="menu__link" data-id="<%=  %>" data-route="user">
+                            <a id="menu_rol" href="/order/<%= order.id %>/edit" class="menu__link">
                                 <iconify-icon icon="tabler:pencil"></iconify-icon>
                                 <span>Modificar datos</span>
                             </a>
@@ -274,7 +276,7 @@
                     <div class="menu__line"></div>
                     <ul class="menu__ul">
                         <li class="menu__li">
-                            <a id="menu_rol" href="/order/new/warranty/<%= order.id %>" class="menu__link" data-id="<%=  %>" data-route="user">
+                            <a id="menu_rol" href="/order/new/warranty/<%= order.id %>" class="menu__link">
                                 <iconify-icon icon="tabler:award"></iconify-icon>
                                 <span>Garanta de reparacion</span>
                             </a>
@@ -282,7 +284,7 @@
                     </ul>
                     <ul class="menu__ul">
                         <li class="menu__li">
-                            <a id="menu_rol" href="#" class="menu__link" data-id="<%=  %>" data-route="user">
+                            <a id="m_delete" href="#" class="menu__link" data-id="<%= order.id %>">
                                 <iconify-icon icon="tabler:xbox-x"></iconify-icon>
                                 <span>Eliminar orden</span>
                             </a>
@@ -300,7 +302,7 @@
                 </div>
                 <div class="wrapper__body">
                     <ul class="sh__ul">
-                        <% status.forEach((status, i) => { %>
+                        <% statusHistory.forEach((status, i) => { %>
                             <li class="sh__li">
                                 <div class="sh__img">
                                     <div class="sh__img-line <%= i == 0 ? 'sh__img-line--last' : '' %> "></div>

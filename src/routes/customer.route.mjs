@@ -3,14 +3,21 @@ import * as controller from '../controllers/customer.controller.mjs'
 
 const router = Router()
 
-router.get("/all", controller.customersView)
-router.get("/new", controller.customerNewView)
-router.post("/new", controller.customerNew)
-router.get("/:id", controller.customerDetailView)
+/* Todos los clientes */
+router.get("/all", controller.getAllCustomers)
 
-router.get("/:id/edit", controller.customerEditView)
-router.put("/:id/edit", controller.customerEditPut)
+/* Nuevo cliente */
+router.get("/new", controller.getNewCustomer)
+router.post("/new", controller.postNewCustomer)
 
-router.post("/:id/status", controller.statusCustomer)
+/* Ver cliente */
+router.get("/:id", controller.getCustomer)
+
+/* Editar cliente */
+router.get("/:id/edit", controller.getEditCustomer)
+router.put("/:id/edit", controller.putEditCustomer)
+
+/* Cambiar estado del cliente */
+router.post("/:id/status", controller.postCustomerStatus)
 
 export default router

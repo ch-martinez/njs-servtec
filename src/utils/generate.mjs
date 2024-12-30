@@ -1,6 +1,7 @@
+import { v1 } from "uuid";
 import { lastTicketFromDB } from "../models/ticket_generator.model.mjs";
 
-export const ticketGenerator = async (type) => {
+export const ticket = async (type) => {
     let tcid = type == "ORD" ? 1 : 2
 
     const res = await lastTicketFromDB(tcid)
@@ -20,3 +21,5 @@ export const randomPwd = () => {
 
     return password;
 }
+
+export const uuid = () => v1()

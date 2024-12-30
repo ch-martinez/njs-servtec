@@ -1,6 +1,6 @@
 import { pool } from "../config/connectionDB.mjs";
 
-export const getAllPMfromDB = async () => {
+export const getAllPaymentsMethodsDB = async () => {
     const connection = await pool.getConnection()
 
     const query = `SELECT * FROM payments_methods`
@@ -9,7 +9,7 @@ export const getAllPMfromDB = async () => {
         const [resp] = await connection.query(query)
         return {status: true, data: resp}
     } catch (error) {
-        console.error('---[ERROR] model/getAllPMfromDB: ', error.message);
+        console.error('---[ERROR] model/getAllPaymentsMethodsDB: ', error.message);
         return {status: false}
     } finally {
         if (connection) connection.release()

@@ -1,6 +1,6 @@
 import { pool } from "../config/connectionDB.mjs";
 
-export const getUserLoginByIdFromDB = async (uid) => {
+export const getUserLoginDB = async (uid) => {
     const connection = await pool.getConnection()
     const query = `
     SELECT
@@ -10,7 +10,7 @@ export const getUserLoginByIdFromDB = async (uid) => {
     INNER JOIN
         users u ON u.user_id = ul.user_id
     WHERE
-        u.user_id = ?
+        BIN_TO_UUID(u.user_id) = ?
     ORDER BY ul.ul_login DESC`
 
     try {

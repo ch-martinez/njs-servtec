@@ -1,17 +1,17 @@
-import * as user_model from "../models/user.model.mjs";
-import * as role_model from "../models/role.model.mjs"
-import * as order_model from "../models/order.model.mjs"
-import * as user_login_model from "../models/user_login.model.mjs"
+import * as m_user from "../models/user.model.mjs";
+import * as m_role from "../models/role.model.mjs"
+import * as m_order from "../models/order.model.mjs"
+import * as m_user_login from "../models/user_login.model.mjs"
 
-import * as user_formarter from "../utils/formarters/user.formarter.mjs";
-import * as date_formarter from "../utils/formarters/date.formarter.mjs";
-import * as role_formarter from "../utils/formarters/role.formarter.mjs";
-import * as order_formarter from "../utils/formarters/order.formarter.mjs";
-import * as generator from "../utils/ticket_generator.mjs";
+import * as f_user from "../utils/formarters/user.formarter.mjs";
+import * as f_date from "../utils/formarters/date.formarter.mjs";
+import * as f_role from "../utils/formarters/role.formarter.mjs";
+import * as f_order from "../utils/formarters/order.formarter.mjs";
+import * as generate from "../utils/generate.mjs";
 
-export const userAllView = async (req, res) => {
+export const getAllUsers = async (req, res) => {
 
-    const userList = await user_model.getUserAllFromDB()
+    const userList = await m_user.getUserAllFromDB()
 
     let data = {
         title: 'Usuarios',
@@ -22,14 +22,47 @@ export const userAllView = async (req, res) => {
     res.render('pages/user/users', { layout: 'layouts/main_layout', data });
 };
 
-export const userView = async (req, res) => {
+export const getNewUser = async (req, res) => {
+
+    const roles = f_role.roles(await m_role.getAllRolesDB())
+
+    let data = {
+        title: 'Nuevo usuario',
+        nav: 'user',
+    };
+
+    res.render('pages/user/user_new', { layout: 'layouts/main_layout', data, roles });
+};
+
+export const postNewUser = async (req, res) => {
+
+    const uuid = generate.uuid()
+    const user = f_user.postNewUser(uuid, req.body)
+    const insertRes = await m_user.insertUserDB(user)
+
+    if (insertRes.status) {
+        res.send({
+            status: true,
+            msg: "Usuario creado con exito!",
+            url: `/user/${uuid}`
+        })
+
+    } else {
+        res.send({
+            status: false,
+            msg: "Error al crear el usuario!"
+        })
+    }
+};
+
+export const getUser = async (req, res) => {
 
     const uid = req.params.id
 
-    const user_data = user_formarter.user(await user_model.getUserByIdFromDB(uid))
-    const user_login_history = date_formarter.loginHistory(await user_login_model.getUserLoginByIdFromDB(uid))
-    const user_role = role_formarter.role(await role_model.getRoleByUserIdFromDB(uid))
-    const user_orders = order_formarter.list(await order_model.allUserOrdersDB(uid))
+    const user_data = f_user.user(await m_user.getUserDB(uid))
+    const user_login = f_date.loginHistory(await m_user_login.getUserLoginDB(uid))
+    const user_role = f_role.role(await m_role.getUserRoleDB(uid))
+    const user_orders = f_order.orders(await m_order.getAllUserOrdersDB(uid))
 
     let data = {
         title: 'Detalle de usuario',
@@ -39,18 +72,18 @@ export const userView = async (req, res) => {
     const user = {
         ...user_data,
         role: user_role,
-        login_history: user_login_history,
+        login_history: user_login,
         orders: user_orders
     }
 
     res.render('pages/user/user_detail', { layout: 'layouts/main_layout', data, user });
 };
 
-export const userEditView = async (req, res) => {
+export const getEditUser = async (req, res) => {
     const uid = req.params.id
-    const roles = role_formarter.rolesList(await role_model.getAllRolesFromDB())
-    const user_data = user_formarter.user(await user_model.getUserByIdFromDB(uid))
-    const user_role = role_formarter.role(await role_model.getRoleByUserIdFromDB(uid))
+    const roles = f_role.roles(await m_role.getAllRolesDB())
+    const user_data = f_user.user(await m_user.getUserDB(uid))
+    const user_role = f_role.role(await m_role.getUserRoleDB(uid))
 
     let data = {
         title: 'Editar usuario',
@@ -65,10 +98,10 @@ export const userEditView = async (req, res) => {
     res.render('pages/user/user_edit', { layout: 'layouts/main_layout', data, user, roles });
 };
 
-export const userEditPut = async (req, res) => {
+export const putEditUser = async (req, res) => {
     const uid = req.params.id
     const user = req.body
-    const updateRes = await user_model.updateUserInDB(uid,user)
+    const updateRes = await m_user.updateUserDB(uid, user)
 
     if (updateRes.status) {
         res.send({
@@ -76,7 +109,7 @@ export const userEditPut = async (req, res) => {
             msg: "Actualizado con exito!",
             url: `/user/${uid}`
         })
-    }else{
+    } else {
         res.send({
             status: false,
             msg: "Error al actualizar los datos!"
@@ -84,47 +117,15 @@ export const userEditPut = async (req, res) => {
     }
 };
 
-export const userNewView = async (req, res) => {
-
-    const roles = role_formarter.rolesList(await role_model.getAllRolesFromDB())
-
-    let data = {
-        title: 'Nuevo usuario',
-        nav: 'user',
-    };
-
-    res.render('pages/user/user_new', { layout: 'layouts/main_layout', data, roles });
-};
-
-export const userNew = async (req, res) => {
-
-    const user = user_formarter.userNewPost(req.body)
-    const insertResponse = await user_model.insertUserInDB(user)
-
-    if (insertResponse.status) {
-        res.send({
-            status: true,
-            msg: "Usuario creado con exito!",
-            url: `/user/${insertResponse.user_id}`
-        })
-
-    } else {
-        res.send({
-            status: false,
-            msg: "Error al crear el usuario!"
-        })
-    }
-};
-
-export const statusUser = async (req, res) => {
+export const postUserStatus = async (req, res) => {
     const user = {
         id: req.params.id,
         status: !(req.body.status == "true")
     }
 
-    const statusRes = await user_model.statusUserInDB(user)
+    const updateRes = await m_user.updateUserStatusDB(user)
 
-    if (statusRes.status) {
+    if (updateRes.status) {
         res.send({
             status: true,
             msg: !(user.status) ? "Usuario deshabilitado!" : "Usuario habilitado!",
@@ -139,8 +140,7 @@ export const statusUser = async (req, res) => {
     }
 }
 
-
-export const updateUserPasswordView = async (req, res) => {
+export const getUpdatePassword = async (req, res) => {
 
     const uid = req.params.id
 
@@ -149,14 +149,14 @@ export const updateUserPasswordView = async (req, res) => {
         nav: 'user',
     };
 
-    res.render('pages/user/user_password_update', { layout: 'layouts/main_layout', data, uid});
+    res.render('pages/user/user_password_update', { layout: 'layouts/main_layout', data, uid });
 };
 
-export const updateUserPassword = async (req, res) => {
+export const putUpdatePassword = async (req, res) => {
 
-    const user = user_formarter.updateUserPassword(req.params.id, req.body)
+    const user = f_user.updatePwd(req.params.id, req.body)
 
-    const updateRes = await user_model.updateUserPasswordDB(user)
+    const updateRes = await m_user.updatePasswordDB(user)
 
     if (updateRes.status) {
         res.send({
@@ -164,7 +164,7 @@ export const updateUserPassword = async (req, res) => {
             msg: "Actualizado con exito!",
             url: `/user/${user.id}`
         })
-    }else{
+    } else {
         res.send({
             status: false,
             msg: "Error al actualizar los datos!"
@@ -172,13 +172,13 @@ export const updateUserPassword = async (req, res) => {
     }
 };
 
-export const resetUserPassword = async (req, res) => {
+export const postResetPassword = async (req, res) => {
 
-    const pwd = {pwd: generator.randomPwd()}
+    const pwd = { pwd: generate.randomPwd() }
 
-    const user = user_formarter.updateUserPassword(req.params.id, pwd)
+    const user = f_user.updatePwd(req.params.id, pwd)
 
-    const updateRes = await user_model.updateUserPasswordDB(user)
+    const updateRes = await m_user.updatePasswordDB(user)
 
     if (updateRes.status) {
         res.send({
@@ -186,7 +186,7 @@ export const resetUserPassword = async (req, res) => {
             msg: "Contraseña restablecida con exito!",
             url: `/user/${user.id}`
         })
-    }else{
+    } else {
         res.send({
             status: false,
             msg: "Error al restablecer contraseña!"

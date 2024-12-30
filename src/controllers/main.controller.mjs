@@ -1,4 +1,4 @@
-export const mainView = (req, res) => {
+export const getMain = (req, res) => {
     let data = {
         title: 'Panel administración'
     };

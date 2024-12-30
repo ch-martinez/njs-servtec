@@ -1,7 +1,6 @@
-import { getAllDevicesBrandsFromDB, getAllModelsByBrandIdFromDB } from "../models/device.model.mjs"
+import { getAllModelsByBrandDB } from "../models/device.model.mjs"
 
 export const getAllModelsByBrand = async (req, res) => {
-    console.log(req.params.id)
-    const models = await getAllModelsByBrandIdFromDB(req.params.id)
-    res.json(models)
+    const resp = await getAllModelsByBrandDB(req.params.id)
+    res.json(resp)
 }

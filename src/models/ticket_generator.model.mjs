@@ -11,14 +11,10 @@ export const lastTicketFromDB = async (id) => {
         await connection.beginTransaction()
 
         let [[res]] = await connection.query(query, id)
-        console.log(res)
-        let plas = Number(res)
         await connection.query(queryUpdate, [res.tc_num, id])
 
         //Finalizar transacción
         await connection.commit()
-
-        console.log("NUMERO: ",res.tc_num)
 
         return res.tc_num
     } catch (error) {

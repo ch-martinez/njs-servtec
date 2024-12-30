@@ -1,15 +1,15 @@
 export const role = (role) => {
     return {
-        id: role.role_id,
-        name: role.role_name,
-        code: role.role_code
+        role_id: role.role_id,
+        role_name: role.role_name,
+        role_code: role.role_code
     }
 }
 
-export const rolesList = (role_list) => {
-    let temp = []
-    role_list.forEach((roler) => {
-        temp.push(role(roler))
+export const roles = (roles) => {
+    let arr = []
+    roles.forEach((r) => {
+        arr.push(role(r))
     })
-    return temp
+    return arr
 }

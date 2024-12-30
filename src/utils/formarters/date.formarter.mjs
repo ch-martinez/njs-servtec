@@ -18,7 +18,7 @@ export const date = (isoDate) =>{
     }
 }
 
-export const dateFull = (isoDate) =>{
+export const fullDateStr = (isoDate) =>{
     return `${formatDate(isoDate)}, ${formatTime(isoDate)}hs`
 }
 

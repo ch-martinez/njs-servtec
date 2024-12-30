@@ -4,7 +4,7 @@ export const getUserAllFromDB = async () => {
     const connection = await pool.getConnection()
     const query = `
     SELECT
-        u.user_id ,
+        BIN_TO_UUID(u.user_id) AS user_id,
         user_name,
         user_dni,
         user_lastname,
@@ -34,11 +34,11 @@ export const getUserAllFromDB = async () => {
     }
 }
 
-export const getUserByIdFromDB = async (uid) => {
+export const getUserDB = async (uid) => {
     const connection = await pool.getConnection()
     const query = `
     SELECT
-        user_id ,
+        BIN_TO_UUID(user_id) AS user_id,
         user_name,
         user_dni,
         user_lastname,
@@ -51,19 +51,19 @@ export const getUserByIdFromDB = async (uid) => {
     FROM
         users u
     WHERE
-        user_id = ?`
+        BIN_TO_UUID(user_id) = ?`
 
     try {
         const [[rows]] = await connection.query(query, uid)
         return rows
     } catch (error) {
-        console.log('---[ERROR] model/getUserAll: ', error)
+        console.log('---[ERROR] model/getUserDB: ', error)
     } finally {
         if (connection) connection.release()
     }
 }
 
-export const insertUserInDB = async (data) => {
+export const insertUserDB = async (data) => {
 
     const connection = await pool.getConnection()
 
@@ -75,39 +75,38 @@ export const insertUserInDB = async (data) => {
         const queryUser = `
         INSERT INTO users
         (
+            user_id,
             user_name,
             user_lastname,
             user_dni,
             user_email,
             user_password
         )
-        VALUES (?, ?, ?, ?, ?)`;
+        VALUES (UUID_TO_BIN(?), ?, ?, ?, ?, ?)`;
 
         const paramsUser = [
+            data.user_id,
             data.user_name,
             data.user_lastname,
             data.user_dni,
             data.user_email,
             data.user_password];
 
-        const [insertUserResult] = await connection.query(queryUser, paramsUser);
-
-        //Obtener el id del producto
-        const uid = insertUserResult.insertId;
+        await connection.query(queryUser, paramsUser);
 
         //Asocia el rol del usuario
         const queryUhr = `
         INSERT INTO user_has_role
             (user_id, role_id)
-        VALUES (?, ?)`;
+        VALUES (UUID_TO_BIN(?), ?)`;
 
-        const paramsUhr = [uid, data.role_id];
+        const paramsUhr = [data.user_id, data.role_id];
 
         await connection.query(queryUhr, paramsUhr);
         //Finalizar transacción
         await connection.commit();
 
-        return { status: true, user_id: uid };
+        return { status: true };
     } catch (error) {
         await connection.rollback();
         console.error('---[ERROR] model/insertUserInDB: ', error.message);
@@ -119,7 +118,7 @@ export const insertUserInDB = async (data) => {
 }
 
 
-export const updateUserInDB = async (uid,user) => {
+export const updateUserDB = async (uid,user) => {
     const connection = await pool.getConnection()
 
     try {
@@ -134,7 +133,7 @@ export const updateUserInDB = async (uid,user) => {
                 user_dni = ?,
                 user_email = ?
             WHERE
-                user_id = ?`
+                BIN_TO_UUID(user_id) = ?`
 
         const paramsUser = [
             user.user_name,
@@ -148,7 +147,7 @@ export const updateUserInDB = async (uid,user) => {
             SET
                 role_id = ?
             WHERE
-                user_id = ?`
+                BIN_TO_UUID(user_id) = ?`
 
         const paramsRole = [user.role_id, uid]
 
@@ -161,17 +160,17 @@ export const updateUserInDB = async (uid,user) => {
         return ({ status: true })
     } catch (error) {
         await connection.rollback()
-        console.error('---[ERROR] model/updateUserInDB: ', error.message);
+        console.error('---[ERROR] model/updateUserDB: ', error.message);
         return ({ status: false })
     } finally {
         if (connection) { connection.release() }
     }
 }
 
-export const statusUserInDB = async (user) => {
+export const updateUserStatusDB = async (user) => {
     const connection = await pool.getConnection()
 
-    const query = `UPDATE users SET user_status = ?, status_at = current_timestamp WHERE user_id = ?`
+    const query = `UPDATE users SET user_status = ?, status_at = current_timestamp WHERE BIN_TO_UUID(user_id) = ?`
 
     const params = [user.status, user.id]
 
@@ -186,10 +185,10 @@ export const statusUserInDB = async (user) => {
     }
 }
 
-export const updateUserPasswordDB = async (user) => {
+export const updatePasswordDB = async (user) => {
     const connection = await pool.getConnection()
 
-    const query = `UPDATE users SET user_password = ? WHERE user_id = ?`
+    const query = `UPDATE users SET user_password = ? WHERE BIN_TO_UUID(user_id) = ?`
 
     const params = [user.password, user.id]
 
