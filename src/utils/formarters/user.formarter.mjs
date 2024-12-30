@@ -15,9 +15,9 @@ export const user = (user) => {
     }
 }
 
-export const postNewUser = (user) => {
+export const postNewUser = (uuid, user) => {
     return {
-        user_id: user.user_id,
+        user_id: uuid,
         user_name: user.user_name,
         user_lastname: user.user_lastname,
         user_dni: user.user_dni,
