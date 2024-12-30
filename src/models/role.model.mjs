@@ -11,8 +11,8 @@ export const getUserRoleDB = async (uid) => {
         user_has_role uhr ON uhr.role_id = r.role_id
     INNER JOIN
         users u ON u.user_id = uhr.user_id
-
-    WHERE u.user_id = ?`
+    WHERE
+        BIN_TO_UUID(u.user_id) = ?`
 
     try {
         const [[rows]] = await connection.query(query, uid)
