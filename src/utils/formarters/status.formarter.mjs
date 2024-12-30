@@ -80,8 +80,8 @@ export const lastStatus = (data) => {
 
 export const postNextStatus = (oid, uid, ns) => {
     return {
-        order_id: Number(oid),
-        user_id: Number(uid),
+        order_id: oid,
+        user_id: uid,
         next_status: Number(ns)
     }
 }
