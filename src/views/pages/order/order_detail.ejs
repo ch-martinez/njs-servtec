@@ -55,28 +55,30 @@
                     </div>
                 </section>
             </section>
-            <section class="wrapper">
-                <section class="wrapper__header">
-                    <h2 class="wrapper__subtitle">Autorizacion de retiro</h2>
-                </section>
-                <section class="wrapper__body">
-                    <div class="wrapper__row wrapper__row--3">
+            <% if(order.auth.auth){%>
+                <section class="wrapper">
+                    <section class="wrapper__header">
+                        <h2 class="wrapper__subtitle">Autorizacion de retiro</h2>
+                    </section>
+                    <section class="wrapper__body">
+                        <div class="wrapper__row wrapper__row--3">
 
-                        <div class="item">
-                            <p class="item__key">Persona autorizada</p>
-                            <p class="item__value">Juan Perez Sosa</p>
+                            <div class="item">
+                                <p class="item__key">Persona autorizada</p>
+                                <p class="item__value"><%= order.auth.auth_name %> <%= order.auth.auth_lastname %></p>
+                            </div>
+                            <div class="item">
+                                <p class="item__key">DNI</p>
+                                <p class="item__value"><%= order.auth.auth_dni %></p>
+                            </div>
+                            <div class="item">
+                                <p class="item__key">Fecha autorizacion</p>
+                                <p class="item__value">26/03/92, 10:22hs</p>
+                            </div>
                         </div>
-                        <div class="item">
-                            <p class="item__key">DNI</p>
-                            <p class="item__value">35.123.123</p>
-                        </div>
-                        <div class="item">
-                            <p class="item__key">Fecha autorizacion</p>
-                            <p class="item__value">26/03/92, 10:22hs</p>
-                        </div>
-                    </div>
+                    </section>
                 </section>
-            </section>
+            <%}%>
             <section class="wrapper">
                 <section class="wrapper__header">
                     <h2 class="wrapper__subtitle">Datos orden</h2>
@@ -141,7 +143,7 @@
                         </div>
                         <div class="item">
                             <p class="item__key">Pago adelantado</p>
-                            <p class="item__value"><%= order.budget.prepaid %></p>
+                            <p class="item__value"><%= order.budget.prepaid ? "Si" : "No" %></p>
                         </div>
                         <div class="item">
                             <p class="item__key">Metodo de pago</p>
