@@ -9,7 +9,8 @@ import * as f_pm from "../utils/formarters/payment_method.formarter.mjs"
 import * as f_status from "../utils/formarters/status.formarter.mjs"
 import * as generate from "../utils/generate.mjs"
 
-const test_uid = "f0ca9be0-c62e-11ef-b516-a351be642676"
+const uid_tec = process.env.UUID_TEC1
+const uid_atc = process.env.UUID_ATC2
 
 export const getAllOrders = async (req, res) => {
     const orders = f_order.orders(await m_order.getAllOrdersDB())
@@ -48,7 +49,7 @@ export const postNewOrder = async (req, res) => {
         ...order_data,
         order_ticket: ticket,
         /* *************************** USUARIO PRUEBA ********************************** */
-        uid: test_uid
+        uid: uid_atc
     }
 
     const insertRes = await m_order.insertOrderDB(order_data)
@@ -72,28 +73,27 @@ export const getNewWarranty = async (req, res) => {
 
     const oid = req.params.oid
     const warranty = await m_order.hasWarrantyDB(oid)
+    const order = f_order.order(await m_order.getOrderDB(oid));
 
-    if (warranty.status) {
-        res.redirect(`/order/${warranty.warranty_id}`)
-    } else {
+    if (warranty.status) return res.redirect(`/order/${warranty.warranty_id}`)
 
-        const order = f_order.order(await m_order.getOrderDB(oid))
-        const customer = f_customer.customer(await m_customer.getCustomerDB(order.customer_id))
+    if (!order.finished) return res.redirect(`/order/${oid}`)
 
-        const data = {
-            title: `Nueva garantia`,
-            nav: 'order'
-        }
+    const customer = f_customer.customer(await m_customer.getCustomerDB(order.customer_id));
 
-        res.render('pages/order/order_new_warranty', { layout: 'layouts/main_layout', data, order, customer, warranty });
-    }
+    const data = {
+        title: `Nueva garantia`,
+        nav: 'order'
+    };
+
+    res.render('pages/order/order_new_warranty', { layout: 'layouts/main_layout', data, order, customer, warranty });
 
 }
 
 export const postNewWarranty = async (req, res) => {
     const warranty_id = await generate.uuid()
     const main_id = req.params.oid
-    const uid = test_uid
+    const uid = uid_atc
     let order_data = f_order.postNewWarranty(main_id, warranty_id, uid, req.body)
     const ticket = await generate.ticket("GTA")
 
@@ -170,7 +170,7 @@ export const putEditOrder = async (req, res) => {
 }
 
 export const postNextStatus = async (req, res) => {
-    const uid = test_uid // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    const uid = uid_tec // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     const next_status = f_status.postNextStatus(req.params.oid, uid, req.body.next_status)
     const insertResp = await m_status.insertNextStatusDB(next_status)
 
@@ -197,12 +197,12 @@ export const getAuthOrder = async (req, res) => {
         nav: 'order'
     }
 
-    res.render('pages/order/order_auth', { layout: 'layouts/main_layout', data, oid, auth});
+    res.render('pages/order/order_auth', { layout: 'layouts/main_layout', data, oid, auth });
 }
 
 export const postAuthOrder = async (req, res) => {
     const oid = req.params.oid
-    const uid = test_uid // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    const uid = uid_atc // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     const updateRes = await m_order.updateAuthOrderDB(f_order.postAuthOrder(uid, oid, req.body))
 
@@ -230,7 +230,7 @@ export const deleteOrder = async (req, res) => {
             url: `/order/all`
         })
     } else {
-        const msg = deletResp.errno == 1451 ? "No se puede eliminar una orden con garantias asociadas!" : "Error al eliminar la orden!"
+        const msg = deletResp.error == 1451 ? "No se puede eliminar una orden con garantias asociadas!" : "Error al eliminar la orden!"
         res.send({
             status: false,
             msg: msg
