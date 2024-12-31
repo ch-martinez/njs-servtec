@@ -11,7 +11,9 @@ export const getStatusHistoryDB = async (oid) => {
             BIN_TO_UUID(osh.created_by) AS created_by,
             osh.created_at,
             osh.osh_current,
-            osc.osc_description,
+            osc.osc_category,
+            osc.osc_detail,
+            osc.osc_type,
             u.user_name,
             u.user_lastname
         FROM
@@ -44,7 +46,9 @@ export const getLastStatusDB = async (oid) => {
             osh.created_at,
             osh.osh_current,
             osh.osc_id,
-            osc.osc_description,
+            osc.osc_category,
+            osc.osc_detail,
+            osc.osc_type,
             osc.osc_next_status
         FROM
             order_status_history osh
@@ -72,6 +76,15 @@ export const getLastStatusDB = async (oid) => {
 }
 
 export const insertNextStatusDB = async (data) => {
+    const statusUpdates = {
+        '450': "UPDATE orders SET order_repaired = 1 WHERE BIN_TO_UUID(order_id) = ?",
+        '460': "UPDATE orders SET order_repaired = 2 WHERE BIN_TO_UUID(order_id) = ?",
+        '470': "UPDATE orders SET order_repaired = 0 WHERE BIN_TO_UUID(order_id) = ?",
+        '220': "UPDATE orders SET order_repaired = 0 WHERE BIN_TO_UUID(order_id) = ?",
+        '700': "UPDATE orders SET order_finished = 1 WHERE BIN_TO_UUID(order_id) = ?",
+        '730': "UPDATE orders SET order_finished = 1 WHERE BIN_TO_UUID(order_id) = ?"
+    };
+
     const connection = await pool.getConnection()
     try {
         //Iniciar transacción
@@ -83,6 +96,10 @@ export const insertNextStatusDB = async (data) => {
 
         await connection.query(queryUpdate, data.order_id)
         await connection.query(queryInsert, params)
+
+        //Actualiza los campos "finished" o "repaired" de la orden segun el estado
+        const queryOrder = statusUpdates[data.next_status];
+        if (queryOrder) {await connection.query(queryOrder, data.order_id)}
 
         //Finaliza transaccion
         await connection.commit()
