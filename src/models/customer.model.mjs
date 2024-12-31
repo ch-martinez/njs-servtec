@@ -71,10 +71,11 @@ export const insertCustomerDB = async (data) => {
             customer_email ,
             customer_tel ,
             customer_tel_alt ,
-            customer_obs
+            customer_obs,
+            created_by
         )
 
-        VALUES (UUID_TO_BIN(?), ?, ?, ?, ?, ?, ?, ?)`
+        VALUES (UUID_TO_BIN(?), ?, ?, ?, ?, ?, ?, ?, UUID_TO_BIN(?))`
 
     const params = [
         data.customer_id,
@@ -84,7 +85,8 @@ export const insertCustomerDB = async (data) => {
         data.customer_email,
         data.customer_tel,
         data.customer_tel_alt,
-        data.customer_obs
+        data.customer_obs,
+        data.created_by
     ]
 
     try {
