@@ -270,6 +270,8 @@ export const getOrderDB = async (oid) => {
         o.order_auth_name,
         o.order_auth_dni,
         o.created_at,
+        o.order_repaired,
+        o.order_finished,
         o.db_id,
         db.db_name,
         o.dm_id,
