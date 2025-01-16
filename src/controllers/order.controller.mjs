@@ -170,9 +170,12 @@ export const putEditOrder = async (req, res) => {
 }
 
 export const postNextStatus = async (req, res) => {
-    const uid = uid_tec // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    const next_status = f_status.postNextStatus(req.params.oid, uid, req.body.next_status)
-    const insertResp = await m_status.insertNextStatusDB(next_status)
+    const oid = req.params.oid
+    const data = f_status.nextStatusData(req.body)
+
+    const uid = uid_tec // ****************************************************
+    const next_status = f_status.postNextStatus(oid, uid, req.body.next_status)
+    const insertResp = await m_status.insertNextStatusDB(next_status, data)
 
     if (insertResp.status) {
         res.send({
@@ -197,7 +200,7 @@ export const getAuthOrder = async (req, res) => {
         nav: 'order'
     }
 
-    res.render('pages/order/order_auth', { layout: 'layouts/main_layout', data, oid, auth });
+    res.render('pages/order/sections/order_auth', { layout: 'layouts/main_layout', data, oid, auth });
 }
 
 export const postAuthOrder = async (req, res) => {
@@ -218,6 +221,116 @@ export const postAuthOrder = async (req, res) => {
             msg: "Error al cargar la autorización!"
         })
     }
+}
+
+// todo: Implementar
+export const getBudget = async (req, res) => {
+    const oid = req.params.oid
+    const next_status = 300
+    const data = {
+        title: `Presupuesto`,
+        nav: 'order'
+    }
+
+    res.render('pages/order/sections/order_budget', { layout: 'layouts/main_layout', data, oid, next_status });
+}
+
+// todo: Implementar
+export const getComment = async (req, res) => {
+    const oid = req.params.oid
+    const t = req.query.t
+
+    const wrapper_title_id = {
+        0: "Atención al cliente",
+        1: "Taller",
+        2: "Observacion adicional",
+    }
+
+    const textarea_title_id = "Escriba acontinuación el comentario"
+
+    const d = {
+        type: t,
+        order_id: oid,
+        text: {
+            wrapper_title: wrapper_title_id[t],
+            textarea_title: textarea_title_id
+        }
+    }
+
+    const comments = f_order.comments(await m_order.getCommentOrderDB(oid))
+
+    const data = {
+        title: `Comentario`,
+        nav: 'order'
+    }
+
+    res.render('pages/order/sections/order_comment', { layout: 'layouts/main_layout', d, data, comments });
+}
+
+export const postComment = async (req, res) => {
+    const oid = req.params.oid
+    const uid = uid_atc // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    const updateRes = await m_order.updateAuthOrderDB(f_order.postAuthOrder(uid, oid, req.body))
+
+    if (updateRes.status) {
+        res.send({
+            status: true,
+            msg: "Se cargó autorización!",
+            url: `/order/${oid}`
+        })
+    } else {
+        res.send({
+            status: false,
+            msg: "Error al cargar la autorización!"
+        })
+    }
+}
+
+export const getCommentStatus = async (req, res) => {
+    const oid = req.params.oid
+    const sid = req.query.sid
+/* 
+    const statusIdComment = {
+        "220": "Indique motivo por el cual no se puede reparar",
+        "460": "Indique motivo de la reparación parcial",
+        "470": "Indique motivo por el cual no se pudo reparar",
+    }
+    const status = {
+        id: sid,
+        comment: statusIdComment[sid] || "Escriba acontinuación"
+    } */
+
+    const wrapper_title_id = {
+        220: "No reparado",
+        460: "Reparado parcial",
+        470: "No reparado"
+    }
+
+    const textarea_title_id = {
+        220: "Indique motivo por el cual no se puede reparar",
+        460: "Indique motivo de la reparación parcial",
+        470: "Indique motivo por el cual no se pudo reparar",
+    }
+
+    const d = {
+        type: req.query.type,
+        next_status_id: sid,
+        order_id: oid,
+        text: {
+            wrapper_title: wrapper_title_id[sid],
+            textarea_title: textarea_title_id[sid] || "Escriba acontinuación"
+        }
+    }
+
+    const comments = f_order.comments(await m_order.getCommentOrderDB(oid))
+
+    const data = {
+        title: `Comentario`,
+        nav: 'order'
+    }
+
+    res.render('pages/order/sections/order_comment', { layout: 'layouts/main_layout', d, data, comments });
 }
 
 export const deleteOrder = async (req, res) => {
