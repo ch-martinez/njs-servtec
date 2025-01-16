@@ -22,7 +22,8 @@ export const getUserAllFromDB = async () => {
     INNER JOIN
         user_has_role uhr ON u.user_id = uhr.user_id
     INNER JOIN
-        roles r ON r.role_id = uhr.role_id `
+        roles r ON r.role_id = uhr.role_id
+    WHERE u.default = 0`
 
     try {
         const [rows] = await connection.query(query)
