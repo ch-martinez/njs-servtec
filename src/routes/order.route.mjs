@@ -1,5 +1,6 @@
 import { Router } from "express";
 import * as controller from "../controllers/order.controller.mjs";
+import * as mid from "../middlewares/status.middleware.mjs";
 
 const router = Router()
 
@@ -22,7 +23,19 @@ router.get('/:oid/edit', controller.getEditOrder)
 router.post('/:oid/edit', controller.putEditOrder)
 
 /* Siguiente estado de la orden */
-router.post('/:oid/status', controller.postNextStatus)
+router.post('/:oid/status', mid.filterStatus, controller.postNextStatus)
+
+/* Presupuesto de la orden */
+router.get('/:oid/budget', controller.getBudget)
+router.post('/:oid/budget', controller.postNextStatus)
+
+/* Comentario tecnico */
+router.get('/:oid/comment', controller.getComment)
+router.post('/:oid/comment', controller.postNextStatus)
+
+/* Comentario de estado */
+//router.get('/:oid/comment/:sid', controller.getComment)
+//router.post('/:oid/comment/:sid', controller.postNextStatus)
 
 /* Autorizacion de retiro */
 router.get('/:oid/auth', controller.getAuthOrder)
