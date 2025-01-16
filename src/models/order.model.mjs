@@ -11,7 +11,8 @@ export const getAllOrdersDB = async (filters) => {
         BIN_TO_UUID(c.customer_id) AS customer_id,
         c.customer_name,
         c.customer_lastname,
-        osc.osc_description
+        osc.osc_category,
+        osc.osc_detail
     FROM
         orders o
     INNER JOIN
@@ -29,9 +30,6 @@ export const getAllOrdersDB = async (filters) => {
     }
 
     try {
-/*      console.log('---[INFO] model/getAllOrdersDB: ', query)
-        console.log('---[INFO] model/getAllOrdersDB: ', filterParams)
-        console.log('---[INFO] model/getAllOrdersDB: ', filters) */
         const [rows] = await connection.query(query, filterParams)
         return rows
     } catch (error) {
@@ -51,7 +49,8 @@ export const getAllCustomerOrdersDB = async (cid) => {
         BIN_TO_UUID(c.customer_id) AS customer_id,
         c.customer_name,
         c.customer_lastname,
-        osc.osc_description,
+        osc.osc_category,
+        osc.osc_detail,
         osh.created_at
     FROM
         orders o
@@ -94,7 +93,8 @@ export const getAllUserOrdersDB = async (uid) => {
             BIN_TO_UUID(c.customer_id) AS customer_id,
             c.customer_name,
             c.customer_lastname,
-            osc.osc_description,
+            osc.osc_category,
+            osc.osc_detail,
             osh.created_at
         FROM rel_order AS r
         INNER JOIN
@@ -270,6 +270,8 @@ export const getOrderDB = async (oid) => {
         o.order_auth_name,
         o.order_auth_dni,
         o.created_at,
+        o.order_repaired,
+        o.order_finished,
         o.db_id,
         db.db_name,
         o.dm_id,
@@ -456,6 +458,28 @@ export const getAuthOrderDB = async (oid) => {
         return resp
     } catch (error) {
         console.error('---[ERROR] model/getAuthOrderDB: ', error.message)
+    } finally {
+        if (connection) connection.release()
+    }
+}
+
+export const getCommentOrderDB = async (oid) => {
+    const connection = await pool.getConnection()
+    const query = `
+    SELECT
+        order_comment_atc,
+        order_comment_tec,
+        order_comment_extra
+    FROM
+        orders
+    WHERE
+        BIN_TO_UUID(order_id) = ?`
+
+    try {
+        const [[resp]] = await connection.query(query, oid)
+        return resp
+    } catch (error) {
+        console.error('---[ERROR] model/getCommentOrderDB: ', error.message)
     } finally {
         if (connection) connection.release()
     }

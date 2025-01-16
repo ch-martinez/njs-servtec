@@ -3,7 +3,7 @@ import { fullDateStr } from "./date.formarter.mjs"
 
 export const orders = (orders) => {
     let arr = []
-
+console.log(orders)
     if (orders) {
         orders.forEach(o => {
             arr.push({
@@ -16,7 +16,7 @@ export const orders = (orders) => {
                     name: o.customer_name,
                     lastname: o.customer_lastname
                 },
-                status: o.osc_description
+                status: `${o.osc_category} - ${o.osc_detail}`,
             })
         })
     }
@@ -90,6 +90,8 @@ export const order = (order) => {
             auth_dni: order.order_auth_dni
         },
         created_at: fullDateStr(order.created_at),
+        finished: order.order_finished == 0 ? false : true,
+        repaired: order.order_repaired
     }
 }
 
@@ -134,5 +136,13 @@ export const postAuthOrder = (uid, oid, auth) => {
             auth_lastname: noData(auth.auth_lastname),
             auth_dni: Number(auth.auth_dni)
         }
+    }
+}
+
+export const comments = (comments) => {
+    return {
+        comment_atc: comments.order_comment_atc ? `${comments.order_comment_atc} // \n` : '',
+        comment_tec: comments.order_comment_tec ? `${comments.order_comment_tec} // \n` : '',
+        comment_extra: comments.order_comment_extra ? `${comments.order_comment_extra} // \n` : ''
     }
 }

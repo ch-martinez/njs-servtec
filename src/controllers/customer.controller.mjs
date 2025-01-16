@@ -4,6 +4,9 @@ import * as f_customer from "../utils/formarters/customer.formarter.mjs";
 import * as f_order from "../utils/formarters/order.formarter.mjs";
 import * as generate from "../utils/generate.mjs"
 
+const uid_tec = process.env.UUID_TEC1
+const uid_atc = process.env.UUID_ATC1
+
 export const getAllCustomers = async (req, res) => {
 
     const customers = f_customer.customers(await m_customer.getAllCustomersDB())
@@ -27,13 +30,14 @@ export const getNewCustomer = async (req, res) => {
 
 export const postNewCustomer = async (req, res) => {
     const cid = await generate.uuid()
-    const insertRes = await m_customer.insertCustomerDB(f_customer.postNewCustomer(cid, req.body))
+    const uid = uid_atc
+    const insertRes = await m_customer.insertCustomerDB(f_customer.postNewCustomer(cid, uid, req.body))
 
     if (insertRes.status) {
         const responseData = {
             status: true,
             msg: "Cliente creado con exito!",
-            url: `/customer/${insertRes.customer_id}`
+            url: `/customer/${cid}`
         }
         res.send(responseData)
     } else {

@@ -152,7 +152,7 @@
                     </div>
                         <div class="item">
                         <p class="item__key">Detalle presupuesto</p>
-                        <p class="item__value"><%= order.budget.comment %></p>
+                        <p class="item__value"><%= order.budget.detail %></p>
                     </div>
                 </section>
             </section>
@@ -178,9 +178,13 @@
         <section class="container container-r">
             <section class="wrapper">
                 <section class="wrapper__header">
-                    <h2 class="wrapper__subtitle">Estados</h2>
+                    <div>
+                        <h2 class="wrapper__subtitle">Estado actual</h2>
+                        <p><%= lastStatus.actual.description %></p>
+                    </div>
                 </section>
                 <form id="form" class="wrapper__body" action="/order/<%= order.id %>/status" method="post">
+                    <h2 class="wrapper__subtitle">Siguientes estados</h2>
                     <% lastStatus.next.forEach(s => {%>
                         <label class="label--checkbox" for="<%= s.id %>">
                             <input type="radio" name="next_status" id="<%= s.id %>" value="<%= s.id %>">
@@ -243,7 +247,7 @@
 
                     <ul class="menu__ul">
                         <li class="menu__li">
-                            <a id="menu_rol" href="#" class="menu__link">
+                            <a id="menu_rol" href="/order/<%= order.id%>/comment?t=1" class="menu__link">
                                 <iconify-icon icon="tabler:message-cog"></iconify-icon>
                                 <span>Observación taller</span>
                             </a>
@@ -251,7 +255,7 @@
                     </ul>
                     <ul class="menu__ul">
                         <li class="menu__li">
-                            <a id="menu_rol" href="#" class="menu__link">
+                            <a id="menu_rol" href="/order/<%= order.id%>/comment?t=2" class="menu__link">
                                 <iconify-icon icon="tabler:message-2-plus"></iconify-icon>
                                 <span>Observación adicional</span>
                             </a>
@@ -274,14 +278,16 @@
                         </li>
                     </ul>
                     <div class="menu__line"></div>
-                    <ul class="menu__ul">
-                        <li class="menu__li">
-                            <a id="menu_rol" href="/order/new/warranty/<%= order.id %>" class="menu__link">
-                                <iconify-icon icon="tabler:award"></iconify-icon>
-                                <span>Garanta de reparacion</span>
-                            </a>
-                        </li>
-                    </ul>
+                    <% if (order.finished) { %>
+                        <ul class="menu__ul">
+                            <li class="menu__li">
+                                <a id="menu_rol" href="/order/new/warranty/<%= order.id %>" class="menu__link">
+                                    <iconify-icon icon="tabler:award"></iconify-icon>
+                                    <span>Garantia de reparacion</span>
+                                </a>
+                            </li>
+                        </ul>
+                    <%}%>
                     <ul class="menu__ul">
                         <li class="menu__li">
                             <a id="m_delete" href="#" class="menu__link" data-id="<%= order.id %>">

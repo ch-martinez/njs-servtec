@@ -21,7 +21,7 @@ export const customer = (cust) => {
     }
 }
 
-export const postNewCustomer = (cid, cust) => {
+export const postNewCustomer = (cid, uid, cust) => {
     return {
         customer_id: cid,
         customer_name: noData(cust.customer_name),
@@ -31,6 +31,7 @@ export const postNewCustomer = (cid, cust) => {
         customer_tel: Number(cust.customer_tel),
         customer_tel_alt: Number(cust.customer_tel_alt),
         customer_obs: noData(cust.customer_obs),
+        created_by: uid,
     }
 }
 

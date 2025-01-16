@@ -9,7 +9,8 @@ import * as f_pm from "../utils/formarters/payment_method.formarter.mjs"
 import * as f_status from "../utils/formarters/status.formarter.mjs"
 import * as generate from "../utils/generate.mjs"
 
-const test_uid = "f0ca9be0-c62e-11ef-b516-a351be642676"
+const uid_tec = process.env.UUID_TEC1
+const uid_atc = process.env.UUID_ATC2
 
 export const getAllOrders = async (req, res) => {
     const orders = f_order.orders(await m_order.getAllOrdersDB())
@@ -48,7 +49,7 @@ export const postNewOrder = async (req, res) => {
         ...order_data,
         order_ticket: ticket,
         /* *************************** USUARIO PRUEBA ********************************** */
-        uid: test_uid
+        uid: uid_atc
     }
 
     const insertRes = await m_order.insertOrderDB(order_data)
@@ -72,28 +73,27 @@ export const getNewWarranty = async (req, res) => {
 
     const oid = req.params.oid
     const warranty = await m_order.hasWarrantyDB(oid)
+    const order = f_order.order(await m_order.getOrderDB(oid));
 
-    if (warranty.status) {
-        res.redirect(`/order/${warranty.warranty_id}`)
-    } else {
+    if (warranty.status) return res.redirect(`/order/${warranty.warranty_id}`)
 
-        const order = f_order.order(await m_order.getOrderDB(oid))
-        const customer = f_customer.customer(await m_customer.getCustomerDB(order.customer_id))
+    if (!order.finished) return res.redirect(`/order/${oid}`)
 
-        const data = {
-            title: `Nueva garantia`,
-            nav: 'order'
-        }
+    const customer = f_customer.customer(await m_customer.getCustomerDB(order.customer_id));
 
-        res.render('pages/order/order_new_warranty', { layout: 'layouts/main_layout', data, order, customer, warranty });
-    }
+    const data = {
+        title: `Nueva garantia`,
+        nav: 'order'
+    };
+
+    res.render('pages/order/order_new_warranty', { layout: 'layouts/main_layout', data, order, customer, warranty });
 
 }
 
 export const postNewWarranty = async (req, res) => {
     const warranty_id = await generate.uuid()
     const main_id = req.params.oid
-    const uid = test_uid
+    const uid = uid_atc
     let order_data = f_order.postNewWarranty(main_id, warranty_id, uid, req.body)
     const ticket = await generate.ticket("GTA")
 
@@ -170,9 +170,12 @@ export const putEditOrder = async (req, res) => {
 }
 
 export const postNextStatus = async (req, res) => {
-    const uid = test_uid // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    const next_status = f_status.postNextStatus(req.params.oid, uid, req.body.next_status)
-    const insertResp = await m_status.insertNextStatusDB(next_status)
+    const oid = req.params.oid
+    const data = f_status.nextStatusData(req.body)
+
+    const uid = uid_tec // ****************************************************
+    const next_status = f_status.postNextStatus(oid, uid, req.body.next_status)
+    const insertResp = await m_status.insertNextStatusDB(next_status, data)
 
     if (insertResp.status) {
         res.send({
@@ -197,12 +200,12 @@ export const getAuthOrder = async (req, res) => {
         nav: 'order'
     }
 
-    res.render('pages/order/order_auth', { layout: 'layouts/main_layout', data, oid, auth});
+    res.render('pages/order/sections/order_auth', { layout: 'layouts/main_layout', data, oid, auth });
 }
 
 export const postAuthOrder = async (req, res) => {
     const oid = req.params.oid
-    const uid = test_uid // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    const uid = uid_atc // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     const updateRes = await m_order.updateAuthOrderDB(f_order.postAuthOrder(uid, oid, req.body))
 
@@ -220,6 +223,116 @@ export const postAuthOrder = async (req, res) => {
     }
 }
 
+// todo: Implementar
+export const getBudget = async (req, res) => {
+    const oid = req.params.oid
+    const next_status = 300
+    const data = {
+        title: `Presupuesto`,
+        nav: 'order'
+    }
+
+    res.render('pages/order/sections/order_budget', { layout: 'layouts/main_layout', data, oid, next_status });
+}
+
+// todo: Implementar
+export const getComment = async (req, res) => {
+    const oid = req.params.oid
+    const t = req.query.t
+
+    const wrapper_title_id = {
+        0: "Atención al cliente",
+        1: "Taller",
+        2: "Observacion adicional",
+    }
+
+    const textarea_title_id = "Escriba acontinuación el comentario"
+
+    const d = {
+        type: t,
+        order_id: oid,
+        text: {
+            wrapper_title: wrapper_title_id[t],
+            textarea_title: textarea_title_id
+        }
+    }
+
+    const comments = f_order.comments(await m_order.getCommentOrderDB(oid))
+
+    const data = {
+        title: `Comentario`,
+        nav: 'order'
+    }
+
+    res.render('pages/order/sections/order_comment', { layout: 'layouts/main_layout', d, data, comments });
+}
+
+export const postComment = async (req, res) => {
+    const oid = req.params.oid
+    const uid = uid_atc // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    const updateRes = await m_order.updateAuthOrderDB(f_order.postAuthOrder(uid, oid, req.body))
+
+    if (updateRes.status) {
+        res.send({
+            status: true,
+            msg: "Se cargó autorización!",
+            url: `/order/${oid}`
+        })
+    } else {
+        res.send({
+            status: false,
+            msg: "Error al cargar la autorización!"
+        })
+    }
+}
+
+export const getCommentStatus = async (req, res) => {
+    const oid = req.params.oid
+    const sid = req.query.sid
+/* 
+    const statusIdComment = {
+        "220": "Indique motivo por el cual no se puede reparar",
+        "460": "Indique motivo de la reparación parcial",
+        "470": "Indique motivo por el cual no se pudo reparar",
+    }
+    const status = {
+        id: sid,
+        comment: statusIdComment[sid] || "Escriba acontinuación"
+    } */
+
+    const wrapper_title_id = {
+        220: "No reparado",
+        460: "Reparado parcial",
+        470: "No reparado"
+    }
+
+    const textarea_title_id = {
+        220: "Indique motivo por el cual no se puede reparar",
+        460: "Indique motivo de la reparación parcial",
+        470: "Indique motivo por el cual no se pudo reparar",
+    }
+
+    const d = {
+        type: req.query.type,
+        next_status_id: sid,
+        order_id: oid,
+        text: {
+            wrapper_title: wrapper_title_id[sid],
+            textarea_title: textarea_title_id[sid] || "Escriba acontinuación"
+        }
+    }
+
+    const comments = f_order.comments(await m_order.getCommentOrderDB(oid))
+
+    const data = {
+        title: `Comentario`,
+        nav: 'order'
+    }
+
+    res.render('pages/order/sections/order_comment', { layout: 'layouts/main_layout', d, data, comments });
+}
+
 export const deleteOrder = async (req, res) => {
     const deletResp = await m_order.deleteOrderDB(req.params.oid)
 
@@ -230,7 +343,7 @@ export const deleteOrder = async (req, res) => {
             url: `/order/all`
         })
     } else {
-        const msg = deletResp.errno == 1451 ? "No se puede eliminar una orden con garantias asociadas!" : "Error al eliminar la orden!"
+        const msg = deletResp.error == 1451 ? "No se puede eliminar una orden con garantias asociadas!" : "Error al eliminar la orden!"
         res.send({
             status: false,
             msg: msg
