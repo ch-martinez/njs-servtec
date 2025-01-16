@@ -75,38 +75,60 @@ export const getLastStatusDB = async (oid) => {
     }
 }
 
-export const insertNextStatusDB = async (data) => {
-    const statusUpdates = {
-        '450': "UPDATE orders SET order_repaired = 1 WHERE BIN_TO_UUID(order_id) = ?",
-        '460': "UPDATE orders SET order_repaired = 2 WHERE BIN_TO_UUID(order_id) = ?",
-        '470': "UPDATE orders SET order_repaired = 0 WHERE BIN_TO_UUID(order_id) = ?",
-        '220': "UPDATE orders SET order_repaired = 0 WHERE BIN_TO_UUID(order_id) = ?",
-        '700': "UPDATE orders SET order_finished = 1 WHERE BIN_TO_UUID(order_id) = ?",
-        '730': "UPDATE orders SET order_finished = 1 WHERE BIN_TO_UUID(order_id) = ?"
-    };
+export const insertNextStatusDB = async (status, data) => {
+    const next_status = status.next_status
+
+    //Actualiza el estado actual de la orden
+    const queryUpdate = "UPDATE order_status_history SET osh_current = 0 WHERE BIN_TO_UUID(order_id) = ? AND osh_current = 1;"
+
+    //Inserta el nuevo estado de la orden
+    const queryInsert = `INSERT INTO order_status_history (order_id, osc_id, created_by) VALUES (UUID_TO_BIN(?), ?, UUID_TO_BIN(?))`
+    const paramsInsert = [status.order_id, status.next_status, status.user_id]
 
     const connection = await pool.getConnection()
     try {
         //Iniciar transacción
         await connection.beginTransaction()
 
-        const queryUpdate = "UPDATE order_status_history SET osh_current = 0 WHERE BIN_TO_UUID(order_id) = ? AND osh_current = 1;"
-        const queryInsert = `INSERT INTO order_status_history (order_id, osc_id, created_by) VALUES (UUID_TO_BIN(?), ?, UUID_TO_BIN(?))`
-        const params = [data.order_id, data.next_status, data.user_id]
+        await connection.query(queryUpdate, status.order_id)
+        await connection.query(queryInsert, paramsInsert)
 
-        await connection.query(queryUpdate, data.order_id)
-        await connection.query(queryInsert, params)
+        // Actualiza el presupuesto y el detalle del presupuesto
+        if (next_status == 300) {
+            await connection.query(
+                "UPDATE orders SET order_budget = ?, order_budget_detail = ? WHERE BIN_TO_UUID(order_id) = ?",
+                [data.budget.budget, data.budget.detail, status.order_id]
+            )
+        }
 
-        //Actualiza los campos "finished" o "repaired" de la orden segun el estado
-        const queryOrder = statusUpdates[data.next_status];
-        if (queryOrder) {await connection.query(queryOrder, data.order_id)}
+        // Reparado
+        if (next_status == 450) {
+            await connection.query("UPDATE orders SET order_repaired = 1 WHERE BIN_TO_UUID(order_id) = ?", status.order_id)
+        }
+
+        // Reparado parcial
+        if (next_status == 460) {
+            await connection.query("UPDATE orders SET order_repaired = 1 WHERE BIN_TO_UUID(order_id) = ?", status.order_id)
+            await connection.query("UPDATE orders SET order_comment_tec = ? WHERE BIN_TO_UUID(order_id) = ?", [data.comment.comment, status.order_id])
+        }
+
+        // No reparado
+        if (next_status == 220 || next_status == 470) {
+            await connection.query("UPDATE orders SET order_repaired = 0 WHERE BIN_TO_UUID(order_id) = ?", status.order_id)
+            await connection.query("UPDATE orders SET order_comment_tec = ? WHERE BIN_TO_UUID(order_id) = ?", [data.comment.comment, status.order_id])
+        }
+
+        // Orden finalizada
+        if (next_status == 700 || next_status == 730) {
+            await connection.query("UPDATE orders SET order_finished = 1 WHERE BIN_TO_UUID(order_id) = ?", status.order_id)
+        }
 
         //Finaliza transaccion
         await connection.commit()
         return ({ status: true })
     } catch (error) {
         await connection.rollback()
-        console.error('---[ERROR] model/nextStatus: ', error.message);
+        console.error('---[ERROR] model/insertNextStatusDB: ', error);
         return ({ status: false })
     } finally {
         if (connection) connection.release()
