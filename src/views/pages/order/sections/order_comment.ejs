@@ -9,19 +9,17 @@
                 </div>
             </section>
             <section class="wrapper__body">
-                <% if (d.t) {%>
-                    <form class="wrapper__group wrapper__group--box" action="/order/<%= d.order_id %>/comment?t=<%= d.t %>" method="POST" id="form">
-                    <input type="hidden" name="type" value="<%= d.t %>">
-                <% } else {%>
-                    <form class="wrapper__group wrapper__group--box" action="/order/<%= d.order_id %>/comment" method="POST" id="form">
+            <% if (d.type != "status") {%>
+                <form class="wrapper__group wrapper__group--box" action="/order/<%= d.order_id %>/comment?t=<%= d.type %>" method="POST" id="form">
+                    <input type="hidden" name="type" value="<%= d.type %>">
+            <% } else {%>
+                <form class="wrapper__group wrapper__group--box" action="/order/<%= d.order_id %>/comment/<%= d.next_status_id %>" method="POST" id="form">
                     <input type="hidden" name="next_status" value="<%= d.next_status_id %>">
-                <%} %>
+            <%} %>
                     <div class="item">
                         <label for="order_comment" class="label"><%= d.text.textarea_title %>:</label>
                         <label for="order_comment" class="label"><%= d.type %>:</label>
-                        <textarea name="order_comment" id="order_comment" class="input input--textarea" rows="10" required>
-                            <%= comments.comment_tec %>
-                        </textarea>
+                        <textarea name="order_comment" id="order_comment" class="input input--textarea" rows="10" required><%= d.comment %></textarea>
                     </div>
 
                     <div class="wrapper__item wrapper__item--inline">
