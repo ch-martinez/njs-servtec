@@ -172,7 +172,6 @@ export const putEditOrder = async (req, res) => {
 export const postNextStatus = async (req, res) => {
     const oid = req.params.oid
     const data = f_status.nextStatusData(req.body)
-
     const uid = uid_tec // ****************************************************
     const next_status = f_status.postNextStatus(oid, uid, req.body.next_status)
     const insertResp = await m_status.insertNextStatusDB(next_status, data)
@@ -238,68 +237,58 @@ export const getBudget = async (req, res) => {
 // todo: Implementar
 export const getComment = async (req, res) => {
     const oid = req.params.oid
-    const t = req.query.t
+    const type = req.query.t
 
     const wrapper_title_id = {
-        0: "Atención al cliente",
-        1: "Taller",
-        2: "Observacion adicional",
+        "atc": "Atención al cliente",
+        "tec": "Taller",
+        "extra": "Observacion adicional",
     }
 
     const textarea_title_id = "Escriba acontinuación el comentario"
 
     const d = {
-        type: t,
+        type: type,
         order_id: oid,
         text: {
-            wrapper_title: wrapper_title_id[t],
+            wrapper_title: wrapper_title_id[type],
             textarea_title: textarea_title_id
-        }
+        },
+        comment: f_order.comment(await m_order.getCommentOrderDB(oid, type))
     }
-
-    const comments = f_order.comments(await m_order.getCommentOrderDB(oid))
 
     const data = {
         title: `Comentario`,
         nav: 'order'
     }
 
-    res.render('pages/order/sections/order_comment', { layout: 'layouts/main_layout', d, data, comments });
+    res.render('pages/order/sections/order_comment', { layout: 'layouts/main_layout', d, data });
 }
 
 export const postComment = async (req, res) => {
     const oid = req.params.oid
     const uid = uid_atc // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    const type = req.body.type
+    const comment = req.body.order_comment
 
-    const updateRes = await m_order.updateAuthOrderDB(f_order.postAuthOrder(uid, oid, req.body))
+    const updateRes = await m_order.postCommentOrderDB(f_order.postComment(uid, oid, type, comment))
 
     if (updateRes.status) {
         res.send({
             status: true,
-            msg: "Se cargó autorización!",
+            msg: "Se insertó comentario!",
             url: `/order/${oid}`
         })
     } else {
         res.send({
             status: false,
-            msg: "Error al cargar la autorización!"
+            msg: "Error al insertar el comentario!"
         })
     }
 }
 
 export const getCommentStatus = async (req, res) => {
-    const oid = req.params.oid
-    const sid = req.query.sid
-/* 
-    const statusIdComment = {
-        "220": "Indique motivo por el cual no se puede reparar",
-        "460": "Indique motivo de la reparación parcial",
-        "470": "Indique motivo por el cual no se pudo reparar",
-    }
-    const status = {
-        id: sid,
-        comment: statusIdComment[sid] || "Escriba acontinuación"
-    } */
+    const {oid, sid} = req.params
 
     const wrapper_title_id = {
         220: "No reparado",
@@ -314,23 +303,22 @@ export const getCommentStatus = async (req, res) => {
     }
 
     const d = {
-        type: req.query.type,
+        type: "status",
         next_status_id: sid,
         order_id: oid,
         text: {
             wrapper_title: wrapper_title_id[sid],
             textarea_title: textarea_title_id[sid] || "Escriba acontinuación"
-        }
+        },
+        comment: f_order.comment(await m_order.getCommentOrderDB(oid, "status"))
     }
-
-    const comments = f_order.comments(await m_order.getCommentOrderDB(oid))
-
+console.log(d)
     const data = {
         title: `Comentario`,
         nav: 'order'
     }
 
-    res.render('pages/order/sections/order_comment', { layout: 'layouts/main_layout', d, data, comments });
+    res.render('pages/order/sections/order_comment', { layout: 'layouts/main_layout', d, data });
 }
 
 export const deleteOrder = async (req, res) => {
