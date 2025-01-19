@@ -31,11 +31,11 @@ router.post('/:oid/budget', controller.postNextStatus)
 
 /* Comentario tecnico */
 router.get('/:oid/comment', controller.getComment)
-router.post('/:oid/comment', controller.postNextStatus)
+router.post('/:oid/comment', controller.postComment)
 
 /* Comentario de estado */
-//router.get('/:oid/comment/:sid', controller.getComment)
-//router.post('/:oid/comment/:sid', controller.postNextStatus)
+router.get('/:oid/comment/:sid', controller.getCommentStatus)
+router.post('/:oid/comment/:sid', controller.postNextStatus)
 
 /* Autorizacion de retiro */
 router.get('/:oid/auth', controller.getAuthOrder)
