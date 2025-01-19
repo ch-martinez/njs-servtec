@@ -12,7 +12,7 @@ export const filterStatus = (req, res, next) => {
         return res.send({
             status: true,
             msg: "Indique el motivo por el cual no se puede efectuar la reparación!",
-            url: `/order/${oid}/comment?sid=${next_status.next_status}`
+            url: `/order/${oid}/comment/${next_status.next_status}`
         })
     }
 
@@ -28,7 +28,7 @@ export const filterStatus = (req, res, next) => {
         return res.send({
             status: true,
             msg: "Detalle el motivo de la repación parcial!",
-            url: `/order/${oid}/comment?sid=${next_status.next_status}`
+            url: `/order/${oid}/comment/${next_status.next_status}`
         })
     }
 
