@@ -3,7 +3,7 @@ import { fullDateStr } from "./date.formarter.mjs"
 
 export const orders = (orders) => {
     let arr = []
-console.log(orders)
+
     if (orders) {
         orders.forEach(o => {
             arr.push({
@@ -139,10 +139,18 @@ export const postAuthOrder = (uid, oid, auth) => {
     }
 }
 
-export const comments = (comments) => {
+export const comment = (comment) => {
+        if (comment.order_comment_atc) return `${comment.order_comment_atc} //\n`
+        if (comment.order_comment_tec) return `${comment.order_comment_tec} //\n`
+        if (comment.order_comment_extra) return `${comment.order_comment_extra} //\n`
+}
+
+export const postComment = (uid, oid, type, c) => {
+
     return {
-        comment_atc: comments.order_comment_atc ? `${comments.order_comment_atc} // \n` : '',
-        comment_tec: comments.order_comment_tec ? `${comments.order_comment_tec} // \n` : '',
-        comment_extra: comments.order_comment_extra ? `${comments.order_comment_extra} // \n` : ''
+        user_id: uid,
+        order_id: oid,
+        type: type,
+        comment: c
     }
 }
