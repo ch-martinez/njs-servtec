@@ -89,7 +89,6 @@ export const insertNextStatusDB = async (status, data) => {
     try {
         //Iniciar transacción
         await connection.beginTransaction()
-
         await connection.query(queryUpdate, status.order_id)
         await connection.query(queryInsert, paramsInsert)
 
