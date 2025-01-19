@@ -463,17 +463,28 @@ export const getAuthOrderDB = async (oid) => {
     }
 }
 
-export const getCommentOrderDB = async (oid) => {
+export const getCommentOrderDB = async (oid, type) => {
     const connection = await pool.getConnection()
-    const query = `
-    SELECT
-        order_comment_atc,
-        order_comment_tec,
-        order_comment_extra
-    FROM
-        orders
-    WHERE
-        BIN_TO_UUID(order_id) = ?`
+
+    let query
+
+    switch (type) {
+        case "atc":
+            query = "SELECT order_comment_atc FROM orders WHERE BIN_TO_UUID(order_id) = ?"
+            break;
+        case "tec":
+            query = "SELECT order_comment_tec FROM orders WHERE BIN_TO_UUID(order_id) = ?"
+            break;
+        case "extra":
+            query = "SELECT order_comment_extra FROM orders WHERE BIN_TO_UUID(order_id) = ?"
+            break;
+        case "status":
+            query = "SELECT order_comment_tec FROM orders WHERE BIN_TO_UUID(order_id) = ?"
+            break;
+        default:
+            query = "SELECT order_comment_extra FROM orders WHERE BIN_TO_UUID(order_id) = ?"
+            break;
+    }
 
     try {
         const [[resp]] = await connection.query(query, oid)
@@ -523,6 +534,53 @@ export const updateAuthOrderDB = async (order) => {
     } catch (error) {
         await connection.rollback()
         console.error('---[ERROR] model/updateAuthOrderDB: ', error.message);
+        return ({ status: false })
+    } finally {
+        if (connection) { connection.release() }
+    }
+}
+
+export const postCommentOrderDB = async (data) => {
+    const connection = await pool.getConnection()
+
+    let queryComment, queryStatus = ""
+
+    switch (data.type) {
+        case "atc":
+            queryComment = `UPDATE orders SET order_comment_atc = ? WHERE BIN_TO_UUID(order_id) = ?`
+            queryStatus = "INSERT INTO order_status_history (order_id, created_by, osc_id, osh_current) VALUES (UUID_TO_BIN(?), UUID_TO_BIN(?), 820, 0)"
+            break;
+        case "tec":
+            queryComment = `UPDATE orders SET order_comment_tec = ? WHERE BIN_TO_UUID(order_id) = ?`
+            queryStatus = "INSERT INTO order_status_history (order_id, created_by, osc_id, osh_current) VALUES (UUID_TO_BIN(?), UUID_TO_BIN(?), 821, 0)"
+            break;
+        case "extra":
+            queryComment = `UPDATE orders SET order_comment_extra = ? WHERE BIN_TO_UUID(order_id) = ?`
+            queryStatus = "INSERT INTO order_status_history (order_id, created_by, osc_id, osh_current) VALUES (UUID_TO_BIN(?), UUID_TO_BIN(?), 822, 0)"
+            break;
+        default:
+            queryComment = `UPDATE orders SET order_comment_extra = ? WHERE BIN_TO_UUID(order_id) = ?`
+            queryStatus = "INSERT INTO order_status_history (order_id, created_by, osc_id, osh_current) VALUES (UUID_TO_BIN(?), UUID_TO_BIN(?), 822, 0)"
+            break
+    }
+
+    const paramsComment = [data.comment, data.order_id]
+    const paramsStatus = [data.order_id, data.user_id]
+
+    try {
+        //Iniciar transacción
+        await connection.beginTransaction();
+
+        await connection.query(queryComment, paramsComment)
+        await connection.query(queryStatus, paramsStatus)
+
+        //Finaliza transaccion
+        await connection.commit()
+
+        return ({ status: true })
+    } catch (error) {
+        await connection.rollback()
+        console.error('---[ERROR] model/postCommentOrderDB: ', error.message);
         return ({ status: false })
     } finally {
         if (connection) { connection.release() }
