@@ -23,3 +23,8 @@ export const randomPwd = () => {
 }
 
 export const uuid = () => v1()
+
+export const timeStamp = () => {
+    const timeStamp = new Date();
+    return `${timeStamp.getFullYear()}-${String(timeStamp.getMonth() + 1).padStart(2, '0')}-${String(timeStamp.getDate()).padStart(2, '0')}-${String(timeStamp.getHours()).padStart(2, '0')}${String(timeStamp.getMinutes()).padStart(2, '0')}`;
+}
