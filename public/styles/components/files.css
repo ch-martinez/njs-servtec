@@ -1,0 +1,39 @@
+.fu-container{
+    border: 2px dotted var(--zinc-200);
+    padding: var(--sp-16);
+    border-radius: var(--radius-sm);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-16);
+}
+
+.fu-container:hover{
+    border: 2px dotted var(--zinc-400);
+}
+
+.fu__label{
+    max-height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.fu__preview{
+    border: 2px solid var(--zinc-200);
+    padding: var(--sp-16);
+    border-radius: var(--radius-sm);
+}
+
+.fu__ul{
+    display: flex;
+    gap: var(--sp-16);
+    flex-wrap: wrap;
+}
+.fu__li{
+    border: 1px solid var(--zinc-400);
+    padding: var(--sp-8);
+}
+.fu__img{
+    max-width: 50px;
+}
