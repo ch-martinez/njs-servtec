@@ -1,6 +1,8 @@
 import { Router } from "express";
 import * as controller from "../controllers/order.controller.mjs";
 import * as mid from "../middlewares/status.middleware.mjs";
+import { getImageUpload, postImageUpload } from "../controllers/image.controller.mjs";
+import { memoryUpload } from "../utils/files_upload.mjs";
 
 const router = Router()
 
@@ -43,5 +45,9 @@ router.post('/:oid/auth', controller.postAuthOrder)
 
 /* Eliminar orden */
 router.delete('/:oid', controller.deleteOrder)
+
+/* Fotos evidencia */
+router.get('/:oid/image/upload', getImageUpload)
+router.post('/:oid/image/upload', memoryUpload.array('images', 10), postImageUpload)
 
 export default router
