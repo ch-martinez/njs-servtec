@@ -298,7 +298,7 @@ export const getOrderDB = async (oid) => {
 
 export const getTicketByIdFromDB = async (oid) => {
     const connection = await pool.getConnection()
-    const query = `SELECT order_ticket FROM orders WHERE order_id = ?`
+    const query = `SELECT order_ticket FROM orders WHERE BIN_TO_UUID(order_id) = ?`
 
     try {
         const [[resp]] = await connection.query(query, oid)
