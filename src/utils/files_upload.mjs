@@ -12,9 +12,9 @@ export const memoryUpload = multer({ storage: memoryStorage })
 export const saveImage = async (otk, image, i) => {
     try {
         const timestamp = timeStamp()
+        const fileName = `${i}-${otk}__${timestamp}.jpeg`
         const uploadDir = await path.resolve(`.${process.env.DIR_ORDERS}/${otk}/images/`)
-        console.log(uploadDir)
-        const filePath = path.join(uploadDir, `${i}__${otk}__${timestamp}.jpeg`)
+        const filePath = path.join(uploadDir, fileName)
 
         // Crear directorio de forma asíncrona (si no existe)
         await fs.mkdir(uploadDir, { recursive: true })
@@ -26,6 +26,7 @@ export const saveImage = async (otk, image, i) => {
             .jpeg({ quality: 80 })   // Ajustar la calidad del JPEG
             .toFile(filePath)       // Guardar en disco
 
+        return fileName
     } catch (error) {
         console.error('Error al guardar la imagen:', error.message)
         throw new Error('No se pudo procesar la imagen.')
