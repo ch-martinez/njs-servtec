@@ -1,4 +1,5 @@
 import { getTicketByIdFromDB } from "../models/order.model.mjs"
+import { insertOrderImageDB } from "../models/order_images.model.mjs"
 import { saveImage } from "../utils/files_upload.mjs"
 
 const uid_tec = process.env.UUID_TEC1
@@ -31,10 +32,12 @@ export const postImageUpload = async (req, res) => {
             })
         }
 
-        files.map((img, i) => {saveImage(otk,img,i)})
+        files.map(async (img, i) => {
+            const name = await saveImage(otk,img,i)
+            await insertOrderImageDB({order_id: oid, fileName: name, type: 1, uid: uid_tec})
+        });
 
-        res.status(200)
-        .send({
+        res.status(200).send({
             status: true,
             msg: "Imagenes cargadas!",
             url: `/order/${req.params.oid}`
