@@ -268,6 +268,7 @@ export const getOrderDB = async (oid) => {
         o.order_prepaid,
         o.order_auth,
         o.order_auth_name,
+        o.order_auth_lastname,
         o.order_auth_dni,
         o.created_at,
         o.order_repaired,
