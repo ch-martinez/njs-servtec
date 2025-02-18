@@ -1,0 +1,101 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                font-size: 14px;
+            }
+            h2 {
+                font-size: 18px;
+            }
+            h3 {
+                font-size: 16px;
+            }
+            p {
+                margin: 0;
+            }
+            strong {
+                font-weight: bold;
+            }
+            span {
+                font-style: italic;
+            }
+            div {
+                margin-bottom: 10px;
+            }
+        </style>
+        <title>pdf</title>
+
+    </head>
+    <body>
+        <div>
+            <h2><strong>Orden:</strong> {{order.ticket}}</h2> 
+            <h2>Datos Cliente</h2>
+            <p>
+            </p>
+            <p>
+                <strong>Nombre y apellido:</strong> {{customer.name}}
+            </p>
+            <p>
+                <strong>DNI:</strong> {{customer.dni}}
+            </p>
+            <p>
+                <strong>Telefono:</strong> {{customer.tel}} - <strong>Telefono Alternativo:</strong> {{customer.tel_alt}}
+            </p>
+            <p>
+            </p>
+            <p>
+                <strong>Correo:</strong> {{customer.email}}
+            </p>
+        </div>
+        <div>
+            <h3>Datos Orden</h3>
+            <p>
+                <strong>Equipo:</strong> {{order.device.brand}} {{order.device.model}} - <strong>IMEI:</strong> {{order.imei}}
+            </p>
+            <p>
+                <strong>Contraseña/PIN:</strong> {{order.pin}}
+            </p>
+            <p>
+                <strong>Falla indicada:</strong> {{order.failure}}
+            </p>
+        </div>
+        <div>
+            <h3>Observaciones</h3>
+            <p>
+                <strong>Recepcion:</strong> {{order.comment.atc}}
+            </p>
+            <p>
+                <strong>Taller:</strong> {{order.comment.tec}}
+            </p>
+            <p>
+                <strong>Extra:</strong> {{order.comment.extra}}
+            </p>
+        </div>
+        {{#if order.budget.budget}}
+            <div>
+                <h3>Presupuesto</h3>
+                <p>
+                    <strong>Costo:</strong> ${{order.budget.budget}} - <strong>Pago adelantado:</strong> {{#if order.budget.prepaid }}SI ({{order.budget.payment_method}}) {{else}} No {{/if}}
+                </p>
+                <p>
+                    <strong>Detalle del presupuesto:</strong> {{order.budget.detail}}
+                </p>
+            </div>
+        {{/if}}
+        {{#if order.auth.auth}}
+        <div>
+            <h3>Autorizacion de retiro a terecero</h3>
+            <p>
+                <strong>Nombre:</strong> {{order.auth.auth_name}} {{order.auth.auth_lastname}} - <strong>DNI:</strong> {{order.auth.auth_dni}}
+                <span>Se autoriza el {{order.auth.auth}}</span>
+            </p>
+        </div>
+        {{/if}}
+        <div>
+            <p>Estado actual: {{lastStatus.actual.description}}</p>
+        </div>
+    </body>
+</html>
