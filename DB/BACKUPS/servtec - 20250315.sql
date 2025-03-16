@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.40, for Win64 (x86_64)
 --
 -- Host: localhost    Database: servtec
 -- ------------------------------------------------------
@@ -7,13 +7,34 @@
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8mb4 */;
+/*!50503 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `app_config`
+--
+
+DROP TABLE IF EXISTS `app_config`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `app_config` (
+  `folder_base` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `app_config`
+--
+
+LOCK TABLES `app_config` WRITE;
+/*!40000 ALTER TABLE `app_config` DISABLE KEYS */;
+/*!40000 ALTER TABLE `app_config` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `customers`
@@ -54,7 +75,7 @@ CREATE TABLE `customers` (
 
 LOCK TABLES `customers` WRITE;
 /*!40000 ALTER TABLE `customers` DISABLE KEYS */;
-INSERT INTO `customers` VALUES (_binary 'E\Á\∆∫\ÔîF\ıõå\‰º\'','Josefina','Torres',40789331,'jostorres.r4@gmail.com',3514395021,0,'Sin datos',1,NULL,_binary '\rk\‡\∆KÔåìc}wh]e','2024-12-30 14:26:05','2024-12-30 14:26:05',0,NULL,NULL),(_binary 'SP\∆MÔ®é\ÁÉy¸Ä','Lautaro Ismael','Gonzales',40207373,'lauti_gon93@hotmail.com',3516541886,0,'Sin datos',1,'2024-12-30 14:33:37',_binary '\rk\‡\∆KÔåìc}wh]e','2024-12-30 01:28:08','2024-12-30 14:33:37',0,NULL,NULL);
+INSERT INTO `customers` VALUES (_binary 'E\Á∆∫\ÔîFıõå\‰º\'','Josefina','Torres',40789331,'jostorres.r4@gmail.com',3514395021,0,'Sin datos',1,NULL,_binary '\rk\‡\∆KÔåìc}wh]e','2024-12-30 14:26:05','2024-12-30 14:26:05',0,NULL,NULL),(_binary 'SP\∆MÔ®é\ÁÉy¸Ä','Lautaro Ismael','Gonzales',40207373,'lauti_gon93@hotmail.com',3516541886,0,'Sin datos',1,'2024-12-30 14:33:37',_binary '\rk\‡\∆KÔåìc}wh]e','2024-12-30 01:28:08','2024-12-30 14:33:37',0,NULL,NULL);
 /*!40000 ALTER TABLE `customers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -119,14 +140,17 @@ DROP TABLE IF EXISTS `order_images`;
 CREATE TABLE `order_images` (
   `oi_id` int(11) NOT NULL AUTO_INCREMENT,
   `order_id` binary(16) DEFAULT NULL,
-  `oi_url` varchar(100) DEFAULT NULL,
+  `oi_filename` varchar(100) DEFAULT NULL,
   `oi_type` tinyint(4) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_by` binary(16) DEFAULT NULL,
   PRIMARY KEY (`oi_id`),
-  UNIQUE KEY `order_images_unique` (`oi_url`),
+  UNIQUE KEY `order_images_unique` (`oi_filename`),
   KEY `order_images_orders_FK` (`order_id`),
-  CONSTRAINT `order_images_orders_FK` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  KEY `order_images_users_FK` (`created_by`),
+  CONSTRAINT `order_images_orders_FK` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE,
+  CONSTRAINT `order_images_users_FK` FOREIGN KEY (`created_by`) REFERENCES `users` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -135,6 +159,7 @@ CREATE TABLE `order_images` (
 
 LOCK TABLES `order_images` WRITE;
 /*!40000 ALTER TABLE `order_images` DISABLE KEYS */;
+INSERT INTO `order_images` VALUES (13,_binary 'öê\÷y\ÔÜ\ÁkG6\‰','0-ORD000014__2025-02-16-2103.jpeg',1,'2025-02-17 00:03:17',_binary 'œ®|\‡\∆JÔåìc}wh]e');
 /*!40000 ALTER TABLE `order_images` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -162,7 +187,7 @@ CREATE TABLE `order_status_code` (
 
 LOCK TABLES `order_status_code` WRITE;
 /*!40000 ALTER TABLE `order_status_code` DISABLE KEYS */;
-INSERT INTO `order_status_code` VALUES (100,1,'Recepci√≥n','Creacion de orden','110',NULL),(110,1,'Recepci√≥n','Enviado a taller','200',NULL),(200,1,'Taller','Recibe','210',NULL),(210,1,'Taller','En revisi√≥n y evaluaci√≥n','220,300,420,430',NULL),(220,1,'Taller','No reparable','600',NULL),(300,1,'Presupuesto','Realizado','310',NULL),(310,1,'Presupuesto','Notificado','330,340,350',NULL),(330,1,'Presupuesto','Revision a pedido del cliente','300',NULL),(340,1,'Presupuesto','APROBADO','410,420',NULL),(350,1,'Presupuesto','RECHAZADO','600',NULL),(410,1,'Reparaci√≥n','Pendiente','420,430,470',NULL),(420,1,'Reparaci√≥n','Pendiente repuesto','430,470',NULL),(430,1,'Reparaci√≥n','En curso','450,460,470',NULL),(450,1,'Reparaci√≥n','Reparado','600',NULL),(460,1,'Reparaci√≥n','Parcial','600',NULL),(470,1,'Reparaci√≥n','No reparado','600',NULL),(600,1,'Entrega','Pendiente','610,700',NULL),(610,1,'Entrega','Pendiente, 7 dias','620,700',NULL),(620,1,'Entrega','Pendiente, 15 dias','630,700',NULL),(630,1,'Entrega','Pendiente, 1 Mes','640,700',NULL),(640,1,'Entrega','Pendiente, 3 Meses','700,730',NULL),(700,1,'Entregado','Entregado','0',NULL),(730,1,'No entregado','Abandono','0',NULL),(800,2,'ORDEN','Modificacion de datos','0',NULL),(810,2,'ORDEN','Autorizacion de retiro','0',NULL),(850,2,'ORDEN','Carga de fotos','0',NULL),(900,0,'ORDEN','Finalizada','0',NULL);
+INSERT INTO `order_status_code` VALUES (100,1,'Recepci√≥n','Creacion de orden','110',NULL),(110,1,'Recepci√≥n','Enviado a taller','200',NULL),(200,1,'Taller','Recibe','210',NULL),(210,1,'Taller','En revisi√≥n y evaluaci√≥n','220,300,420,430',NULL),(220,1,'Taller','No reparable','600',NULL),(300,1,'Presupuesto','Realizado','310',NULL),(310,1,'Presupuesto','Notificado','330,340,350',NULL),(330,1,'Presupuesto','Revision a pedido del cliente','300',NULL),(340,1,'Presupuesto','APROBADO','410,420',NULL),(350,1,'Presupuesto','RECHAZADO','600',NULL),(410,1,'Reparaci√≥n','Pendiente','420,430,470',NULL),(420,1,'Reparaci√≥n','Pendiente repuesto','430,470',NULL),(430,1,'Reparaci√≥n','En curso','450,460,470',NULL),(450,1,'Reparaci√≥n','Reparado','600',NULL),(460,1,'Reparaci√≥n','Parcial','600',NULL),(470,1,'Reparaci√≥n','No reparado','600',NULL),(600,1,'Entrega','Pendiente','610,700',NULL),(610,1,'Entrega','Pendiente, 7 dias','620,700',NULL),(620,1,'Entrega','Pendiente, 15 dias','630,700',NULL),(630,1,'Entrega','Pendiente, 1 Mes','640,700',NULL),(640,1,'Entrega','Pendiente, 3 Meses','700,730',NULL),(700,1,'Entregado','Entregado','0',NULL),(730,1,'No entregado','Abandono','0',NULL),(800,2,'ORDEN','Modificacion de datos','0',NULL),(810,2,'ORDEN','Autorizacion de retiro','0',NULL),(820,2,'COMENTARIO','Atencion al cliente','0',NULL),(821,2,'COMENTARIO','Taller','0',NULL),(822,2,'COMENTARIO','Extra','0',NULL),(850,2,'ORDEN','Carga de fotos','0',NULL),(900,0,'ORDEN','Finalizada','0',NULL);
 /*!40000 ALTER TABLE `order_status_code` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -187,7 +212,7 @@ CREATE TABLE `order_status_history` (
   CONSTRAINT `order_status_history_orders_FK` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `order_status_history_users_FK` FOREIGN KEY (`created_by`) REFERENCES `users` (`user_id`),
   CONSTRAINT `order_status_order_status_code_FK` FOREIGN KEY (`osc_id`) REFERENCES `order_status_code` (`osc_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=171 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=224 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -196,7 +221,7 @@ CREATE TABLE `order_status_history` (
 
 LOCK TABLES `order_status_history` WRITE;
 /*!40000 ALTER TABLE `order_status_history` DISABLE KEYS */;
-INSERT INTO `order_status_history` VALUES (111,_binary 'SØE@\«\Ô≥-ù.a≤™)',100,0,_binary '\'óy`\∆KÔåìc}wh]e','2024-12-31 01:48:26'),(112,_binary 'SØE@\«\Ô≥-ù.a≤™)',110,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2024-12-31 01:48:28'),(113,_binary 'SØE@\«\Ô≥-ù.a≤™)',200,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2024-12-31 01:48:30'),(120,_binary 'SØE@\«\Ô≥-ù.a≤™)',210,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2024-12-31 01:50:26'),(121,_binary 'SØE@\«\Ô≥-ù.a≤™)',300,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2024-12-31 01:50:27'),(122,_binary 'SØE@\«\Ô≥-ù.a≤™)',310,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2024-12-31 01:50:29'),(123,_binary 'SØE@\«\Ô≥-ù.a≤™)',340,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2024-12-31 01:50:32'),(124,_binary 'SØE@\«\Ô≥-ù.a≤™)',410,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2024-12-31 01:50:59'),(125,_binary 'SØE@\«\Ô≥-ù.a≤™)',420,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2024-12-31 01:51:24'),(126,_binary 'SØE@\«\Ô≥-ù.a≤™)',430,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2024-12-31 01:51:29'),(127,_binary 'SØE@\«\Ô≥-ù.a≤™)',460,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2024-12-31 01:51:34'),(128,_binary 'SØE@\«\Ô≥-ù.a≤™)',600,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2024-12-31 01:51:41'),(129,_binary 'SØE@\«\Ô≥-ù.a≤™)',610,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2024-12-31 01:51:43'),(130,_binary 'SØE@\«\Ô≥-ù.a≤™)',620,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2024-12-31 01:51:44'),(131,_binary 'SØE@\«\Ô≥-ù.a≤™)',630,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2024-12-31 01:51:46'),(132,_binary 'SØE@\«\Ô≥-ù.a≤™)',640,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2024-12-31 01:51:48'),(133,_binary 'SØE@\«\Ô≥-ù.a≤™)',730,1,_binary 'œ®|\‡\∆JÔåìc}wh]e','2024-12-31 01:51:50'),(134,_binary '\Ù\–P\«\Z\Ô†çc\Í`´ü',100,0,_binary '\'óy`\∆KÔåìc}wh]e','2024-12-31 02:00:06'),(150,_binary '\Ù\–P\«\Z\Ô†çc\Í`´ü',110,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2025-01-02 16:27:04'),(151,_binary '\Ù\–P\«\Z\Ô†çc\Í`´ü',200,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2025-01-02 16:27:08'),(152,_binary '\Ù\–P\«\Z\Ô†çc\Í`´ü',210,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2025-01-02 16:27:10'),(153,_binary '\Ù\–P\«\Z\Ô†çc\Í`´ü',300,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2025-01-02 16:27:34'),(154,_binary '\Ù\–P\«\Z\Ô†çc\Í`´ü',310,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2025-01-02 16:27:38'),(155,_binary '\Ù\–P\«\Z\Ô†çc\Í`´ü',330,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2025-01-02 16:27:40'),(156,_binary '\Ù\–P\«\Z\Ô†çc\Í`´ü',300,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2025-01-02 16:28:03'),(167,_binary '\Ù\–P\«\Z\Ô†çc\Í`´ü',310,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2025-01-12 22:14:24'),(168,_binary '\Ù\–P\«\Z\Ô†çc\Í`´ü',340,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2025-01-12 22:14:30'),(169,_binary '\Ù\–P\«\Z\Ô†çc\Í`´ü',410,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2025-01-12 22:14:33'),(170,_binary '\Ù\–P\«\Z\Ô†çc\Í`´ü',430,1,_binary 'œ®|\‡\∆JÔåìc}wh]e','2025-01-12 22:31:00');
+INSERT INTO `order_status_history` VALUES (187,_binary 'öê\÷y\ÔÜ\ÁkG6\‰',100,0,_binary '\'óy`\∆KÔåìc}wh]e','2025-01-19 15:21:15'),(188,_binary 'öê\÷y\ÔÜ\ÁkG6\‰',110,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2025-01-19 15:21:20'),(189,_binary 'öê\÷y\ÔÜ\ÁkG6\‰',200,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2025-01-19 15:21:24'),(190,_binary 'öê\÷y\ÔÜ\ÁkG6\‰',210,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2025-01-19 15:21:26'),(211,_binary 'öê\÷y\ÔÜ\ÁkG6\‰',821,0,_binary '\'óy`\∆KÔåìc}wh]e','2025-01-19 16:09:42'),(212,_binary 'öê\÷y\ÔÜ\ÁkG6\‰',822,0,_binary '\'óy`\∆KÔåìc}wh]e','2025-01-19 16:10:35'),(213,_binary 'öê\÷y\ÔÜ\ÁkG6\‰',220,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2025-01-19 16:11:32'),(214,_binary 'öê\÷y\ÔÜ\ÁkG6\‰',600,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2025-01-19 16:12:08'),(215,_binary 'öê\÷y\ÔÜ\ÁkG6\‰',610,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2025-01-19 16:12:12'),(216,_binary 'öê\÷y\ÔÜ\ÁkG6\‰',620,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2025-01-19 16:12:15'),(217,_binary 'öê\÷y\ÔÜ\ÁkG6\‰',700,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2025-01-19 16:12:19'),(218,_binary 'öê\÷y\ÔÜ\ÁkG6\‰',630,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2025-01-19 16:12:43'),(219,_binary 'öê\÷y\ÔÜ\ÁkG6\‰',640,0,_binary 'œ®|\‡\∆JÔåìc}wh]e','2025-01-19 16:12:46'),(220,_binary 'öê\÷y\ÔÜ\ÁkG6\‰',730,1,_binary 'œ®|\‡\∆JÔåìc}wh]e','2025-01-19 16:12:54'),(221,_binary 'öê\÷y\ÔÜ\ÁkG6\‰',810,1,_binary '\'óy`\∆KÔåìc}wh]e','2025-02-16 16:41:05'),(222,_binary 'öê\÷y\ÔÜ\ÁkG6\‰',810,1,_binary '\'óy`\∆KÔåìc}wh]e','2025-02-16 16:41:12'),(223,_binary 'öê\÷y\ÔÜ\ÁkG6\‰',810,1,_binary '\'óy`\∆KÔåìc}wh]e','2025-02-16 17:14:39');
 /*!40000 ALTER TABLE `order_status_history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -278,7 +303,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (_binary 'E\Á\∆∫\ÔîF\ıõå\‰º\'',_binary 'SØE@\«\Ô≥-ù.a≤™)','ORD000012',4,142,'Sin datos',0,'','test','Sin datos','Sin datos','Sin datos',0,'Sin datos',0,NULL,0,NULL,NULL,NULL,'2024-12-31 01:48:26',1,2),(_binary 'E\Á\∆∫\ÔîF\ıõå\‰º\'',_binary '\Ù\–P\«\Z\Ô†çc\Í`´ü','ORD000013',3,83,'Sin datos',0,'','asdd','Sin datos','Casi se repara ** \nNueva reparacion // \nsdff\n','Sin datos',951,'repa',0,NULL,0,NULL,NULL,NULL,'2024-12-31 02:00:06',1,1);
+INSERT INTO `orders` VALUES (_binary 'SP\∆MÔ®é\ÁÉy¸Ä',_binary 'öê\÷y\ÔÜ\ÁkG6\‰','ORD000014',2,73,'Sin datos',0,'n/a','falla','obs','Sin datos','Sin datos',0,'Sin datos',0,NULL,0,'Josefina','Torres',544493,'2025-01-19 15:21:15',1,0);
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -356,7 +381,7 @@ CREATE TABLE `ticket_controller` (
 
 LOCK TABLES `ticket_controller` WRITE;
 /*!40000 ALTER TABLE `ticket_controller` DISABLE KEYS */;
-INSERT INTO `ticket_controller` VALUES (1,'ORD',14),(2,'GTA',24),(3,'EXP',1);
+INSERT INTO `ticket_controller` VALUES (1,'ORD',15),(2,'GTA',24),(3,'EXP',1);
 /*!40000 ALTER TABLE `ticket_controller` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -386,7 +411,7 @@ CREATE TABLE `user_has_role` (
 
 LOCK TABLES `user_has_role` WRITE;
 /*!40000 ALTER TABLE `user_has_role` DISABLE KEYS */;
-INSERT INTO `user_has_role` VALUES (3,_binary 'Xó&ê\¬\Ôçf5Åq˝',1),(5,_binary '¥á\Ë`\∆JÔåìc}wh]e',1),(6,_binary 'œ®|\‡\∆JÔåìc}wh]e',2),(7,_binary '\Ûåj@\∆JÔåìc}wh]e',2),(8,_binary '\rk\‡\∆KÔåìc}wh]e',3),(9,_binary '\'óy`\∆KÔåìc}wh]e',3),(10,_binary 'M´\€P\∆KÔåìc}wh]e',3);
+INSERT INTO `user_has_role` VALUES (3,_binary 'Xó&ê\¬\Ôçf5Åq˝',1),(5,_binary '¥á\Ë`\∆JÔåìc}wh]e',1),(6,_binary 'œ®|\‡\∆JÔåìc}wh]e',2),(7,_binary 'Ûåj@\∆JÔåìc}wh]e',2),(8,_binary '\rk\‡\∆KÔåìc}wh]e',3),(9,_binary '\'óy`\∆KÔåìc}wh]e',3),(10,_binary 'M´\€P\∆KÔåìc}wh]e',3);
 /*!40000 ALTER TABLE `user_has_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -420,7 +445,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (_binary '\rk\‡\∆KÔåìc}wh]e','Constanza','Martinez',35779346,'comartinez@servtec.com.ar',NULL,1,NULL,'2024-12-30 01:11:52','2024-12-30 01:11:52',1,0),(_binary '\'óy`\∆KÔåìc}wh]e','Macarena Andrea','Ceballos',35741963,'mceballos@servtec.com.ar',NULL,1,NULL,'2024-12-30 01:12:36','2024-12-30 01:12:36',1,0),(_binary 'M´\€P\∆KÔåìc}wh]e','Joel','Fratori',35145569,'jfratori@servtec.com.ar',NULL,1,NULL,'2024-12-30 01:13:39','2024-12-30 01:13:39',1,0),(_binary 'Xó&ê\¬\Ôçf5Åq˝','SERVTEC',' ',0,'admin@servtec.com.ar','admin',1,NULL,'2024-12-20 16:30:11','2024-12-30 00:59:47',1,1),(_binary '¥á\Ë`\∆JÔåìc}wh]e','Christian Fabian','Martinez',35544318,'cmartinez@servtec.com.ar',NULL,1,NULL,'2024-12-30 01:09:23','2024-12-30 01:09:23',1,0),(_binary 'œ®|\‡\∆JÔåìc}wh]e','Francisco','Lopez',35544000,'flopez@servtec.com.ar',NULL,1,NULL,'2024-12-30 01:10:08','2024-12-30 01:10:08',1,0),(_binary '\Ûåj@\∆JÔåìc}wh]e','Mauricio','Iviris',35951389,'fiviris@servtec.com.ar',NULL,1,NULL,'2024-12-30 01:11:08','2024-12-30 01:11:08',1,0);
+INSERT INTO `users` VALUES (_binary '\rk\‡\∆KÔåìc}wh]e','Constanza','Martinez',35779346,'comartinez@servtec.com.ar',NULL,1,NULL,'2024-12-30 01:11:52','2024-12-30 01:11:52',1,0),(_binary '\'óy`\∆KÔåìc}wh]e','Macarena Andrea','Ceballos',35741963,'mceballos@servtec.com.ar',NULL,1,NULL,'2024-12-30 01:12:36','2024-12-30 01:12:36',1,0),(_binary 'M´\€P\∆KÔåìc}wh]e','Joel','Fratori',35145569,'jfratori@servtec.com.ar',NULL,1,NULL,'2024-12-30 01:13:39','2024-12-30 01:13:39',1,0),(_binary 'Xó&ê\¬\Ôçf5Åq˝','SERVTEC',' ',0,'admin@servtec.com.ar','admin',1,NULL,'2024-12-20 16:30:11','2024-12-30 00:59:47',1,1),(_binary '¥á\Ë`\∆JÔåìc}wh]e','Christian Fabian','Martinez',35544318,'cmartinez@servtec.com.ar',NULL,1,NULL,'2024-12-30 01:09:23','2024-12-30 01:09:23',1,0),(_binary 'œ®|\‡\∆JÔåìc}wh]e','Francisco','Lopez',35544000,'flopez@servtec.com.ar',NULL,1,NULL,'2024-12-30 01:10:08','2024-12-30 01:10:08',1,0),(_binary 'Ûåj@\∆JÔåìc}wh]e','Mauricio','Iviris',35951389,'fiviris@servtec.com.ar',NULL,1,NULL,'2024-12-30 01:11:08','2024-12-30 01:11:08',1,0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -514,4 +539,4 @@ ALTER DATABASE `servtec` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-01-16 20:30:51
+-- Dump completed on 2025-03-16 10:12:07
